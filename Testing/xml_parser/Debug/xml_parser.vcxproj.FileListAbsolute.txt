@@ -1,0 +1,2 @@
+C:\Users\Austin\source\repos\xml_parser\Debug\xml_parser.exe
+C:\Users\Austin\source\repos\xml_parser\Debug\xml_parser.pdb

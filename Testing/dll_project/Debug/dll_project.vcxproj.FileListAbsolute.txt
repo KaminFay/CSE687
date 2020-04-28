@@ -1,0 +1,2 @@
+C:\Users\Austin\source\repos\dll_project\Debug\dll_project.dll
+C:\Users\Austin\source\repos\dll_project\Debug\dll_project.pdb
