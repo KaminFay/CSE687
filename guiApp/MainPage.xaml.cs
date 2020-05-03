@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
@@ -12,6 +13,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,6 +28,30 @@ namespace guiApp
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
+        {
+            Console.WriteLine("Item clicked!");
+        }
+
+        private async void OpenFilePicker_Click(object sender, RoutedEventArgs routedEventArgs)
+        {
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.ViewMode = PickerViewMode.List;
+            openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+            openPicker.FileTypeFilter.Add("*");
+            IReadOnlyList<StorageFile> files = await openPicker.PickMultipleFilesAsync();
+            if (files.Count > 0)
+            {
+                StringBuilder output = new StringBuilder();
+
+                foreach (StorageFile file in files)
+                {
+                    output.Append(file.Name + "\n");
+                }
+            }
+
         }
     }
 }
