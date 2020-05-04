@@ -35,9 +35,28 @@ namespace guiApp
             Console.WriteLine("Item clicked!");
         }
 
+
+
         private void CloseApp(Object sender, RoutedEventArgs routedEventArgs)
         {
-            Application.Current.Exit();
+
+            DisplayCloseApplicationDialog();
+            
+            //Application.Current.Exit();
+        }
+
+        private async void DisplayCloseApplicationDialog()
+        {
+            ContentDialog closeAppDialog = new ContentDialog
+            {
+                Title = "Would you like to close the application?",
+                
+                CloseButtonText = "Cancel",
+                PrimaryButtonText = "Close",
+                DefaultButton = ContentDialogButton.Primary
+            };
+
+            ContentDialogResult result = await closeAppDialog.ShowAsync();
         }
 
         private async void OpenFilePicker_Click(object sender, RoutedEventArgs routedEventArgs)
