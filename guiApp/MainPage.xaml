@@ -68,22 +68,5 @@
                 </muxc:MenuBarItem>
             </muxc:MenuBar>
         </StackPanel>
-
-        <ContentDialog
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            
-            Title="Would you like to close the application?"
-            PrimaryButtonText="Close"
-            SecondaryButtonText="Cancel"
-            DefaultButton="Primary">
-
-            <StackPanel VerticalAlignment="Stretch" 
-                        HorizontalAlignment="Stretch">
-                <CheckBox Content="Save settings."/>
-                <TextBlock Text="Lorem ipsum dolor sit amet, adipisicing elit." 
-                           TextWrapping="Wrap" />
-            </StackPanel>
-        </ContentDialog>
     </Grid>
 </Page>

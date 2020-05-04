@@ -41,8 +41,6 @@ namespace guiApp
         {
 
             DisplayCloseApplicationDialog();
-            
-            //Application.Current.Exit();
         }
 
         private async void DisplayCloseApplicationDialog()
@@ -57,6 +55,11 @@ namespace guiApp
             };
 
             ContentDialogResult result = await closeAppDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                Application.Current.Exit();
+            }
         }
 
         private async void OpenFilePicker_Click(object sender, RoutedEventArgs routedEventArgs)
