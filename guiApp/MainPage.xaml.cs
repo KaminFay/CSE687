@@ -35,6 +35,11 @@ namespace guiApp
             Console.WriteLine("Item clicked!");
         }
 
+        private void CloseApp(Object sender, RoutedEventArgs routedEventArgs)
+        {
+            Application.Current.Exit();
+        }
+
         private async void OpenFilePicker_Click(object sender, RoutedEventArgs routedEventArgs)
         {
             FileOpenPicker openPicker = new FileOpenPicker();

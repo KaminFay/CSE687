@@ -29,7 +29,7 @@
                             <KeyboardAccelerator Modifiers="Control" Key="S"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="Exit">
+                    <MenuFlyoutItem x:Name="Exit" Text="Exit" Click="CloseApp">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Modifiers="Control" Key="E"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
