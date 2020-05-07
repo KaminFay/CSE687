@@ -68,5 +68,18 @@
                 </muxc:MenuBarItem>
             </muxc:MenuBar>
         </StackPanel>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <RichEditBox Grid.Row="1" Grid.Column="0" Background="Black"/>
+            <RichEditBox Grid.Row="1" Grid.Column="1" Background="Black"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+        </Grid>
     </Grid>
 </Page>
