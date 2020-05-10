@@ -5,24 +5,30 @@ namespace guiApp
 {
     internal class DLLObject : INotifyPropertyChanged
     {
-        private string name;
-        private string v;
+        private string Title { get; }
+        private string Subtitle { get; }
+        private string Description { get; }
 
-        public DLLObject(string v)
+        private String PathLocation { get; }
+        
+
+        public DLLObject(string title)
         {
-            this.v = v;
+            this.Title = title;
+        }
+        public DLLObject(string title, string subtitle)
+        {
+            this.Title = title;
+            this.Subtitle = subtitle;
+        }
+        public DLLObject(string title, string subtitle, string description)
+        {
+            this.Title = title;
+            this.Subtitle = subtitle;
+            this.Description = description;
         }
 
-        private string Name
-        {
-            get => name;
-            set
-            {
-                if (value == name) return;
-                name = value;
-                OnPropertyChanged();
-            }
-        }
+
 
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
@@ -35,11 +41,6 @@ namespace guiApp
             {
                 throw new NotImplementedException();
             }
-        }
-
-        private void OnPropertyChanged()
-        {
-            throw new NotImplementedException();
         }
     }
 }
