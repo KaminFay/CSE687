@@ -106,5 +106,10 @@ namespace guiApp
         {
 
         }
+
+        private void ListView_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
