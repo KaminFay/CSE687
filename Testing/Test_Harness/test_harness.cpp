@@ -56,6 +56,11 @@ public:
         //Maybe add in a pointer arguement that points to terminating condition
         while (1)
         {
+
+            /******ADD CODE***************/
+            //Wait on input blocking queue
+            /******ADD CODE***************/
+
             //Only run the executor if we correctly load the dll. If we fail to load the dll, we will
             //set the logger exception to the returned exception and send that over
             try
@@ -69,19 +74,12 @@ public:
             }
 
             /******ADD CODE***************/
-            //Wait on input blocking queue
-            /******ADD CODE***************/
-
-
-
-            /******ADD CODE***************/
             //wait to place log data on outbound blocking queue
             /******ADD CODE***************/
 
             /******TEMP CODE***************/
             //Temp sleep while we have no blocking queue waits in place
             Sleep(250);
-
 
             /////print out the results
             std::cout << "TEST 1:" << std::endl;
