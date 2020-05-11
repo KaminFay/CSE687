@@ -3,23 +3,8 @@
 #include <time.h>
 #include <Windows.h>
 
-
-class result_obj
-{
-public:
-    bool            pass;
-    std::string     exception;
-    time_t          start_time;
-    time_t          completion_time;
-
-    result_obj()
-    {
-        pass            = false;
-        exception.clear();
-        start_time      = 0;
-        completion_time = 0;
-    }
-};
+#include "logger_def.h"
+#include "dll_control.h"
 
 class Test_Greater_Than
 {
@@ -54,10 +39,87 @@ class Test_Harness
 {
 public:
 
-    template<typename Function>
-    result_obj Executor(Function& Test)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Method:       Tester_Thread_Proc
+    //Description:  The process that the spawned worker threads will be executing
+    //              waits for the next available object in the incoming blocking queue
+    //              once it receives an object it will send it to the test executor to run
+    //              The thread will take the result from the test executor and attempt to enqueue it
+    //              to the outbound blocking queue.
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    static bool Tester_Thread_Proc(dll_info dll_info_obj)
     {
-        result_obj test_results;
+        FNPTR       dll_function    = NULL;
+        result_log  results;
+
+        //We could add a terminating concdition in here. Not needed though. Maybe during final polish
+        //Maybe add in a pointer arguement that points to terminating condition
+        while (1)
+        {
+            //Only run the executor if we correctly load the dll. If we fail to load the dll, we will
+            //set the logger exception to the returned exception and send that over
+            try
+            {
+                dll_function    = dll_control::load_dll(dll_info_obj.dll_file, dll_info_obj.dll_function);
+                results         = Test_Harness::Executor(dll_function);
+            }
+            catch (const char* error_msg)
+            {
+                results.exception = error_msg;
+            }
+
+            /******ADD CODE***************/
+            //Wait on input blocking queue
+            /******ADD CODE***************/
+
+
+
+            /******ADD CODE***************/
+            //wait to place log data on outbound blocking queue
+            /******ADD CODE***************/
+
+            /******TEMP CODE***************/
+            //Temp sleep while we have no blocking queue waits in place
+            Sleep(250);
+
+
+            /////print out the results
+            std::cout << "TEST 1:" << std::endl;
+            std::cout << "The result of the test was: " << std::boolalpha << results.pass << std::endl;
+            if(results.exception != "")
+            {
+                std::cout << results.exception << std::endl;
+            }
+            else
+            {
+                std::cout << "There was no exception thrown" << std::endl;
+            }
+            std::cout << "The test was started at: " << results.start_time << std::endl;
+            std::cout << "The test was finsihed at: " << results.completion_time << std::endl;
+
+            std::cout <<"\n\n";
+            /******TEMP CODE***************/
+
+            //clear the log before we start a new test
+            results.clear_log();
+
+            
+        }
+
+    }
+
+private:
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Method:       Executor
+    //Description:  Takes in a function pointer and tests the function pointed to in 
+    //              a try, catch block. returns a results obj contained timestamped info,
+    //              pass/fail status, and exception info
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    template<typename Function>
+    static result_log Executor(Function& Test)
+    {
+        result_log test_results;
 
         time_t time_ptr;
         time(&time_ptr);
@@ -65,7 +127,7 @@ public:
 
         try
         {
-            test_results.pass = Test();
+            test_results.pass = Test;
         }
         catch (const char* error_msg)
         {
@@ -77,56 +139,42 @@ public:
 
         return test_results;
     }
-
-private:
-
 };
 
 
 int main()
 {
-    //Variable Declarations
-    Test_Greater_Than   test_inst(5,2);
-    Test_Greater_Than   exception_test_inst(8,8);
-    result_obj          test_results;
-    result_obj          test_results2;
-    Test_Harness        test_harness_obj;
+    ////Variable Declarations
+    //Test_Greater_Than   test_inst(5,2);
+    //Test_Greater_Than   exception_test_inst(8,8);
+    //result_log          test_results;
+    //result_log          test_results2;
+    //Test_Harness        test_harness_obj;
 
-    test_results    = test_harness_obj.Executor(test_inst);
+    //Sleep(2000);
 
-    Sleep(2000);
+    /////print out the results
+    //std::cout << "TEST 1:" << std::endl;
+    //std::cout << "The result of the test was: " << std::boolalpha << test_results.pass << std::endl;
+    //if(test_results.exception != "")
+    //{
+    //    std::cout << test_results.exception << std::endl;
+    //}
+    //else
+    //{
+    //    std::cout << "There was no exception thrown" << std::endl;
+    //}
+    //std::cout << "The test was started at: " << test_results.start_time << std::endl;
+    //std::cout << "The test was finsihed at: " << test_results.completion_time << std::endl;
 
-    test_results2   = test_harness_obj.Executor(exception_test_inst);
+    //std::cout <<"\n\n";
 
-    ///print out the results
-    std::cout << "TEST 1:" << std::endl;
-    std::cout << "The result of the test was: " << std::boolalpha << test_results.pass << std::endl;
-    if(test_results.exception != "")
-    {
-        std::cout << test_results.exception << std::endl;
-    }
-    else
-    {
-        std::cout << "There was no exception thrown" << std::endl;
-    }
-    std::cout << "The test was started at: " << test_results.start_time << std::endl;
-    std::cout << "The test was finsihed at: " << test_results.completion_time << std::endl;
+    std::string dll_file_path = "C:\\cygwin64\\home\\Austin\\grad_school\\github\\CS687\\CSE687\\Testing\\dll_files\\dll_instant_pass.dll";
+    std::string dll_function_name = "Instant_Pass";
 
-    std::cout <<"\n\n";
+    dll_info dll_info_inst(dll_file_path, dll_function_name);
 
-    ///print out the results
-    std::cout << "TEST 2:" << std::endl;
-    std::cout << "The result of the test was: " << std::boolalpha << test_results2.pass << std::endl;
-    if (test_results2.exception != "")
-    {
-        std::cout << "Exception: " << test_results2.exception << std::endl;
-    }
-    else
-    {
-        std::cout << "There was no exception thrown" << std::endl;
-    }
-    std::cout << "The test was started at: " << test_results2.start_time << std::endl;
-    std::cout << "The test was finsihed at: " << test_results2.completion_time << std::endl;
+    bool return_val = Test_Harness::Tester_Thread_Proc(dll_info_inst);
 
 
 }
