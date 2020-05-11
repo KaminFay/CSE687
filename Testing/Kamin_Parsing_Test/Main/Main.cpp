@@ -30,6 +30,13 @@ int main()
     for (int i = 0; i < dllData.functions.size(); i++) {
         std::cout << "Func Name: " << dllData.functions.at(i).functionName << std::endl;
     }
+
+    std::vector<Parsers::dllInfo> testingVec = testJSON.getAllDlls();
+
+    std::cout << "--------------------------" << std::endl;
+    for (int i = 0; i < testingVec.size(); i++) {
+        std::cout << testingVec.at(i).location << std::endl;
+    }
     //testJSON.testPrintingJSON();
 
     /*testSource.setSourceFileLocation("..\\Parsers\\");

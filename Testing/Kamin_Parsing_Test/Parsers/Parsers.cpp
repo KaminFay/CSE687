@@ -61,17 +61,26 @@ namespace Parsers {
 
 	}
 
-	/*std::vector<dllFunction> JSONParser::getDllFunctions() {
+	//std::vector<dllFunction> JSONParser::getDllFunctions() {
 
-	}
+	//}
 
 	std::vector<dllInfo> JSONParser::getAllDlls() {
+		std::vector<dllInfo> allDLLVec;
 
+		std::cout << "Testing the print for the high level dll names. -----" << std::endl << std::endl;
+
+		for (auto& item : j.items()) {
+			std::cout << item.key() << std::endl;
+			allDLLVec.push_back(getSingleDll(item.key()));
+		}
+
+		return allDLLVec;
 	}
 
-	dllFunction JSONParser::getSingleDllFunction() {
+	//dllFunction JSONParser::getSingleDllFunction() {
 
-	}*/
+	//}
 
 	/*
 	Given a dll name that is within the JSON we are parsing we can parse the functions from only that dll
@@ -81,8 +90,6 @@ namespace Parsers {
 		dllInfo newDll;
 		if (j.find(dllName) != j.end()) {
 			nlohmann::json dllCurJSON = j[dllName];
-			std::cout << "Testing getSingleDll" << std::endl;
-			std::cout << std::setw(4) << dllCurJSON << std::endl;
 
 			if (dllCurJSON.find("functions") != dllCurJSON.end() && dllCurJSON.find("dllName") != dllCurJSON.end()
 				&& dllCurJSON.find("dllLocation") != dllCurJSON.end()) {
@@ -90,11 +97,9 @@ namespace Parsers {
 				newDll.location = dllCurJSON["dllLocation"].get<std::string>();
 				newDll.name = dllCurJSON["dllName"].get<std::string>();
 
-				std::cout << "Testing the parsing of functions: " << std::endl << std::endl;
 				std::vector<dllFunction> dllFunctions;
 
 				for (auto it: dllCurJSON["functions"].items()) {
-					std::cout << it.key() << " | " << it.value() << "\n";
 					dllFunction func;
 					if (it.value().find("name") != it.value().end() && it.value().find("passedIn") != it.value().end()
 						&& it.value().find("returnType") != it.value().end()) {
@@ -107,7 +112,6 @@ namespace Parsers {
 
 				newDll.functions = dllFunctions;
 			}
-			std::cout << "Done parsing from functions!!!" << std::endl;
 		}
 		return newDll;
 	}
