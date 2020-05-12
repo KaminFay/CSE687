@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace guiApp.HelperClasses
 {
-    class SocketManager
+    class Class1
     {
-
     }
 }

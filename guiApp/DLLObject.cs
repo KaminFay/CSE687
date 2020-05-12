@@ -5,11 +5,11 @@ namespace guiApp
 {
     internal class DLLObject : INotifyPropertyChanged
     {
-        private string Title { get; }
-        private string Subtitle { get; }
-        private string Description { get; }
+        public string Title { get; }
+        public string Subtitle { get; }
+        public string Description { get; }
 
-        private String PathLocation { get; }
+        public String PathLocation { get; }
         
 
         public DLLObject(string title)

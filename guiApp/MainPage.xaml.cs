@@ -116,16 +116,7 @@ namespace guiApp
                 //IEnumerator<DLLObject> enumerator = collection.GetEnumerator();
                 //_ = enumerator.Current;
 
-
             }
-
-            //return temp;
-
-        }
-
-        private void ListView_Loaded_1(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
