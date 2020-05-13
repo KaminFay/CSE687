@@ -2,38 +2,14 @@
 #include <iostream>
 #include <time.h>
 #include <Windows.h>
+#include <thread>
 
 #include "logger_def.h"
 #include "dll_control.h"
+#include "blockingQueue.h"
+#include "ThreadPool.h"
 
-class Test_Greater_Than
-{
-private:
-    int x, y;
 
-public:
-    Test_Greater_Than(int temp_x, int temp_y)
-    {
-        x = temp_x;
-        y = temp_y;
-    }
-
-    bool operator()()
-    {
-        if (x > y)
-        {
-            return true;
-        }
-        else if (x == y)
-        {
-            throw "Cannot use the same value for this test";
-        }
-        else
-        {
-            return false;
-        }
-    }
-};
 
 class Test_Harness
 {
@@ -47,25 +23,26 @@ public:
     //              The thread will take the result from the test executor and attempt to enqueue it
     //              to the outbound blocking queue.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    static bool Tester_Thread_Proc(dll_info dll_info_obj)
+    //static bool Tester_Thread_Proc(dll_info dll_info_obj)
+    static bool Tester_Thread_Proc(BlockingQueue<dll_info> &dll_queue, BlockingQueue<result_log>& log_queue)
     {
         FNPTR       dll_function    = NULL;
         result_log  results;
+        dll_info    dll_info_inst;
 
         //We could add a terminating concdition in here. Not needed though. Maybe during final polish
         //Maybe add in a pointer arguement that points to terminating condition
         while (1)
         {
 
-            /******ADD CODE***************/
-            //Wait on input blocking queue
-            /******ADD CODE***************/
+            //wait for available data from the input blocking queue
+            dll_info_inst = dll_queue.deQ();
 
             //Only run the executor if we correctly load the dll. If we fail to load the dll, we will
             //set the logger exception to the returned exception and send that over
             try
             {
-                dll_function    = dll_control::load_dll(dll_info_obj.dll_file, dll_info_obj.dll_function);
+                dll_function    = dll_control::load_dll(dll_info_inst.dll_file, dll_info_inst.dll_function);
                 results         = Test_Harness::Executor(dll_function);
             }
             catch (const char* error_msg)
@@ -79,23 +56,25 @@ public:
 
             /******TEMP CODE***************/
             //Temp sleep while we have no blocking queue waits in place
-            Sleep(250);
+            Sleep(500);
 
-            /////print out the results
-            std::cout << "TEST 1:" << std::endl;
-            std::cout << "The result of the test was: " << std::boolalpha << results.pass << std::endl;
-            if(results.exception != "")
-            {
-                std::cout << results.exception << std::endl;
-            }
-            else
-            {
-                std::cout << "There was no exception thrown" << std::endl;
-            }
-            std::cout << "The test was started at: " << results.start_time << std::endl;
-            std::cout << "The test was finsihed at: " << results.completion_time << std::endl;
+            log_queue.enQ(results);
 
-            std::cout <<"\n\n";
+            ///////print out the results
+            //std::cout << "TEST 1:" << std::endl;
+            //std::cout << "The result of the test was: " << std::boolalpha << results.pass << std::endl;
+            //if(results.exception != "")
+            //{
+            //    std::cout << results.exception << std::endl;
+            //}
+            //else
+            //{
+            //    std::cout << "There was no exception thrown" << std::endl;
+            //}
+            //std::cout << "The test was started at: " << results.start_time << std::endl;
+            //std::cout << "The test was finsihed at: " << results.completion_time << std::endl;
+
+            //std::cout <<"\n\n";
             /******TEMP CODE***************/
 
             //clear the log before we start a new test
@@ -167,12 +146,47 @@ int main()
 
     //std::cout <<"\n\n";
 
+    BlockingQueue<dll_info>     input_queue;
+    BlockingQueue< result_log>  output_queue;
+
     std::string dll_file_path = "C:\\cygwin64\\home\\Austin\\grad_school\\github\\CS687\\CSE687\\Testing\\dll_files\\dll_instant_pass.dll";
     std::string dll_function_name = "Instant_Pass";
 
     dll_info dll_info_inst(dll_file_path, dll_function_name);
 
-    bool return_val = Test_Harness::Tester_Thread_Proc(dll_info_inst);
+    for (int i = 0; i < 10; ++i)
+    {
+        input_queue.enQ(dll_info_inst);
+    }
+    
+    std::thread worker_thread(Test_Harness::Tester_Thread_Proc, std::ref(input_queue), std::ref(output_queue));
+
+    //bool return_val = Test_Harness::Tester_Thread_Proc(input_queue, output_queue);
+
+    result_log test_results;
+    while (1)
+    {
+        test_results = output_queue.deQ();
+
+        std::cout << "TEST 1:" << std::endl;
+        std::cout << "The result of the test was: " << std::boolalpha << test_results.pass << std::endl;
+        if(test_results.exception != "")
+        {
+            std::cout << test_results.exception << std::endl;
+        }
+        else
+        {
+            std::cout << "There was no exception thrown" << std::endl;
+        }
+        std::cout << "The test was started at: " << test_results.start_time << std::endl;
+        std::cout << "The test was finsihed at: " << test_results.completion_time << std::endl;
+
+        std::cout <<"\n\n";
+
+        Sleep(100);
+    }
+
+    worker_thread.join();
 
 
 }
