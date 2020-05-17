@@ -3,7 +3,7 @@
 
 #include <string>
 
-typedef bool (*FNPTR)(int);
+typedef bool (*FNPTR)(void);
 
 class dll_control
 {

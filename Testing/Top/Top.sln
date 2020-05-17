@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_instant_fail", "..\dll_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll_control", "..\dll_control\dll_control.vcxproj", "{908FD685-481B-4502-876B-E8F129D5C981}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "string_manip", "..\string_manip\string_manip.vcxproj", "{942D36D4-5186-4A0A-A569-8EA540C6CD9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -121,6 +123,14 @@ Global
 		{908FD685-481B-4502-876B-E8F129D5C981}.Release|x64.Build.0 = Release|x64
 		{908FD685-481B-4502-876B-E8F129D5C981}.Release|x86.ActiveCfg = Release|Win32
 		{908FD685-481B-4502-876B-E8F129D5C981}.Release|x86.Build.0 = Release|Win32
+		{942D36D4-5186-4A0A-A569-8EA540C6CD9B}.Debug|x64.ActiveCfg = Debug|x64
+		{942D36D4-5186-4A0A-A569-8EA540C6CD9B}.Debug|x64.Build.0 = Debug|x64
+		{942D36D4-5186-4A0A-A569-8EA540C6CD9B}.Debug|x86.ActiveCfg = Debug|Win32
+		{942D36D4-5186-4A0A-A569-8EA540C6CD9B}.Debug|x86.Build.0 = Debug|Win32
+		{942D36D4-5186-4A0A-A569-8EA540C6CD9B}.Release|x64.ActiveCfg = Release|x64
+		{942D36D4-5186-4A0A-A569-8EA540C6CD9B}.Release|x64.Build.0 = Release|x64
+		{942D36D4-5186-4A0A-A569-8EA540C6CD9B}.Release|x86.ActiveCfg = Release|Win32
+		{942D36D4-5186-4A0A-A569-8EA540C6CD9B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

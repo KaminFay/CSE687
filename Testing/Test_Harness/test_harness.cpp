@@ -16,6 +16,25 @@ class Test_Harness
 public:
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Method:       Spinup_Threads
+    //Description:  We will spin up the required number of threads here 
+    //              For base functionality we do not need to mangage/destroy threads so this process
+    //              will be relatively simple. Linkning In and Out queue as params.
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    static bool Spinup_Threads(int num_of_threads, BlockingQueue<dll_info>& dll_queue, BlockingQueue<result_log>& log_queue)
+    {
+        for (int x = 0; x < num_of_threads; x++)
+        {
+            std::thread worker_thread(Test_Harness::Tester_Thread_Proc, std::ref(dll_queue), std::ref(log_queue), x);
+            worker_thread.detach();
+        }
+
+        return true;
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     //Method:       Tester_Thread_Proc
     //Description:  The process that the spawned worker threads will be executing
     //              waits for the next available object in the incoming blocking queue
@@ -24,7 +43,7 @@ public:
     //              to the outbound blocking queue.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //static bool Tester_Thread_Proc(dll_info dll_info_obj)
-    static bool Tester_Thread_Proc(BlockingQueue<dll_info> &dll_queue, BlockingQueue<result_log>& log_queue)
+    static bool Tester_Thread_Proc(BlockingQueue<dll_info> &dll_queue, BlockingQueue<result_log>& log_queue, int thread_id)
     {
         FNPTR       dll_function    = NULL;
         result_log  results;
@@ -34,6 +53,7 @@ public:
         //Maybe add in a pointer arguement that points to terminating condition
         while (1)
         {
+
 
             //wait for available data from the input blocking queue
             dll_info_inst = dll_queue.deQ();
@@ -56,25 +76,13 @@ public:
 
             /******TEMP CODE***************/
             //Temp sleep while we have no blocking queue waits in place
-            Sleep(500);
+
+            //TEMP DEBUG
+            results.thread_id = thread_id;
+            //TEMP DEBUG
+
 
             log_queue.enQ(results);
-
-            ///////print out the results
-            //std::cout << "TEST 1:" << std::endl;
-            //std::cout << "The result of the test was: " << std::boolalpha << results.pass << std::endl;
-            //if(results.exception != "")
-            //{
-            //    std::cout << results.exception << std::endl;
-            //}
-            //else
-            //{
-            //    std::cout << "There was no exception thrown" << std::endl;
-            //}
-            //std::cout << "The test was started at: " << results.start_time << std::endl;
-            //std::cout << "The test was finsihed at: " << results.completion_time << std::endl;
-
-            //std::cout <<"\n\n";
             /******TEMP CODE***************/
 
             //clear the log before we start a new test
@@ -104,7 +112,7 @@ private:
 
         try
         {
-            test_results.pass = Test;
+            test_results.pass = Test();
         }
         catch (const char* error_msg)
         {
@@ -121,54 +129,32 @@ private:
 
 int main()
 {
-    ////Variable Declarations
-    //Test_Greater_Than   test_inst(5,2);
-    //Test_Greater_Than   exception_test_inst(8,8);
-    //result_log          test_results;
-    //result_log          test_results2;
-    //Test_Harness        test_harness_obj;
-
-    //Sleep(2000);
-
-    /////print out the results
-    //std::cout << "TEST 1:" << std::endl;
-    //std::cout << "The result of the test was: " << std::boolalpha << test_results.pass << std::endl;
-    //if(test_results.exception != "")
-    //{
-    //    std::cout << test_results.exception << std::endl;
-    //}
-    //else
-    //{
-    //    std::cout << "There was no exception thrown" << std::endl;
-    //}
-    //std::cout << "The test was started at: " << test_results.start_time << std::endl;
-    //std::cout << "The test was finsihed at: " << test_results.completion_time << std::endl;
-
-    //std::cout <<"\n\n";
-
     BlockingQueue<dll_info>     input_queue;
     BlockingQueue< result_log>  output_queue;
 
-    std::string dll_file_path = "C:\\cygwin64\\home\\Austin\\grad_school\\github\\CS687\\CSE687\\Testing\\dll_files\\dll_instant_pass.dll";
-    std::string dll_function_name = "Instant_Pass";
-
+    /*TEMP DEUG*/
+    std::string dll_file_path = "C:\\cygwin64\\home\\Austin\\grad_school\\github\\CS687\\CSE687\\Testing\\dll_files\\dll_long_delay.dll";
+    std::string dll_function_name = "Run_Test";
     dll_info dll_info_inst(dll_file_path, dll_function_name);
-
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 20; ++i)
     {
         input_queue.enQ(dll_info_inst);
     }
-    
-    std::thread worker_thread(Test_Harness::Tester_Thread_Proc, std::ref(input_queue), std::ref(output_queue));
+    /*TEMP DEBUG*/
 
-    //bool return_val = Test_Harness::Tester_Thread_Proc(input_queue, output_queue);
+    //Start up the threads that will stay running for the entirety of the program
+    //Pass them a reference to our input and output queues so they can operate without any guidance
+    Test_Harness::Spinup_Threads(5, std::ref(input_queue), std::ref(output_queue));
 
+
+    //Sit in this loop for the rest of the program.
+    //This is a debug test as of now, actual program will have different loop
     result_log test_results;
     while (1)
     {
         test_results = output_queue.deQ();
 
-        std::cout << "TEST 1:" << std::endl;
+        std::cout << "Function run by thread: " << test_results.thread_id << std::endl;
         std::cout << "The result of the test was: " << std::boolalpha << test_results.pass << std::endl;
         if(test_results.exception != "")
         {
@@ -185,8 +171,6 @@ int main()
 
         Sleep(100);
     }
-
-    worker_thread.join();
 
 
 }

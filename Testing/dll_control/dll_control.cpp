@@ -6,7 +6,7 @@
 
 FNPTR dll_control::load_dll(std::string dll_path, std::string dll_function)
 {
-    FNPTR fp;
+    FNPTR fp = NULL;
 
     //CONVERT FROM C_STR TO WSTR
     size_t origsize1 = strlen(dll_path.c_str()) + 1;  //get length of original string
@@ -35,7 +35,7 @@ FNPTR dll_control::load_dll(std::string dll_path, std::string dll_function)
 //In order to unload the dll, we will have to reload the file to get its pointer
 bool dll_control::unload_dll(std::string dll_path)
 {
-    FNPTR fp;
+    FNPTR fp = NULL;
 
     //CONVERT FROM C_STR TO WSTR
     size_t origsize1 = strlen(dll_path.c_str()) + 1;                                        //get length of original string

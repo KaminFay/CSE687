@@ -11,6 +11,9 @@ public:
     std::string     exception;
     time_t          start_time;
     time_t          completion_time;
+    std::string     file;
+    std::string     function;
+    int             thread_id;
 
     result_log()
     {
@@ -21,8 +24,11 @@ public:
     {
         pass = false;
         exception.clear();
+        file.clear();
+        function.clear();
         start_time = 0;
         completion_time = 0;
+        thread_id = -1;
     }
 
 };
