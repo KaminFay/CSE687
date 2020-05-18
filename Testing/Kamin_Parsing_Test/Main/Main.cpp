@@ -33,21 +33,40 @@ int main()
 
     std::vector<Parsers::dllInfo> testingVec = testJSON.getAllDlls();
 
-    std::cout << "--------------------------" << std::endl;
+    std::cout << "------------Testing JSON File--------------" << std::endl;
     for (int i = 0; i < testingVec.size(); i++) {
+        std::cout << "-------DLL Location---------" << std::endl;
         std::cout << testingVec.at(i).location << std::endl;
+        std::cout << "-------Function--------" << std::endl;
+        for (int j = 0; j < testingVec.at(i).functions.size(); j++) {
+            std::cout << testingVec.at(i).functions.at(j).functionName << std::endl;
+        }
     }
+    std::cout << std::endl;
+    std::cout << std::endl;
     //testJSON.testPrintingJSON();
 
-    /*testSource.setSourceFileLocation("..\\Parsers\\");
+    testSource.setSourceFileLocation("..\\Parsers\\");
     testSource.setSourceFileName("dll_ex1.txt");
     testSource.getFunctionsFromSource();
     testSource.getFunctionSections();
-    testSource.printFunctionNames();
+    //testSource.printFunctionNames();
     nlohmann::json testingTwo = testSource.sourceToJSON();
 
-    testJSON.setJsonObject(testingTwo);*/
+    testJSON.setJsonObject(testingTwo);
+    
+    std::vector<Parsers::dllInfo> testingSource = testJSON.getAllDlls();
 
+    std::cout << "-----------Testing Source---------------" << std::endl;
+    for (int i = 0; i < testingSource.size(); i++) {
+        std::cout << "-------DLL Location---------" << std::endl;
+        std::cout << testingSource.at(i).location << std::endl;
+        std::cout << "-------Function--------" << std::endl;
+        for (int j = 0; j < testingSource.at(i).functions.size(); j++) {
+            std::cout << testingSource.at(i).functions.at(j).functionName << std::endl;
+        }
+    }
+    //te
 
     return 0;
 }

@@ -27,29 +27,78 @@ namespace Parsers {
 		jsonFileLocation = location;
 	}
 
-	/*
+	/**
 	*
+	* This funciton sets the name of the JSON file being parsed.
+	*
+	* @param name -- passed in name
+	* @return 
 	*/
 	void JSONParser::setJsonFileName(std::string name) {
 		jsonFileName = name;
 	}
 
+	/**
+	*
+	* This funciton getss the name of the JSON file being parsed.
+	*
+	* @param 
+	* @return -- jsonFileName -- String containing the file name
+	*/
 	std::string JSONParser::getJsonFileName() {
 		return jsonFileName;
 	}
 
+	/**
+	*
+	* This funciton sets the path of the JSON file being parsed.
+	*
+	* @param -- location -- string containing the windows path not including the file name
+	* @return
+	*/
 	void JSONParser::setJsonFileLocation(std::string location) {
 		jsonFileLocation = location;
 	}
 
+	/**
+	*
+	* This funciton gets the path of the JSON file being parsed.
+	*
+	* @param 
+	* @return -- jsonFileLocation -- string containing the windows path not including the file name
+	*/
 	std::string JSONParser::getJsonFileLocation() {
 		return jsonFileLocation;
 	}
 
+	/**
+	*
+	* This funciton will set the local JSON object if there is already one provided.
+	*
+	* @param -- passedInJSON -- JSON object containing all of the required dll info
+	* @return 
+	*/
 	void JSONParser::setJsonObject(nlohmann::json passedInJSON) {
 		j = passedInJSON;
 	}
 
+	/**
+	*
+	* Get a single string from the JSON based on the higher level name and the inner key.
+	* If it fails it will return a NULL value.
+	* Ex. The below json and function call will result in a return of "..\\parsers\\"
+	*
+	* "dllTwo": {
+    *	"sourceLocation": "..\\Parsers\\",
+    *	"sourceName": "dll_ex1.txt",
+	*
+	* parseStringFromJSON("dllTwo", "sourceLocation")
+	*
+	*
+	* @param -- fromDLL -- string containing the higher level key needed (in case of this project the dllName)
+	* @param -- keyString -- string containing the lower level key needed (in this case what we are looking to find the value of)
+	* @return
+	*/
 	std::string JSONParser::parseStringFromJSON(std::string fromDLL, std::string keyString) {
 		if (j.find(fromDLL) != j.end()) {
 			std::string valueString = j[fromDLL][keyString].get<std::string>();
@@ -61,10 +110,15 @@ namespace Parsers {
 
 	}
 
-	//std::vector<dllFunction> JSONParser::getDllFunctions() {
-
-	//}
-
+	/**
+	*
+	* Getting all of the data from the JSON object. This will loop through each of the dll's that are within
+	* the JSON object parse that data using the getSingleDll function and store all of the data into a vector of 
+	* dllInfo objects.
+	*
+	* @param 
+	* @return -- allDllVec -- A Vector containing dllInfo objects that hold all of the data for each dll
+	*/
 	std::vector<dllInfo> JSONParser::getAllDlls() {
 		std::vector<dllInfo> allDLLVec;
 
@@ -78,13 +132,15 @@ namespace Parsers {
 		return allDLLVec;
 	}
 
-	//dllFunction JSONParser::getSingleDllFunction() {
 
-	//}
-
-	/*
-	Given a dll name that is within the JSON we are parsing we can parse the functions from only that dll
-	This will return a dllInfo object that includes dll name, location, and a vector of functions.
+	
+	/**
+	*
+	* Given a single dllName this function will parse the data from that dll section of the JSON into a dllInfo
+	* object. This object will then be returned.
+	* 
+	* @param -- dllName -- string containing the name of the dll to be found within the JSON object
+	* @return -- newDll -- dllInfo object that contains the demarshalled info from the JSON object for the given dll
 	*/
 	dllInfo JSONParser::getSingleDll(std::string dllName) {
 		dllInfo newDll;
@@ -127,6 +183,14 @@ namespace Parsers {
 		return "None";
 	}
 
+	/**
+	*
+	* Once jsonFileName and jsonFileLocation have been assigned we can open the JSON file in question
+	* this data will then be stored into the JSON object (j).
+	*
+	* @param
+	* @return
+	*/
 	void JSONParser::openJsonFile() {
 		if (jsonFileName == "" || jsonFileLocation == "") {
 			std::cout << "Filename or location empty" << std::endl;
@@ -146,6 +210,14 @@ namespace Parsers {
 		}
 	}
 
+	/**
+	*
+	* Once the JSON file has been marshalled into the JSON object this function can be used to test print the 
+	* JSON into the terminal in a "pretty" format
+	*
+	* @param
+	* @return
+	*/
 	void JSONParser::testPrintingJSON() {
 		if (j != NULL) {
 			std::cout << std::setw(4) << j << std::endl;
@@ -155,10 +227,22 @@ namespace Parsers {
 		}
 	}
 
+	/**
+	*
+	* TODO this function needs to be removed, it does nothing.
+	*
+	*/
 	void XMLParser::testPrintingXML() {
 		std::cout << "Testing Printing From The XML" << std::endl;
 	}
 
+	/**
+	*
+	* Base intilization of the SourceParser Class, 
+	*
+	* @param
+	* @return
+	*/
 	SourceParser::SourceParser()
 	{
 		funcPrecurse = "(.*)(__declspec)(.)(dllexport)(.*)";
@@ -168,6 +252,15 @@ namespace Parsers {
 		sourceFileName = "";
 	}
 
+	/**
+	*
+	* Customized intilization of the SourceParser Class, in this instance the path and name of the c++ source 
+	* file is included to intiliaze that data with fewer function calls
+	*
+	* @param -- location -- Windows path to the location of the c++ source file (file name not included)
+	* @param -- name -- Name of the physical c++ source file
+	* @return
+	*/
 	SourceParser::SourceParser(std::string location, std::string name)
 	{
 		funcPrecurse = "(.*)(__declspec)(.)(dllexport)(.*)";
@@ -177,26 +270,62 @@ namespace Parsers {
 		sourceFileName = name;
 	}
 
+	/**
+	*
+	* This funciton sets the name of the C++ source file being parsed.
+	*
+	* @param name -- passed in name
+	* @return
+	*/
 	void SourceParser::setSourceFileName(std::string name)
 	{
 		sourceFileName = name;
 	}
 
+	/**
+	*
+	* This funciton sets the file location of the C++ source file being parsed.
+	*
+	* @param name -- Windows path of the c++ source file (file name not included)
+	* @return
+	*/
 	void SourceParser::setSourceFileLocation(std::string location)
 	{
 		sourceFileLocation = location;
 	}
 
+	/**
+	*
+	* This funciton gets the name of the C++ source file being parsed.
+	*
+	* @param 
+	* @return sourceFileName -- name of the currently being parsed source file
+	*/
 	std::string SourceParser::getSourceFileName()
 	{
 		return sourceFileName;
 	}
 
+	/**
+	*
+	* This funciton gets the location of the C++ source file being parsed.
+	*
+	* @param
+	* @return sourceFileLocation -- Windows path of the currently being parsed source file (file name not included)
+	*/
 	std::string SourceParser::getSourceFileLocation()
 	{
 		return sourceFileLocation;
 	}
 
+	/**
+	*
+	* Once the source file is known this will read in the file and push each line onto a local vector of strings.
+	* Each string will be matched with the a regex that will locate this precurser on the function tags "__declspec(dllexport)"
+	*
+	* @param
+	* @return
+	*/
 	void SourceParser::getFunctionsFromSource()
 	{
 		std::string line;
@@ -224,6 +353,14 @@ namespace Parsers {
 		}
 	}
 
+	/**
+	*
+	* Sample functions to print the data parsed from the C++ source file once that is completed.
+	* !WARNING -- This is just for testing, no practical function at this time.
+	*
+	* @param
+	* @return
+	*/
 	void SourceParser::printFunctionNames()
 	{
 		std::cout << "Functions from source: " << std::endl;
@@ -235,6 +372,14 @@ namespace Parsers {
 		}
 	}
 
+	/**
+	*
+	* Given the vector of function tags this will parse those tags for the three main portions (return type, function name, input params)
+	* These three portions will be pushed into a 2d vector containing each line and their corresponding parts.
+	* 
+	* @param
+	* @return
+	*/
 	void SourceParser::getFunctionSections() {
 		for (int i = 0; i < functionNames.size(); i++) {
 			std::string tempString = functionNames.at(i);
@@ -258,6 +403,13 @@ namespace Parsers {
 		}
 	}
 
+	/**
+	*
+	* The parsedFunction vector will be iterated over and it's data marshalled into a JSON object that is passed back to be used
+	* for later purposes.
+	* @param
+	* @return -- testingJSON -- JSON object containg the function info from the C++ source file being parsed.
+	*/
 	nlohmann::json SourceParser::sourceToJSON() {
 		dllInfo info;
 		info.name = getSourceFileName();
@@ -278,6 +430,16 @@ namespace Parsers {
 			return NULL;
 		}
 	}
+
+	/**
+	*
+	* Overloaded function from the nlohmann::json library
+	* This function will convert from a dllInfo object into a standard JSON object
+	*
+	* @param -- &j -- reference to the JSON object that needs to be written into
+	* @param -- &d -- reference to the dllInfo object that is to be read from
+	* @return
+	*/
 	void to_json(nlohmann::json& j, const dllInfo& d)
 	{
 		nlohmann::json tempJ;
@@ -287,18 +449,39 @@ namespace Parsers {
 			tempJ.push_back(tt);
 		}
 
-
-		//j = nlohmann::json{{"dll", {{"dllName", d.name},{"dllLocation", d.location},{"functions", d.functions}}}};
 		j = nlohmann::json{ {"dll", {{"dllName", d.name}, {"dllLocation", d.location}, {"functions", tempJ}}} };
 
 	}
 
+	/**
+	*
+	* TODO -- This needs to be looked into as it is not working as intended.
+	*
+	* Overloaded function from the nlohmann::json library
+	* This should convert from JSON to the dllInfo object type
+	*
+	* @param -- &j -- constant reference to the json that needs to be translated
+	* @param -- &d -- reference to the dllFunction object the data should be marshalled into
+	* @return
+	*/
 	void from_json(const nlohmann::json& j, dllFunction& f) {
 		j.at("name").get_to(f.functionName);
 		j.at("passedIn").get_to(f.parameters);
 		j.at("returnType").get_to(f.returnType);
 	}
 
+
+	/**
+	*
+	* TODO -- This needs to be looked into as it is not working as intended.
+	*
+	* Overloaded function from the nlohmann::json library
+	* This should convert from JSON to the dllInfo object type
+	*
+	* @param -- &j -- constant pointer to the json that needs to be translated
+	* @param -- &d -- pointer to the dllInfo object the data should be marshalled into
+	* @return
+	*/
 	void from_json(const nlohmann::json& j, dllInfo& d)
 	{
 		j.at("dll").get_to(d);
