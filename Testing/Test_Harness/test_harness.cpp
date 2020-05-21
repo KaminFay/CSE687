@@ -56,9 +56,6 @@ public:
         //Maybe add in a pointer arguement that points to terminating condition
         while (1)
         {
-            //TODO: have this stay set and not cleared so we don't have to reset every time.
-            results.thread_id = thread_id;
-
             //wait for available data from the input blocking queue
             dll_info_inst = dll_queue.deQ();
 
@@ -73,6 +70,9 @@ public:
             {
                 results.exception = error_msg;
             }
+
+            //TODO: have this stay set and not cleared so we don't have to reset every time.
+            results.thread_id = thread_id;
 
             //Add the result to the outgoing blocking queue
             log_queue.enQ(results);
