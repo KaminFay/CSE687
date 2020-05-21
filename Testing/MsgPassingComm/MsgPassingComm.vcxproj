@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{19E2ACE5-EFD6-44FC-AA12-164CD1B26378}</ProjectGuid>
-    <RootNamespace>TestHarness</RootNamespace>
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{6E58E051-CC07-4D7F-92A4-06A117A79CA7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>MsgPassingComm</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,26 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\WindowsHelpers;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Logger;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Sockets;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\App1;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\dll_control;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\WindowsHelpers;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Logger;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Sockets;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\App1;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\dll_control;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\WindowsHelpers;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Logger;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Sockets;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\App1;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\dll_control;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\WindowsHelpers;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Logger;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Sockets;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\App1;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\dll_control;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;TEST_COMM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -99,10 +97,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,12 +110,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,12 +127,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,13 +143,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\dll_control\dll_control.cpp" />
-    <ClCompile Include="test_harness.cpp" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\dll_control\dll_control.h" />
-    <ClInclude Include="logger_def.h" />
-    <ClInclude Include="test_harness.h" />
+    <ClCompile Include="Comm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Comm.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cpp11-BlockingQueue\Cpp11-BlockingQueue.vcxproj">
+      <Project>{38a1d03d-7747-4f79-9539-358f1d1d8dd7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Message\Message.vcxproj">
+      <Project>{4133d528-ab6d-4ccd-af37-67536f36154c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Sockets\Sockets.vcxproj">
+      <Project>{ca3129b8-1bf4-44c9-b116-53ec72d0bccb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.vcxproj">
+      <Project>{462b43b2-8b13-4178-bf2a-903f76f1985c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

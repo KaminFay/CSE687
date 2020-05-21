@@ -1,13 +1,16 @@
 #include <string>
 #include <iostream>
 #include <time.h>
+#include <WinSock2.h>
 #include <Windows.h>
 #include <thread>
+
 
 #include "logger_def.h"
 #include "dll_control.h"
 #include "blockingQueue.h"
 #include "ThreadPool.h"
+#include "Sockets.h"
 
 
 
@@ -30,7 +33,7 @@ public:
         }
 
         return true;
-    }
+    }//end Spinup_Threads
 
 
 
@@ -53,7 +56,8 @@ public:
         //Maybe add in a pointer arguement that points to terminating condition
         while (1)
         {
-
+            //TODO: have this stay set and not cleared so we don't have to reset every time.
+            results.thread_id = thread_id;
 
             //wait for available data from the input blocking queue
             dll_info_inst = dll_queue.deQ();
@@ -70,28 +74,13 @@ public:
                 results.exception = error_msg;
             }
 
-            /******ADD CODE***************/
-            //wait to place log data on outbound blocking queue
-            /******ADD CODE***************/
-
-            /******TEMP CODE***************/
-            //Temp sleep while we have no blocking queue waits in place
-
-            //TEMP DEBUG
-            results.thread_id = thread_id;
-            //TEMP DEBUG
-
-
+            //Add the result to the outgoing blocking queue
             log_queue.enQ(results);
-            /******TEMP CODE***************/
 
             //clear the log before we start a new test
             results.clear_log();
-
-            
         }
-
-    }
+    }//end Test_Thread_Proc
 
 private:
 
@@ -123,10 +112,21 @@ private:
         test_results.completion_time = time_ptr;
 
         return test_results;
-    }
-};
+    }//end Executor
+
+};//end class Test_Harness
 
 
+
+//Constants
+const int C_NUM_OF_THREADS = 5;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Function:     main
+//Description:  Starting point for the Test_Harness project. controls blocking queue setup, comm setup
+//              Thread setup.
+////////////////////////////////////////////////////////////////////////////////////////////////////
 int main()
 {
     BlockingQueue<dll_info>     input_queue;
@@ -142,13 +142,20 @@ int main()
     }
     /*TEMP DEBUG*/
 
+    //TODO: SET UP COMMS
+    /*INSERT COMM SETUP CODE HERE*/
+
+    /*INSERT COMM SETUP CODE HERE*/
+
+
     //Start up the threads that will stay running for the entirety of the program
     //Pass them a reference to our input and output queues so they can operate without any guidance
-    Test_Harness::Spinup_Threads(5, std::ref(input_queue), std::ref(output_queue));
+    Test_Harness::Spinup_Threads(C_NUM_OF_THREADS, std::ref(input_queue), std::ref(output_queue));
 
 
     //Sit in this loop for the rest of the program.
-    //This is a debug test as of now, actual program will have different loop
+
+    /*TEMP DEBUG*/
     result_log test_results;
     while (1)
     {
@@ -171,6 +178,7 @@ int main()
 
         Sleep(100);
     }
+    /*TEMP DEBUG*/
 
 
 }
