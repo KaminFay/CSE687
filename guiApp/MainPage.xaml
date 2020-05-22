@@ -127,7 +127,15 @@
 
             </Grid>
             
-            <RichEditBox Grid.Row="2" Grid.Column="0" Background="Black" IsReadOnly="True" AllowFocusOnInteraction="False" IsFocusEngagementEnabled="False" IsFocusEngaged="False"/>
+            <RichEditBox
+                Grid.Row="2" 
+                Grid.Column="0" 
+                Background="Black" 
+                IsReadOnly="True" 
+                AllowFocusOnInteraction="False" 
+                IsFocusEngagementEnabled="False" 
+                IsFocusEngaged="False"/>
+            
             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
             
         </Grid>

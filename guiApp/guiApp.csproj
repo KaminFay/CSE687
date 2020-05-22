@@ -120,6 +120,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="DLLObject.cs" />
+    <Compile Include="HelperClasses\AsyncRequest.cs" />
+    <Compile Include="HelperClasses\StateObject.cs" />
     <Compile Include="HelperClasses\SocketManager.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
