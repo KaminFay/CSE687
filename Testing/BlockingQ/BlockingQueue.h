@@ -2,7 +2,7 @@
 #define BLOCKINGQUEUE_H
 //////////////////////////////////////////////////////////////
 // BlockingQueue.h - C++11                                  //
-// Thread-safe Blocking Queue Using                         //
+// Thread-safe Blocking Queue                               //
 // Ralph Walker II - Object Oriented Desgin Project         //
 //                                                          //
 // Referenced Jim Fawcett ver 1.4                           //                                                         
@@ -15,32 +15,6 @@
  * It is implemented using C++11 threading constructs including
  * std::condition_variable and std::mutex.  The underlying storage
  * is provided by the non-thread-safe std::queue<T>.
- *
- * Required Files:
- * ---------------
- * Cpp11-BlockingQueue.h
- *
- * Build Process:
- * --------------
- * devenv Cpp11-BlockingQueue.sln /rebuild debug
- *
- * Maintenance History:
- * --------------------
- * ver 1.4 : 29 Jul 2016
- * - wrapped with namespace Async
- * ver 1.3 : 04 Mar 2016
- * - changed behavior of front() to throw exception
- *   on empty queue.
- * - added comment about std::unique_lock in deQ()
- * ver 1.2 : 27 Feb 2016
- * - added front();
- * - added move ctor and move assignment
- * - deleted copy ctor and copy assignment
- * ver 1.1 : 26 Jan 2015
- * - added copy constructor and assignment operator
- * ver 1.0 : 03 Mar 2014
- * - first release
- *
  */
 
 #include <condition_variable>
