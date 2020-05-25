@@ -150,6 +150,11 @@
     <ClInclude Include="logger_def.h" />
     <ClInclude Include="test_harness.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sockets\Sockets.vcxproj">
+      <Project>{ca3129b8-1bf4-44c9-b116-53ec72d0bccb}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -12,6 +12,8 @@
 #include "ThreadPool.h"
 #include "Sockets.h"
 
+using namespace Sockets;
+
 
 
 class Test_Harness
@@ -144,6 +146,9 @@ int main()
 
     //TODO: SET UP COMMS
     /*INSERT COMM SETUP CODE HERE*/
+
+    SocketSystem ss;
+
 
     /*INSERT COMM SETUP CODE HERE*/
 
