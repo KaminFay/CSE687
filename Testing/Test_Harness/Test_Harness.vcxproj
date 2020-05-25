@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\WindowsHelpers;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Logger;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Sockets;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\App1;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\dll_control;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\BlockingQ;$(IncludePath)</IncludePath>
+    <IncludePath>..\WindowsHelpers;..\Logger;..\Sockets;..\dll_control;..\BlockingQ;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
