@@ -229,15 +229,6 @@ namespace Parsers {
 
 	/**
 	*
-	* TODO this function needs to be removed, it does nothing.
-	*
-	*/
-	void XMLParser::testPrintingXML() {
-		std::cout << "Testing Printing From The XML" << std::endl;
-	}
-
-	/**
-	*
 	* Base intilization of the SourceParser Class, 
 	*
 	* @param

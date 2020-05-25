@@ -14,7 +14,6 @@ static void glfw_error_callback(int error, const char* description)
 int main()
 {
     Parsers::JSONParser testJSON = Parsers::JSONParser("..\\Parsers\\", "TestingJSONTwo.json");
-    Parsers::XMLParser testXML;
     Parsers::SourceParser testSource;
 
     testJSON.openJsonFile();

@@ -32,22 +32,13 @@ namespace Parsers {
 		std::string parseStringFromJSON(std::string, std::string);
 		void openJsonFile();
 		void setJsonObject(nlohmann::json);
-		//std::vector<dllFunction> getDllFunctions();
-		dllFunction getSingleDllFunction();
 		dllInfo getSingleDll(std::string dllName);
-		//void getSingleDll(std::string dllName);
 		std::vector<dllInfo> getAllDlls();
-		//void getAllDlls();
 
 	private:
 		nlohmann::json j;
 		std::string jsonFileName;
 		std::string jsonFileLocation;
-	};
-
-	class XMLParser {
-	public:
-		void testPrintingXML();
 	};
 
 	class SourceParser {
