@@ -1,2 +1,0 @@
-C:\Users\Austin\source\repos\Test_Loading_Dll\Debug\Test_Loading_Dll.exe
-C:\Users\Austin\source\repos\Test_Loading_Dll\Debug\Test_Loading_Dll.pdb

@@ -1,0 +1,48 @@
+{
+  "dll": {
+    "sourceLocation": "..\\Parsers\\",
+    "sourceName": "dll_ex1.txt",
+    "dllLocation": "..\\Parsers\\",
+    "dllName": "dll_ex1.dll",
+    "functions": [
+      {
+        "name": "Test1",
+        "passedIn": "const int x",
+        "returnType": "std::string"
+      },
+      {
+        "name": "addThings",
+        "passedIn": "int y, int x",
+        "returnType": "int"
+      },
+      {
+        "name": "subThings",
+        "passedIn": "int y, int x",
+        "returnType": "int"
+      },
+      {
+        "name": "divideThings",
+        "passedIn": "double x, double y",
+        "returnType": "double"
+      }
+    ]
+  },
+  "dllTwo": {
+    "sourceLocation": "..\\Parsers\\",
+    "sourceName": "dll_ex1.txt",
+    "dllLocation": "..\\kkkkkkkkkkkkkkkkkkkkkk\\",
+    "dllName": "dll_ex1.dll",
+    "functions": [
+      {
+        "name": "subThings",
+        "passedIn": "int y, int x",
+        "returnType": "int"
+      },
+      {
+        "name": "divideThings",
+        "passedIn": "double x, double y",
+        "returnType": "double"
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "dllName": "TestingOne.dll",
+  "functions": [
+    "addOne",
+    "subtractOne",
+    "multiplyOne"
+  ]
+}
