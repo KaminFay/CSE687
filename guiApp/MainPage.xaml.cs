@@ -20,8 +20,6 @@ using System.Diagnostics;
 using guiApp.HelperClasses;
 
 
-using System.Security.Cryptography;
-using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -38,7 +36,8 @@ namespace guiApp
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
 
 
-        private ObservableCollection<DLLObject> collection = new ObservableCollection<DLLObject>();
+        private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
+        private ObservableCollection<String> fileNamesForListView = new ObservableCollection<string>();
 
         public MainPage()
         {
@@ -176,9 +175,19 @@ namespace guiApp
 
                 foreach (StorageFile file in files)
                 {
-                    output.Append(file.Name + "\n");
+                    Debug.WriteLine("File name is: " + file.DisplayName);
+                    Debug.WriteLine("File display type: " + file.DisplayType);
+                    Debug.WriteLine("File type: " + file.FileType);
+                    Debug.WriteLine("File properties: " + file.Properties);
+                    Debug.WriteLine("File path: " + file.Path);
+
+                    output.Append(file.DisplayName + "\n");
+                    fileList.Add(file);
+                    
+                    fileNamesForListView.Add(file.DisplayName + file.FileType);
                 }
-                //OutputTextBlock.Text = output.ToString();
+                this.Items.ItemsSource = fileNamesForListView;
+              
             }
             else
             {
@@ -189,14 +198,7 @@ namespace guiApp
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
-                     
-            for (int i = 0; i < 5; i ++)
-            {
-                
-                collection.Add(new DLLObject($"item {i}"));
-            }
 
-            this.Items.ItemsSource = collection;
         }
 
         private void Toggle_Toggled(object sender, RoutedEventArgs e)
