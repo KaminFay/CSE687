@@ -82,7 +82,7 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <ListView Grid.Column="0" Loaded="ListView_Loaded" x:Name="Items" CanDragItems="False" CanReorderItems="False">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
@@ -90,7 +90,7 @@
                             <Setter Property="Margin" Value="0"/>
                         </Style>
                     </ListView.ItemContainerStyle>
-                    
+
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="10" ColumnSpacing="50">
@@ -104,39 +104,53 @@
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                    
-                </ListView>
-
-                <ListView Grid.Column="1" Background="Aquamarine">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="10" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock x:Name="RowContent" Text="{Binding}" VerticalAlignment="Center"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <Button x:Name="button" Content="Button"/>
-
 
                 </ListView>
-                <ListView Grid.Column="2" Background="Violet"/>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel 
+                    Grid.Column="1" 
+                    Background="Aquamarine">
+                        <Button Content="Cancel" 
+                            HorizontalAlignment="Stretch"
+                            Style="{StaticResource AccentButtonStyle}"/>
+                    </StackPanel>
+                </Grid>
+
+                
+
+                <StackPanel 
+                    Grid.Column="2" 
+                    Background="Violet">
+
+                    <Button 
+                        Content="Run" 
+                        HorizontalAlignment="Stretch" 
+                        Style="{StaticResource AccentButtonStyle}" 
+                        Click="Run_Test_Execution"/>
+
+                </StackPanel>
 
 
             </Grid>
-            
+
             <RichEditBox
                 Grid.Row="2" 
                 Grid.Column="0" 
                 Background="Black" 
                 IsReadOnly="True" 
-                AllowFocusOnInteraction="False" 
+                PlaceholderText="Testing PlaceHolder text "
+                AllowFocusOnInteraction="False"
+                
                 IsFocusEngagementEnabled="False" 
-                IsFocusEngaged="False"/>
-            
+                IsFocusEngaged="False" TextChanged="RichEditBox_TextChanged">
+            </RichEditBox>
+
+
             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
             
         </Grid>
