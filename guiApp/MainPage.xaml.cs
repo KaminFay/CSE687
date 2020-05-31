@@ -105,8 +105,7 @@ namespace guiApp
                     
                     fileNamesForListView.Add(file.DisplayName + file.FileType);
                 }
-                this.Items.ItemsSource = fileNamesForListView;
-              
+                //this.Items.ItemsSource = fileNamesForListView;
             }
             else
             {
@@ -117,21 +116,24 @@ namespace guiApp
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
-
+            var items = new ObservableCollection<DLLObject>();
+            for(int i = 0; i < 9; i ++)
+            {
+                items.Add(new DLLObject($"item {i}"));
+            }
+            this.Items.ItemsSource = items;
         }
 
         private void Toggle_Toggled(object sender, RoutedEventArgs e)
         {
-            DLLObject temp = new DLLObject("Test");
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            
+            //ToggleSwitch toggleSwitch = sender as ToggleSwitch;
 
-            if(toggleSwitch.IsOn)
-            {
-                Debug.WriteLine("I was toggled!");
-                //IEnumerator<DLLObject> enumerator = collection.GetEnumerator();
-                //_ = enumerator.Current;
+            var toggle = (ToggleSwitch) sender;
+            var dataContext = ((Grid)toggle.Parent).DataContext;
+            var dataItem =  (DLLObject) dataContext;
+            dataItem.DLLObjectName = $"Toggled {toggle.IsOn}";
 
-            }
         }
 
         private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)
