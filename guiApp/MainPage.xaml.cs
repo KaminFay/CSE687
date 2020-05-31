@@ -43,33 +43,7 @@ namespace guiApp
         {
             this.InitializeComponent();
 
-            //try
-            //{
-            //    Console.WriteLine("Connect to server");
-            //    clientSocket.Connect("127.0.0.1", 8888);
-            //    Console.WriteLine("Connected to server??????????");
-
-            //    NetworkStream serverStream = clientSocket.GetStream();
-            //    byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Hello World??\n");
-
-            //    serverStream.Write(outStream, 0, outStream.Length);
-            //    serverStream.Flush();
-
-            //    byte[] inStream = new byte[10025];
-            //    //serverStream.Read(inStream, 0, (int)clientSocket.ReceiveBufferSize);
-            //    serverStream.Read(inStream, 0, inStream.Length);
-            //    string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-            //    //msg(returndata);
-
-
-            //} catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.ToString());
-            //}
-
-
-            SocketManager.connectToServerSocket();
-           
+            SocketManager.connectToServerSocket();           
         }
 
         private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
