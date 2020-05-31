@@ -1,46 +1,42 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace guiApp
 {
-    internal class DLLObject : INotifyPropertyChanged
+    public class DLLObject : INotifyPropertyChanged
     {
-        public string Title { get; }
-        public string Subtitle { get; }
-        public string Description { get; }
-
-        public String PathLocation { get; }
         
+        
+        private string name;
 
-        public DLLObject(string title)
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.Title = title;
-        }
-        public DLLObject(string title, string subtitle)
-        {
-            this.Title = title;
-            this.Subtitle = subtitle;
-        }
-        public DLLObject(string title, string subtitle, string description)
-        {
-            this.Title = title;
-            this.Subtitle = subtitle;
-            this.Description = description;
+            // Raise the PropertyChanged event, passing the name of the property whose value has changed.
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-
-        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        public DLLObject()
         {
-            add
+
+        }
+
+        public DLLObject(string name)
+        {
+            this.name = name;
+        }
+        public string DLLObjectName
+        {
+            get { return name; }
+            set
             {
-                throw new NotImplementedException();
-            }
-
-            remove
-            {
-                throw new NotImplementedException();
+                name = value;
+                // Call OnPropertyChanged whenever the property is updated
+                OnPropertyChanged();
             }
         }
+
     }
 }
