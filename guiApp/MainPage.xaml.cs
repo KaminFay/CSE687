@@ -38,6 +38,7 @@ namespace guiApp
 
         private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
         private ObservableCollection<String> fileNamesForListView = new ObservableCollection<string>();
+        private ObservableCollection<DLLObject> sendToTestHarness = new ObservableCollection<DLLObject>();
 
         public MainPage()
         {
@@ -134,6 +135,17 @@ namespace guiApp
             var dataItem =  (DLLObject) dataContext;
             dataItem.DLLObjectName = $"Toggled {toggle.IsOn}";
 
+            if(toggle.IsOn)
+            {
+                sendToTestHarness.Add(dataItem);
+            }
+
+            if (!toggle.IsOn)
+            {
+                sendToTestHarness.Remove(dataItem);
+            }
+
+            Debug.WriteLine("The current size of the list is: " + sendToTestHarness.Count);
         }
 
         private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)
@@ -143,7 +155,14 @@ namespace guiApp
 
         private void Run_Test_Execution(object sender, RoutedEventArgs e)
         {
+            Queue<DLLObject> harnessQueue = new Queue<DLLObject>();
 
+            foreach (DLLObject dLLObject in sendToTestHarness)
+            {
+                harnessQueue.Enqueue(dLLObject);
+            }
+
+            Debug.WriteLine("The current size of the queue is: " + harnessQueue.Count);
         }
     }
 }
