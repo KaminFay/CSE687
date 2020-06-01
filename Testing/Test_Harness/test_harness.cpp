@@ -11,8 +11,100 @@
 #include "blockingQueue.h"
 #include "ThreadPool.h"
 #include "Sockets.h"
+#include "Logger.h"
+#include "utilities.h"
 
 using namespace Sockets;
+
+class ClientHandler
+{
+public:
+
+    BlockingQueue<dll_info>* client_queue;
+
+    ClientHandler()
+    {
+    }
+
+    ClientHandler(BlockingQueue<dll_info>& input_queue)
+    {
+        client_queue = &input_queue;
+    }
+
+    void Set_Queue(BlockingQueue<dll_info>& input_queue)
+    {
+        client_queue = &input_queue;
+    }
+
+    dll_info Read_Queue()
+    {
+        dll_info dll_info_inst;
+
+        dll_info_inst = client_queue->deQ();
+
+        return dll_info_inst;
+    }
+
+
+    void operator()(Socket&& socket_);
+};
+
+void ClientHandler::operator()(Socket&& socket_)
+{
+    while (true)
+    {
+
+        std::string msg = Socket::removeTerminator(socket_.recvString());
+        dll_info dll_info_inst(msg, msg);
+        dll_info dll_info_inst2;
+
+        client_queue->enQ(dll_info_inst);
+
+        //dll_info_inst2 = client_queue->deQ();
+        //std::cout << "\n  server recvd message \"" << dll_info_inst2.dll_file << "\"" << std::endl;;
+        if (msg == "quit")
+            break;
+    }
+}
+
+class TxClass
+{
+public:
+    BlockingQueue<result_log>* tx_queue;
+
+    TxClass()
+    {
+    }
+
+    TxClass(BlockingQueue<result_log>& output_queue)
+    {
+        tx_queue = &output_queue;
+    }
+
+    void Set_Queue(BlockingQueue<result_log>& output_queue)
+    {
+        tx_queue = &output_queue;
+    }
+
+    void operator()(void);
+};
+
+void TxClass::operator()(void)
+{
+
+    result_log test_result;
+
+    while (true)
+    {
+        test_result = tx_queue->deQ();
+
+        //si.sendString(test_result.file);
+        //si.sendString(test_result.function);
+
+        //dll_info_inst2 = client_queue->deQ();
+        //std::cout << "\n  server recvd message \"" << dll_info_inst2.dll_file << "\"" << std::endl;;
+    }
+}
 
 
 
@@ -48,7 +140,7 @@ public:
     //              to the outbound blocking queue.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //static bool Tester_Thread_Proc(dll_info dll_info_obj)
-    static bool Tester_Thread_Proc(BlockingQueue<dll_info> &dll_queue, BlockingQueue<result_log>& log_queue, int thread_id)
+    static bool Tester_Thread_Proc(BlockingQueue<dll_info> &dll_queue, BlockingQueue<result_log> &log_queue, int thread_id)
     {
         FNPTR       dll_function    = NULL;
         result_log  results;
@@ -75,6 +167,9 @@ public:
 
             //TODO: have this stay set and not cleared so we don't have to reset every time.
             results.thread_id = thread_id;
+
+            results.function = dll_info_inst.dll_function;
+            results.file = dll_info_inst.dll_file;
 
             //Add the result to the outgoing blocking queue
             log_queue.enQ(results);
@@ -132,7 +227,39 @@ const int C_NUM_OF_THREADS = 5;
 int main()
 {
     BlockingQueue<dll_info>     input_queue;
-    BlockingQueue< result_log>  output_queue;
+    BlockingQueue<dll_info>     input_queue2;
+    BlockingQueue<result_log>   output_queue;
+
+    SocketSystem                ss;
+    ClientHandler               cp(std::ref(input_queue2));
+    TxClass                     tx1(std::ref(output_queue));
+
+    
+    SocketListener sl(8080, Socket::IP4);
+    //cp.Set_Queue(std::ref(input_queue2));
+    sl.start(cp);
+
+
+    //Transmitter thread
+    //std::thread tx_thread(tx1);
+    //tx_thread.detach();
+
+    //try
+    //{
+    //    SocketListener sl(8080, Socket::IP4);
+    //    cp.Set_Queue(std::ref(input_queue2));
+    //    sl.start(cp);
+    //    //Show::write("\n --------------------\n  press key to exit: \n --------------------");
+    //    std::cout.flush();
+    //    std::cin.get();
+    //}
+    //catch (std::exception& exc)
+    //{
+    //    Show::write("\n  Exeception caught: ");
+    //    std::string exMsg = "\n  " + std::string(exc.what()) + "\n\n";
+    //    Show::write(exMsg);
+    //}
+
 
     /*TEMP DEUG*/
     std::string dll_file_path = "C:\\cygwin64\\home\\Austin\\grad_school\\github\\CS687\\CSE687\\Testing\\dll_files\\dll_long_delay.dll";
@@ -147,9 +274,6 @@ int main()
     //TODO: SET UP COMMS
     /*INSERT COMM SETUP CODE HERE*/
 
-    SocketSystem ss;
-
-
     /*INSERT COMM SETUP CODE HERE*/
 
 
@@ -161,10 +285,23 @@ int main()
     //Sit in this loop for the rest of the program.
 
     /*TEMP DEBUG*/
+
     result_log test_results;
+    dll_info    input_test;
+
+    SocketConnecter si;
+    while (!si.connect("localhost", 8090))
+    {
+        Show::write("\n client waiting to connect");
+        ::Sleep(100);
+    }
+
     while (1)
     {
         test_results = output_queue.deQ();
+
+        si.sendString(test_results.file);
+        si.sendString(test_results.function);
 
         std::cout << "Function run by thread: " << test_results.thread_id << std::endl;
         std::cout << "The result of the test was: " << std::boolalpha << test_results.pass << std::endl;
@@ -181,7 +318,8 @@ int main()
 
         std::cout <<"\n\n";
 
-        Sleep(100);
+        //input_test = input_queue2.deQ();
+        //std::cout << input_test.dll_function << std::endl;
     }
     /*TEMP DEBUG*/
 
