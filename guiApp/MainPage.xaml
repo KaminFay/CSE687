@@ -8,6 +8,11 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <local:TextFormatter x:Key="JSONFileName" stringFormat="JSON Source: {0}.json"/>
+        <local:TextFormatter x:Key="DLLFileName" stringFormat="DLL: {0}"/>
+    </Page.Resources>
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -94,13 +99,24 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="10" ColumnSpacing="50">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="70" />
+                                    <RowDefinition Height="*" />   
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock x:Name="RowContent" Text="{Binding}" VerticalAlignment="Center"/>
-                                <ToggleSwitch x:Name="Toggle" Grid.Column="1" Toggled="Toggle_Toggled" IsOn="False"/>
+                                <Grid Grid.Column="0">
+                                    <ToggleSwitch x:Name="Toggle"  Toggled="Toggle_Toggled" IsOn="False" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Grid Grid.Column="2">
+                                    <TextBlock x:Name="RowContent" Text="{Binding Path=dllName, Converter={StaticResource DLLFileName}}" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <TextBlock x:Name="JSONNameBlock" Text="{Binding Path=jsonSourceName, Converter={StaticResource JSONFileName}}" VerticalAlignment="Center"/>
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

@@ -11,6 +11,8 @@ using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
 using System.Numerics;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.UI.WebUI;
 
 namespace guiApp
 {
@@ -26,14 +28,22 @@ namespace guiApp
     {
         public String dllName { get; set; }
         public String dllLocation { get; set; }
+        public String jsonSourceName { get; set; }
         public List<dllFunction> functionList { get; set; }
 
         public dllInfo()
         {
             dllName = "";
             dllLocation = "";
+            jsonSourceName = "";
             functionList = new List<dllFunction>();
         }
+    }
+
+    public class DLLViewModel
+    {
+        private dllInfo defaultDLL = new dllInfo();
+        public dllInfo DefaultDLL { get { return this.defaultDLL; } }
     }
 
     class JSONParser
@@ -46,24 +56,33 @@ namespace guiApp
 
         public JSONParser()
         {
-            fileName = "";
-            filePath = "";
-            jsonData = new JObject();
-            allDLLData = new List<dllInfo>();
-            tempFunctionData = new List<dllFunction>();
+            this.fileName = "";
+            this.filePath = "";
+            this.jsonData = new JObject();
+            this.allDLLData = new List<dllInfo>();
+            this.tempFunctionData = new List<dllFunction>();
         }
 
         public JSONParser(String name, String path)
         {
-            fileName = name;
-            filePath = path;
-            jsonData = new JObject();
-            allDLLData = new List<dllInfo>();
-            tempFunctionData = new List<dllFunction>();
+            this.fileName = name;
+            this.filePath = path;
+            this.jsonData = new JObject();
+            this.allDLLData = new List<dllInfo>();
+            this.tempFunctionData = new List<dllFunction>();
         }
 
+        public void setFileName(String fileName)
+        {
+            this.fileName = fileName;
+        }
 
-        public async void readInJSON(StorageFile storageFile)
+        public void setFilePath(String path)
+        {
+            this.filePath = path;
+        }
+
+        public async Task<List<dllInfo>> readInJSON(StorageFile storageFile)
         {
             fileName = storageFile.DisplayName;
             filePath = storageFile.Path;
@@ -72,10 +91,16 @@ namespace guiApp
             {
                 jsonData = (JObject)JToken.ReadFrom(reader);
             }
-            parseJSON();
+            parseJSON(storageFile);
+            return allDLLData;
         }
 
-        public void parseJSON()
+        public List<dllInfo> getDLLObject()
+        {
+            return allDLLData;
+        }
+
+        public void parseJSON(StorageFile storageFile)
         {
             Debug.WriteLine(jsonData.ToString());
 
@@ -88,6 +113,7 @@ namespace guiApp
                 dllInfo newDll = new dllInfo();
                 newDll.dllName = item.Name.ToString();
                 newDll.dllLocation = item.Location.ToString();
+                newDll.jsonSourceName = storageFile.DisplayName;
 
 
                 foreach (dynamic functionT in item.Functions)

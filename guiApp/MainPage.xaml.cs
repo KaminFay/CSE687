@@ -44,13 +44,13 @@ namespace guiApp
 
 
         private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
-        private ObservableCollection<String> fileNamesForListView = new ObservableCollection<string>();
+        private ObservableCollection<dllInfo> fileNamesForListView = new ObservableCollection<dllInfo>();
         private ObservableCollection<DLLObject> sendToTestHarness = new ObservableCollection<DLLObject>();
+        private JSONParser jsonParser = new JSONParser();
 
         public MainPage()
         {
             this.InitializeComponent();
-           
         }
 
         private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
@@ -128,9 +128,9 @@ namespace guiApp
                         output.Append(file.DisplayName + "\n");
                         fileList.Add(file);
 
-                        fileNamesForListView.Add(file.DisplayName + file.FileType);
+                        //fileNamesForListView.Add(file.DisplayName + file.FileType);
                     }
-                    this.Items.ItemsSource = fileNamesForListView;
+                    //this.Items.ItemsSource = fileNamesForListView;
                 }
                 else
                 {
@@ -141,16 +141,42 @@ namespace guiApp
             {
                 openPicker.FileTypeFilter.Add(".json");
                 StorageFile storageFile = await openPicker.PickSingleFileAsync();
+
                 if(storageFile != null)
                 {
-                    Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(storageFile);
-                    JSONParser jsonParser = new JSONParser(storageFile.DisplayName, storageFile.Path);
-                    jsonParser.readInJSON(storageFile);
-                    fileList.Add(storageFile);
 
-                    fileNamesForListView.Add(storageFile.DisplayName + storageFile.FileType);
-                    this.Items.ItemsSource = fileNamesForListView;
+                    Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(storageFile);
+                    JSONParser jsonParser = new JSONParser(storageFile.DisplayName, storageFile.Path);  // Create The New Json Parser based on the opened file
+                    List<dllInfo> allDLLData = await jsonParser.readInJSON(storageFile);                // Read in the JSON and return a list of the DLL's that are contained (asynchronously)
+                    
+                    fileList.Add(storageFile);
+                    foreach (dllInfo dll in allDLLData)
+                    {
+                        if(fileNamesForListView.Count == 0)
+                        {
+                            fileNamesForListView.Add(dll);
+                            this.Items.ItemsSource = fileNamesForListView;
+                        }
+                        else
+                        {
+                            if (!fileNamesForListView.Any(d => d.dllName == dll.dllName))
+                            {
+                                fileNamesForListView.Add(dll);
+                                this.Items.ItemsSource = fileNamesForListView;
+                            }
+                        }
+                    }
                 }
+            }
+        }
+
+        public async void addDLLToList()
+        {
+            List<dllInfo> allDLLData = jsonParser.getDLLObject();
+            foreach(dllInfo item in allDLLData)
+            {
+                fileNamesForListView.Add(item);
+                this.Items.ItemsSource = fileNamesForListView;
             }
         }
 
