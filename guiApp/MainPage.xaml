@@ -99,7 +99,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock x:Name="RowContent" Text="{Binding DLLObjectName}" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="RowContent" Text="{Binding}" VerticalAlignment="Center"/>
                                 <ToggleSwitch x:Name="Toggle" Grid.Column="1" Toggled="Toggle_Toggled" IsOn="False"/>
                             </Grid>
                         </DataTemplate>

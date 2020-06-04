@@ -23,7 +23,6 @@ using guiApp.HelperClasses;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace guiApp
@@ -31,8 +30,16 @@ namespace guiApp
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    /// 
+
+
     public sealed partial class MainPage : Page
     {
+        public enum Extension {
+            DLL,
+            JSON
+        };
+
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
 
 
@@ -43,8 +50,7 @@ namespace guiApp
         public MainPage()
         {
             this.InitializeComponent();
-
-            SocketManager.connectToServerSocket();           
+           
         }
 
         private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
@@ -81,71 +87,98 @@ namespace guiApp
 
         private async void OpenFilePicker_Click(object sender, RoutedEventArgs routedEventArgs)
         {
-            // Clear any previously returned files between iterations of this scenario
-            //OutputTextBlock.Text = "";
-
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.ViewMode = PickerViewMode.List;
-            openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
-            openPicker.FileTypeFilter.Add("*");
-            IReadOnlyList<StorageFile> files = await openPicker.PickMultipleFilesAsync();
-            if (files.Count > 0)
-            {
-                StringBuilder output = new StringBuilder("Selected DLLs: \n");
-
-                foreach (StorageFile file in files)
-                {
-                    Debug.WriteLine("File name is: " + file.DisplayName);
-                    Debug.WriteLine("File display type: " + file.DisplayType);
-                    Debug.WriteLine("File type: " + file.FileType);
-                    Debug.WriteLine("File properties: " + file.Properties);
-                    Debug.WriteLine("File path: " + file.Path);
-
-                    output.Append(file.DisplayName + "\n");
-                    fileList.Add(file);
-                    
-                    fileNamesForListView.Add(file.DisplayName + file.FileType);
-                }
-                //this.Items.ItemsSource = fileNamesForListView;
-            }
-            else
-            {
-                //OutputTextBlock.Text = "Operation cancelled.";
-            }
+            fileSelector(Extension.JSON);
 
         }
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
-            var items = new ObservableCollection<DLLObject>();
-            for(int i = 0; i < 9; i ++)
-            {
-                items.Add(new DLLObject($"item {i}"));
-            }
-            this.Items.ItemsSource = items;
+            //var items = new ObservableCollection<DLLObject>();
+            //for(int i = 0; i < 9; i ++)
+            //{
+            //    items.Add(new DLLObject($"item {i}"));
+            //}
+            //this.Items.ItemsSource = items;
         }
 
-        private void Toggle_Toggled(object sender, RoutedEventArgs e)
+        private async void fileSelector(Extension extension)
         {
-            
-            //ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-
-            var toggle = (ToggleSwitch) sender;
-            var dataContext = ((Grid)toggle.Parent).DataContext;
-            var dataItem =  (DLLObject) dataContext;
-            dataItem.DLLObjectName = $"Toggled {toggle.IsOn}";
-
-            if(toggle.IsOn)
+            FileOpenPicker openPicker = new FileOpenPicker
             {
-                sendToTestHarness.Add(dataItem);
-            }
+                ViewMode = PickerViewMode.List,
+                SuggestedStartLocation = PickerLocationId.Desktop
+            };
 
-            if (!toggle.IsOn)
+            if (extension == Extension.DLL)
             {
-                sendToTestHarness.Remove(dataItem);
-            }
+                openPicker.FileTypeFilter.Add(".dll");
+                IReadOnlyList<StorageFile> files = await openPicker.PickMultipleFilesAsync();
+                if (files.Count > 0)
+                {
+                    StringBuilder output = new StringBuilder("Selected DLLs: \n");
 
-            Debug.WriteLine("The current size of the list is: " + sendToTestHarness.Count);
+                    foreach (StorageFile file in files)
+                    {
+                        Debug.WriteLine("File name is: " + file.DisplayName);
+                        Debug.WriteLine("File display type: " + file.DisplayType);
+                        Debug.WriteLine("File type: " + file.FileType);
+                        Debug.WriteLine("File properties: " + file.Properties);
+                        Debug.WriteLine("File path: " + file.Path);
+
+                        output.Append(file.DisplayName + "\n");
+                        fileList.Add(file);
+
+                        fileNamesForListView.Add(file.DisplayName + file.FileType);
+                    }
+                    this.Items.ItemsSource = fileNamesForListView;
+                }
+                else
+                {
+                    //OutputTextBlock.Text = "Operation cancelled.";
+                }
+            }
+            else if(extension == Extension.JSON)
+            {
+                openPicker.FileTypeFilter.Add(".json");
+                StorageFile storageFile = await openPicker.PickSingleFileAsync();
+                if(storageFile != null)
+                {
+                    Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(storageFile);
+                    JSONParser jsonParser = new JSONParser(storageFile.DisplayName, storageFile.Path);
+                    jsonParser.readInJSON(storageFile);
+                    fileList.Add(storageFile);
+
+                    fileNamesForListView.Add(storageFile.DisplayName + storageFile.FileType);
+                    this.Items.ItemsSource = fileNamesForListView;
+                }
+            }
+        }
+
+        private async void Toggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            fileSelector(Extension.DLL);
+
+
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+
+
+
+            //var toggle = (ToggleSwitch) sender;
+            //var dataContext = ((Grid)toggle.Parent).DataContext;
+            //var dataItem =  (DLLObject) dataContext;
+            //dataItem.DLLObjectName = $"Toggled {toggle.IsOn}";
+
+            //if (toggle.IsOn)
+            //{
+            //    sendToTestHarness.Add(dataItem);
+            //}
+
+            //if (!toggle.IsOn)
+            //{
+            //    sendToTestHarness.Remove(dataItem);
+            //}
+
+            //Debug.WriteLine("The current size of the list is: " + sendToTestHarness.Count);
         }
 
         private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)

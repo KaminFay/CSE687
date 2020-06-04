@@ -123,6 +123,7 @@
     <Compile Include="HelperClasses\AsyncRequest.cs" />
     <Compile Include="HelperClasses\StateObject.cs" />
     <Compile Include="HelperClasses\SocketManager.cs" />
+    <Compile Include="JSONParser.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -134,6 +135,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JSONExamples\auto_pass_delayed.dll" />
+    <Content Include="JSONExamples\dll _short_delay.dll" />
+    <Content Include="JSONExamples\dll_instant_fail.dll" />
+    <Content Include="JSONExamples\dll_instant_pass.dll" />
+    <Content Include="JSONExamples\dll_long_delay.dll" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -165,6 +171,11 @@
     <Folder Include="Model\" />
     <Folder Include="ViewModel\" />
     <Folder Include="View\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JSONExamples\Testing.json" />
+    <None Include="JSONExamples\TestingJSONFour.json" />
+    <None Include="JSONExamples\TestingJSONThree.json" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
