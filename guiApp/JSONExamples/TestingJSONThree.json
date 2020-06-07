@@ -1,7 +1,7 @@
 {"dlls" : [
     {
         "Name":"auto_pass_delayed.dll",
-        "Location":"C:\\Users\\Kamin\\Documents\\Garbage\\Dll_Tester\\",
+        "Location":"HotGarbage",
         "Functions": [
             {
               "FuncName": "Test1",

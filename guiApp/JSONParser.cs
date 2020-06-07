@@ -16,12 +16,25 @@ using Windows.UI.WebUI;
 
 namespace guiApp
 {
+    public class dllBindingClass
+    {
+        public String dllName { get; set; }
+        public String dllFullPath { get; set; }
+
+        public dllBindingClass(String path, String name)
+        {
+            dllName = name;
+            dllFullPath = path;
+        }
+    }
 
     public class dllFunction
     {
         public String functionName { get; set; }
         public String returnType { get; set; }
         public String parameters { get; set; }
+        public String dllName { get; set; }
+        public String dllPath { get; set; }
     }
 
     public class dllInfo

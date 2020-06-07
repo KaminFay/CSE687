@@ -23,6 +23,7 @@ using guiApp.HelperClasses;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace guiApp
@@ -45,7 +46,9 @@ namespace guiApp
 
         private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
         private ObservableCollection<dllInfo> fileNamesForListView = new ObservableCollection<dllInfo>();
+        private ObservableCollection<dllFunction> functionForListView = new ObservableCollection<dllFunction>();
         private ObservableCollection<DLLObject> sendToTestHarness = new ObservableCollection<DLLObject>();
+        private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
 
         public MainPage()
@@ -55,7 +58,7 @@ namespace guiApp
 
         private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
         {
-            Console.WriteLine("Item clicked!");
+            Debug.WriteLine("Item clicked!");
         }
 
 
@@ -146,52 +149,106 @@ namespace guiApp
                 {
 
                     Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(storageFile);
-                    JSONParser jsonParser = new JSONParser(storageFile.DisplayName, storageFile.Path);  // Create The New Json Parser based on the opened file
-                    List<dllInfo> allDLLData = await jsonParser.readInJSON(storageFile);                // Read in the JSON and return a list of the DLL's that are contained (asynchronously)
-                    
-                    fileList.Add(storageFile);
-                    foreach (dllInfo dll in allDLLData)
+                    addDLLsToGUI(storageFile);
+                }
+            }
+        }
+
+        private async Task<dllBindingClass> bindDLL()
+        {
+            FileOpenPicker openPicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.List,
+                SuggestedStartLocation = PickerLocationId.Desktop
+            };
+            openPicker.FileTypeFilter.Add(".dll");
+            StorageFile sFile = await openPicker.PickSingleFileAsync();
+
+            if(sFile != null)
+            {
+                Debug.WriteLine("Testing the printing of the DLL Path");
+                Debug.WriteLine(sFile.Path);
+                return new dllBindingClass(sFile.Path, sFile.DisplayName + ".dll");
+            }
+            return null;
+        }
+
+        public async void addDLLsToGUI(StorageFile storageFile)
+        {
+            List<dllInfo> allDLLData = await jsonParser.readInJSON(storageFile);                // Read in the JSON and return a list of the DLL's that are contained (asynchronously)
+
+            fileList.Add(storageFile);
+            foreach (dllInfo dll in allDLLData)
+            {
+                //If the list is empty by default add the new dll to the list
+                if (fileNamesForListView.Count == 0)
+                {
+                    fileNamesForListView.Add(dll);
+                    this.Items.ItemsSource = fileNamesForListView;
+                }
+                else
+                {
+                    //Check to see if the dll exists in the list, if it doesn't add it
+                    //This prevent's any duplicate DLL's that may be in separate JSON files that are loaded
+                    if (!fileNamesForListView.Any(d => d.dllName == dll.dllName))
                     {
-                        if(fileNamesForListView.Count == 0)
-                        {
-                            fileNamesForListView.Add(dll);
-                            this.Items.ItemsSource = fileNamesForListView;
-                        }
-                        else
-                        {
-                            if (!fileNamesForListView.Any(d => d.dllName == dll.dllName))
-                            {
-                                fileNamesForListView.Add(dll);
-                                this.Items.ItemsSource = fileNamesForListView;
-                            }
-                        }
+                        fileNamesForListView.Add(dll);
+                        this.Items.ItemsSource = fileNamesForListView;
                     }
                 }
             }
         }
 
-        public async void addDLLToList()
+        private async void dllToggled(object sender, RoutedEventArgs e)
         {
-            List<dllInfo> allDLLData = jsonParser.getDLLObject();
-            foreach(dllInfo item in allDLLData)
-            {
-                fileNamesForListView.Add(item);
-                this.Items.ItemsSource = fileNamesForListView;
-            }
-        }
+            //fileSelector(Extension.DLL);
 
-        private async void Toggle_Toggled(object sender, RoutedEventArgs e)
-        {
-            fileSelector(Extension.DLL);
-
-
+            int indexOfCurrentDLLToggled;
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            dllInfo sampleDll = (dllInfo)((Grid)toggleSwitch.Parent).DataContext;
+            Debug.WriteLine(sampleDll.dllName + " Was toggled");
 
+            if (toggleSwitch.IsOn)
+            {
+                dllBindingClass dllBinder = await bindDLL();
+
+                if(dllBinder != null)
+                {
+                    Debug.WriteLine("Testing the binder");
+                    Debug.WriteLine(dllBinder.dllFullPath + "---" + dllBinder.dllName);
+                    //Hi my name is michaela and I like this keyboard and I will be back to steal it
+
+                    Debug.WriteLine("------------");
+                    Debug.WriteLine("Before the move: ");
+                    indexOfCurrentDLLToggled = fileNamesForListView.IndexOf(sampleDll);
+                    if(fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllName == dllBinder.dllName)
+                    {
+                        Debug.WriteLine(fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllLocation);
+                        fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllLocation = dllBinder.dllFullPath;
+                        Debug.WriteLine("After the move: ");
+                        Debug.WriteLine(fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllLocation);
+                    }
+                    //String pathLocation = returnTask.Result;
+                    foreach (dllFunction function in sampleDll.functionList)
+                    {
+                        function.dllName = fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllName;
+                        function.dllPath = fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllLocation;
+                        functionForListView.Add(function);
+                        this.FunctionList.ItemsSource = functionForListView;
+                    }
+                }
+
+            }
+            else
+            {
+                functionForListView.Clear();
+                this.FunctionList.ItemsSource = functionForListView;
+            }
 
 
             //var toggle = (ToggleSwitch) sender;
             //var dataContext = ((Grid)toggle.Parent).DataContext;
-            //var dataItem =  (DLLObject) dataContext;
+            //var dataItem =  (dllInfo) dataContext;
             //dataItem.DLLObjectName = $"Toggled {toggle.IsOn}";
 
             //if (toggle.IsOn)
@@ -206,6 +263,24 @@ namespace guiApp
 
             //Debug.WriteLine("The current size of the list is: " + sendToTestHarness.Count);
         }
+
+        private async void functionToggled(object sender, RoutedEventArgs e)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            dllFunction sampleFunction = (dllFunction)((Grid)toggleSwitch.Parent).DataContext;
+
+            if (toggleSwitch.IsOn)
+            {
+                functionsToHarness.Add(sampleFunction);
+                this.TestableList.ItemsSource = functionsToHarness;
+            }
+            else
+            {
+                functionsToHarness.Remove(sampleFunction);
+                this.TestableList.ItemsSource = functionsToHarness;
+            }
+        }
+
 
         private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)
         {
@@ -222,6 +297,23 @@ namespace guiApp
             }
 
             Debug.WriteLine("The current size of the queue is: " + harnessQueue.Count);
+        }
+
+        private void Items_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Debug.WriteLine("Item is clicked");
+        }
+
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        {
+            fileList.Clear();
+            fileNamesForListView.Clear();
+            functionForListView.Clear();
+            sendToTestHarness.Clear();
+            functionsToHarness.Clear();
+            this.TestableList.ItemsSource = null;
+            this.FunctionList.ItemsSource = null;
+            this.Items.ItemsSource = null;
         }
     }
 }
