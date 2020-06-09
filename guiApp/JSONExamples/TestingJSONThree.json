@@ -1,0 +1,45 @@
+{"dlls" : [
+    {
+        "Name":"auto_pass_delayed.dll",
+        "Location":"HotGarbage",
+        "Functions": [
+            {
+              "FuncName": "Test1",
+              "PassedIn": "const int x",
+              "ReturnType": "std::string"
+            },
+            {
+              "FuncName": "addThings",
+              "PassedIn": "int y, int x",
+              "ReturnType": "int"
+            },
+            {
+              "FuncName": "subThings",
+              "PassedIn": "int y, int x",
+              "ReturnType": "int"
+            },
+            {
+              "FuncName": "divideThings",
+              "PassedIn": "double x, double y",
+              "ReturnType": "double"
+            }
+          ]
+    },
+    {
+        "Name":"dll_short_delay.dll",
+        "Location":"C:\\Users\\Kamin\\Documents\\Garbage\\Dll_Tester\\",
+        "Functions": [
+                {
+                  "FuncName": "subThings",
+                  "PassedIn": "int y, int x",
+                  "ReturnType": "int"
+                },
+                {
+                  "FuncName": "divideThings",
+                  "PassedIn": "double x, double y",
+                  "ReturnType": "double"
+                }
+              ]
+    }
+]
+}

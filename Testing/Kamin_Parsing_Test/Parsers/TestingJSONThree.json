@@ -1,0 +1,25 @@
+{"dlls" : [
+    {
+        "Name":"auto_pass_delayed.dll",
+        "Location":"C:\\Users\\Kamin\\Documents\\Garbage\\Dll_Tester\\",
+        "Functions": [
+            {
+              "FuncName": "auto_pass_delayed",
+              "PassedIn": "",
+              "ReturnType": "bool"
+            }
+          ]
+    },
+    {
+        "Name":"dll_short_delay.dll",
+        "Location":"C:\\Users\\Kamin\\Documents\\Garbage\\Dll_Tester\\",
+        "Functions": [
+                {
+                  "FuncName": "Run_Test",
+                  "PassedIn": "",
+                  "ReturnType": "bool"
+                }
+              ]
+    }
+]
+}

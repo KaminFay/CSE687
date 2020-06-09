@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message FlatFunc {
+    string functionName = 1;
+    string dllName = 2;
+    string dllPath = 3;
+}
