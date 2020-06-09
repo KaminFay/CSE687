@@ -34,3 +34,5 @@ guiApp/.vs/
 guiApp/obj/x86/
 
 guiApp/obj/
+
+guiApp/.vscode/launch.json

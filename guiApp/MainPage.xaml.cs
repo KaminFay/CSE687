@@ -41,7 +41,7 @@ namespace guiApp
             JSON
         };
 
-        System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
+        //System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
 
 
         private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
@@ -50,6 +50,7 @@ namespace guiApp
         private ObservableCollection<DLLObject> sendToTestHarness = new ObservableCollection<DLLObject>();
         private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
+        private SendingSocket ss = new SendingSocket("127.0.0.1", 8080);
 
         public MainPage()
         {
@@ -289,14 +290,22 @@ namespace guiApp
 
         private void Run_Test_Execution(object sender, RoutedEventArgs e)
         {
-            Queue<DLLObject> harnessQueue = new Queue<DLLObject>();
+            //Queue<DLLObject> harnessQueue = new Queue<DLLObject>();
 
-            foreach (DLLObject dLLObject in sendToTestHarness)
+            //foreach (DLLObject dLLObject in sendToTestHarness)
+            //{
+            //    harnessQueue.Enqueue(dLLObject);
+            //}
+
+            //Debug.WriteLine("The current size of the queue is: " + harnessQueue.Count);
+            ss.EstablishConnection();
+            foreach(dllFunction func in functionsToHarness)
             {
-                harnessQueue.Enqueue(dLLObject);
+                Debug.WriteLine("Sending Another");
+                BufferBuilder builder = new BufferBuilder(func);
+                builder.SerializeAndSendBuffer(ss);
             }
-
-            Debug.WriteLine("The current size of the queue is: " + harnessQueue.Count);
+            ss.CleanSocket();
         }
 
         private void Items_ItemClick(object sender, ItemClickEventArgs e)
