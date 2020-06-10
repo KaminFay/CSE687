@@ -257,20 +257,25 @@
                 </Grid>
             </Grid>
 
-            <RichEditBox
-                Grid.Row="2" 
-                Grid.Column="0" 
-                Background="Black" 
-                IsReadOnly="True" 
-                PlaceholderText="Testing PlaceHolder text "
-                AllowFocusOnInteraction="False"
-                
-                IsFocusEngagementEnabled="False" 
-                IsFocusEngaged="False" TextChanged="RichEditBox_TextChanged">
-            </RichEditBox>
+            <ScrollViewer x:Name="logScrollViewer" 
+                          VerticalScrollBarVisibility="Auto"
+                          VerticalScrollMode="Enabled"
+                          VerticalAnchorRatio="1"
+                          Grid.Row="2" 
+                          Grid.Column="0">
+                <TextBlock Grid.Row="2" Grid.Column="0" x:Name="Logger" Text="Testing PlaceHolder text "/>
+            </ScrollViewer>
 
 
             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <!--<TextBox 
+                Grid.Row="2" 
+                Grid.Column="0"
+                x:Name="Logger"
+                HorizontalAlignment="Center" 
+                Text="TextBox" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Center" Height="320" Width="1500"/>-->
 
         </Grid>
     </Grid>

@@ -51,10 +51,16 @@ namespace guiApp
         private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
         private SendingSocket ss = new SendingSocket("127.0.0.1", 36895);
+        private Logger logger;
+        private DispatcherTimer timer = new DispatcherTimer();
 
         public MainPage()
         {
             this.InitializeComponent();
+
+            logger = new Logger("Initializing Logger", ref this.Logger, ref this.logScrollViewer);
+            logger.addLogMessage("Initializing GUI", ref this.Logger);
+
         }
 
         private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
@@ -150,6 +156,7 @@ namespace guiApp
                 {
 
                     Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(storageFile);
+                    logger.addOpenFileMessage(storageFile.DisplayName + ".json", storageFile.Path, ref this.Logger);
                     addDLLsToGUI(storageFile);
                 }
             }
@@ -169,6 +176,7 @@ namespace guiApp
             {
                 Debug.WriteLine("Testing the printing of the DLL Path");
                 Debug.WriteLine(sFile.Path);
+                logger.addOpenFileMessage(sFile.DisplayName + ".dll", sFile.Path, ref this.Logger);
                 return new dllBindingClass(sFile.Path, sFile.DisplayName + ".dll");
             }
             return null;
@@ -314,6 +322,7 @@ namespace guiApp
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
+
             fileList.Clear();
             fileNamesForListView.Clear();
             functionForListView.Clear();

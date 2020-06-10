@@ -126,6 +126,7 @@
     <Compile Include="HelperClasses\StateObject.cs" />
     <Compile Include="HelperClasses\SocketManager.cs" />
     <Compile Include="JSONParser.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
