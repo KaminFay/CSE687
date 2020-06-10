@@ -51,6 +51,14 @@ public:
         dll_function = function_name;
     }
 
+    std::string get_dll_name() {
+        return dll_file;
+    }
+
+    std::string get_function_name() {
+        return dll_function;
+    }
+
 };
 
 #endif

@@ -27,6 +27,9 @@
     <ClCompile Include="..\Utilities\Utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FuncFlat.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\WindowsHelpers\WindowsHelpers.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sockets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FuncFlat.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

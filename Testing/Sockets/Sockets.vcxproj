@@ -147,12 +147,14 @@
     <ClCompile Include="..\Logger\Logger.cpp" />
     <ClCompile Include="..\Utilities\Utilities.cpp" />
     <ClCompile Include="..\WindowsHelpers\WindowsHelpers.cpp" />
+    <ClCompile Include="FuncFlat.pb.cc" />
     <ClCompile Include="Sockets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Logger\Logger.h" />
     <ClInclude Include="..\Utilities\Utilities.h" />
     <ClInclude Include="..\WindowsHelpers\WindowsHelpers.h" />
+    <ClInclude Include="FuncFlat.pb.h" />
     <ClInclude Include="Sockets.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

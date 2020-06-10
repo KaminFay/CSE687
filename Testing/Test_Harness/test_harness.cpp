@@ -13,6 +13,9 @@
 #include "Sockets.h"
 #include "Logger.h"
 #include "utilities.h"
+#include "FuncFlat.pb.h"
+
+
 
 using namespace Sockets;
 
@@ -54,30 +57,36 @@ void ClientHandler::operator()(Socket&& socket_)
     int dataword = 0;
     std::string dll_path;
     std::string dll_function;
+    char buffer[512];
 
     while (true)
     {
 
-        std::string msg = Socket::removeTerminator(socket_.recvString());
+        //std::string msg = Socket::removeTerminator(socket_.recvString());
+        //std::cout << "Attempting A recieve..." << std::endl;
+        FlatFunc flatFunc = socket_.recvFlatFunc(buffer);
+        dll_info dll_info_inst(flatFunc.dllpath(), flatFunc.functionname());
+        std::cout << "---------Testing dllInfo-----------" << std::endl;
+        std::cout << dll_info_inst.dll_file << std::endl;
+        client_queue->enQ(dll_info_inst);
+        //if (msg == "quit")
+        //    break;
 
-        if (msg == "quit")
-            break;
+        //if (dataword == 1)
+        //{
+        //    dll_function = msg;
 
-        if (dataword == 1)
-        {
-            dll_function = msg;
-
-            //std::cout << dll_path << " " << dll_function << std::endl;
-            dll_info dll_info_inst(dll_path, dll_function);
-            client_queue->enQ(dll_info_inst);
-        }
-        else
-        {
-            dll_path = msg;
-        }
+        //    //std::cout << dll_path << " " << dll_function << std::endl;
+        //    dll_info dll_info_inst(dll_path, dll_function);
+        //    client_queue->enQ(dll_info_inst);
+        //}
+        //else
+        //{
+        //    dll_path = msg;
+        //}
 
 
-        dataword = (dataword + 1) % 2;
+        //dataword = (dataword + 1) % 2;
         //dll_info_inst2 = client_queue->deQ();
         //std::cout << "\n  server recvd message \"" << dll_info_inst2.dll_file << "\"" << std::endl;;
     }
@@ -173,11 +182,16 @@ public:
             //wait for available data from the input blocking queue
             dll_info_inst = dll_queue.deQ();
 
+            std::cout << "------" << dll_info_inst.get_dll_name() << std::endl;
+            /*while (1) {
+                Sleep(5);
+            }*/
+
             //Only run the executor if we correctly load the dll. If we fail to load the dll, we will
             //set the logger exception to the returned exception and send that over
             try
             {
-                dll_function    = dll_control::load_dll(dll_info_inst.dll_file, dll_info_inst.dll_function);
+                dll_function    = dll_control::load_dll(dll_info_inst.get_dll_name(), dll_info_inst.get_function_name());
                 results         = Test_Harness::Executor(dll_function);
             }
             catch (const char* error_msg)
@@ -303,22 +317,22 @@ int main()
 
 
         /*TEMP DEBUG*/
-        //test_results = output_queue.deQ();
+        test_results = output_queue.deQ();
 
-        //std::cout << "Function run by thread: " << test_results.thread_id << std::endl;
-        //std::cout << "The result of the test was: " << std::boolalpha << test_results.pass << std::endl;
-        //if(test_results.exception != "")
-        //{
-        //    std::cout << test_results.exception << std::endl;
-        //}
-        //else
-        //{
-        //    std::cout << "There was no exception thrown" << std::endl;
-        //}
-        //std::cout << "The test was started at: " << test_results.start_time << std::endl;
-        //std::cout << "The test was finsihed at: " << test_results.completion_time << std::endl;
+        std::cout << "Function run by thread: " << test_results.thread_id << std::endl;
+        std::cout << "The result of the test was: " << std::boolalpha << test_results.pass << std::endl;
+        if(test_results.exception != "")
+        {
+            std::cout << test_results.exception << std::endl;
+        }
+        else
+        {
+            std::cout << "There was no exception thrown" << std::endl;
+        }
+        std::cout << "The test was started at: " << test_results.start_time << std::endl;
+        std::cout << "The test was finsihed at: " << test_results.completion_time << std::endl;
 
-        //std::cout <<"\n\n";
+        std::cout <<"\n\n";
         /*TEMP DEBUG*/
     }
 

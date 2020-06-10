@@ -54,7 +54,7 @@ SocketSystem::~SocketSystem()
 Socket::Socket(IpVer ipver) : ipver_(ipver)
 {
     ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
+    hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
 }
@@ -241,6 +241,42 @@ std::string Socket::recvString(byte terminator)
     return str;
 }
 //----< strips terminator character that recvString includes >---------------
+
+FlatFunc Socket::recvFlatFunc(char buffer[]) {
+
+    //static char buffer[512];
+
+    do {
+        iResult = ::recv(socket_, buffer, 512, 0);
+        if (iResult > 0) {
+            printf("Bytes rec: %d\n", iResult);
+            FlatFunc flatFunction;
+
+            flatFunction.ParseFromString(buffer);
+            protoBuf.function = flatFunction.functionname();
+            protoBuf.path = flatFunction.dllpath();
+            std::cout << "DLL Name: " << flatFunction.dllname() << " DLL Path: " << flatFunction.dllpath() << " Function: " << flatFunction.functionname() << std::endl;
+            std::cout << "-------------------------------------" << std::endl;
+            return flatFunction;
+        }
+        else if (iResult == 0) {            
+        }
+        else {
+            printf("Recv Failed: %d\n", WSAGetLastError());
+            closesocket(socket_);
+            WSACleanup();
+        }
+    } while (iResult == 0);
+}
+
+std::string Socket::getPathFromProto() {
+    return protoBuf.path;
+}
+
+std::string Socket::getFuncFromProto() {
+    return protoBuf.function;
+}
+
 
 std::string Socket::removeTerminator(const std::string& src)
 {
@@ -486,6 +522,7 @@ bool SocketListener::bind()
         }
     }
     freeaddrinfo(result);
+    std::cout << "Bind Operation Complete -- " << std::endl;
     Show::write("\n  -- bind operation complete");
     return true;
 }
@@ -508,7 +545,11 @@ bool SocketListener::listen()
 
 Socket SocketListener::accept()
 {
-    ::SOCKET sock = ::accept(socket_, NULL, NULL);
+        std::cout << "CUNTTTTT" << std::endl;
+    SOCKET sock = ::accept(socket_, NULL, NULL);
+    if (sock == INVALID_SOCKET) {
+        std::cout << "Titssss" << std::endl;
+    }
     Socket clientSocket = sock;    // uses Socket(::SOCKET) promotion ctor
     if (!clientSocket.validState()) {
         acceptFailed_ = true;
