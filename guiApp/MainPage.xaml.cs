@@ -217,7 +217,6 @@ namespace guiApp
                 {
                     Debug.WriteLine("Testing the binder");
                     Debug.WriteLine(dllBinder.dllFullPath + "---" + dllBinder.dllName);
-                    //Hi my name is michaela and I like this keyboard and I will be back to steal it
 
                     Debug.WriteLine("------------");
                     Debug.WriteLine("Before the move: ");

@@ -289,16 +289,21 @@ namespace Sockets
 /////// This chunk
       while (!acceptFailed_)
       {
+          std::cout << "FUCKKKKKK" << std::endl;
         if (stop_.load())
           break;
 
         // Accept a client socket - blocking call
+        std::cout << "SHITTTTTTTTT" << std::endl;
 
         ///// FUck this piece of shit code, this is where it's hanging.
         Socket clientSocket = accept();    // uses move ctor
         if (clientSocket == INVALID_SOCKET) {
             /*printf("accept failed: %d\n", WSAGetLastError());*/
+            std::cout << "DICKSSSSSS" << std::endl;
         }
+
+        std::cout << "ASSSSSSSSS" << std::endl;
 
         if (!clientSocket.validState()) {
           continue;

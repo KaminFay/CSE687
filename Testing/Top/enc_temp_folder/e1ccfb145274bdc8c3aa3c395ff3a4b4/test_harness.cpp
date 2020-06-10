@@ -66,8 +66,8 @@ void ClientHandler::operator()(Socket&& socket_)
         //std::cout << "Attempting A recieve..." << std::endl;
         FlatFunc flatFunc = socket_.recvFlatFunc(buffer);
         dll_info dll_info_inst(flatFunc.dllpath(), flatFunc.functionname());
-        //std::cout << "---------Testing dllInfo-----------" << std::endl;
-        //std::cout << dll_info_inst.dll_file << std::endl;
+        std::cout << "---------Testing dllInfo-----------" << std::endl;
+        std::cout << dll_info_inst.dll_file << std::endl;
         client_queue->enQ(dll_info_inst);
         //if (msg == "quit")
         //    break;

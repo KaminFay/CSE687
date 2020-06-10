@@ -545,8 +545,11 @@ bool SocketListener::listen()
 
 Socket SocketListener::accept()
 {
+        std::cout << "CUNTTTTT" << std::endl;
     SOCKET sock = ::accept(socket_, NULL, NULL);
-
+    if (sock == INVALID_SOCKET) {
+        std::cout << "Titssss" << std::endl;
+    }
     Socket clientSocket = sock;    // uses Socket(::SOCKET) promotion ctor
     if (!clientSocket.validState()) {
         acceptFailed_ = true;
