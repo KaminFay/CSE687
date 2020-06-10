@@ -35,15 +35,25 @@ namespace guiApp
 
         public void addOpenFileMessage(String log, string path, ref Windows.UI.Xaml.Controls.TextBlock logger)
         {
-            addSeparators(ref logger);
+            addSeparators();
             loggingDisplay = loggingDisplay + "Opening File: " + log;
             loggingDisplay = loggingDisplay + "\nFile Path: " + path;
             loggerText.Text = loggingDisplay;
-            addSeparators(ref logger);
+            addSeparators();
             reloadSV();
         }
 
-        public void addSeparators(ref Windows.UI.Xaml.Controls.TextBlock logger)
+        public void addFunctionSendMessage(dllFunction dllFunc)
+        {
+            addSeparators();
+            loggingDisplay = loggingDisplay + "Sending Function: \n";
+            loggingDisplay = loggingDisplay + "Dll Name: " + dllFunc.dllName + "\n";
+            loggingDisplay = loggingDisplay + "Function Name: " + dllFunc.functionName;
+            addSeparators();
+            reloadSV();
+        }
+
+        public void addSeparators()
         {
             loggingDisplay += "\n--------------------------------------------------------------------------------\n";
             loggerText.Text = loggingDisplay;

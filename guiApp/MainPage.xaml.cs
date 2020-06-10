@@ -50,7 +50,7 @@ namespace guiApp
         private ObservableCollection<DLLObject> sendToTestHarness = new ObservableCollection<DLLObject>();
         private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
-        private SendingSocket ss = new SendingSocket("127.0.0.1", 36895);
+        private SendingSocket ss = new SendingSocket("127.0.0.1", 8080);
         private Logger logger;
         private DispatcherTimer timer = new DispatcherTimer();
 
@@ -310,6 +310,7 @@ namespace guiApp
             {
                 Debug.WriteLine("Sending Another");
                 BufferBuilder builder = new BufferBuilder(func);
+                logger.addFunctionSendMessage(func);
                 builder.SerializeAndSendBuffer(ss);
             }
             ss.CleanSocket();

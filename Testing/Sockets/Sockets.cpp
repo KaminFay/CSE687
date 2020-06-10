@@ -483,10 +483,13 @@ bool SocketListener::bind()
 
     // Resolve the server address and port
 
-    size_t uport = ::htons((u_short)port_);
+    std::string portNum = Utilities::Converter<size_t>::toString(port_);
+    /*size_t uport = ::htons((u_short)port_);
+    std::cout << "Port Used" << std::endl;
+    std::cout << Utilities::Converter<size_t>::toString(uport) << std::endl;
     StaticLogger<1>::write("\n  -- netstat uport = " + Utilities::Converter<size_t>::toString(uport));
-    std::string sPort = Conv<size_t>::toString(uport);
-    iResult = getaddrinfo(NULL, sPort.c_str(), &hints, &result);
+    std::string sPort = Conv<size_t>::toString(uport);*/
+    iResult = getaddrinfo(NULL, portNum.c_str(), &hints, &result);
     if (iResult != 0) {
         Show::write("\n  -- getaddrinfo failed with error: " + Conv<int>::toString(iResult));
         return false;
