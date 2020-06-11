@@ -47,7 +47,7 @@ struct TableStruct_FuncFlat_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -57,8 +57,12 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 class FlatFunc;
 class FlatFuncDefaultTypeInternal;
 extern FlatFuncDefaultTypeInternal _FlatFunc_default_instance_;
+class returnData;
+class returnDataDefaultTypeInternal;
+extern returnDataDefaultTypeInternal _returnData_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::FlatFunc* Arena::CreateMaybeMessage<::FlatFunc>(Arena*);
+template<> ::returnData* Arena::CreateMaybeMessage<::returnData>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
@@ -265,6 +269,278 @@ class FlatFunc PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr functionname_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr dllname_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr dllpath_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_FuncFlat_2eproto;
+};
+// -------------------------------------------------------------------
+
+class returnData PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:returnData) */ {
+ public:
+  inline returnData() : returnData(nullptr) {};
+  virtual ~returnData();
+
+  returnData(const returnData& from);
+  returnData(returnData&& from) noexcept
+    : returnData() {
+    *this = ::std::move(from);
+  }
+
+  inline returnData& operator=(const returnData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline returnData& operator=(returnData&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const returnData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const returnData* internal_default_instance() {
+    return reinterpret_cast<const returnData*>(
+               &_returnData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(returnData& a, returnData& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(returnData* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(returnData* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline returnData* New() const final {
+    return CreateMaybeMessage<returnData>(nullptr);
+  }
+
+  returnData* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<returnData>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const returnData& from);
+  void MergeFrom(const returnData& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(returnData* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "returnData";
+  }
+  protected:
+  explicit returnData(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_FuncFlat_2eproto);
+    return ::descriptor_table_FuncFlat_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kExceptionFieldNumber = 2,
+    kStartTimeFieldNumber = 3,
+    kCompleteTimeFieldNumber = 4,
+    kDllNameFieldNumber = 5,
+    kFunctionNameFieldNumber = 6,
+    kPassFailFieldNumber = 1,
+  };
+  // string exception = 2;
+  void clear_exception();
+  const std::string& exception() const;
+  void set_exception(const std::string& value);
+  void set_exception(std::string&& value);
+  void set_exception(const char* value);
+  void set_exception(const char* value, size_t size);
+  std::string* mutable_exception();
+  std::string* release_exception();
+  void set_allocated_exception(std::string* exception);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_exception();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_exception(
+      std::string* exception);
+  private:
+  const std::string& _internal_exception() const;
+  void _internal_set_exception(const std::string& value);
+  std::string* _internal_mutable_exception();
+  public:
+
+  // string start_time = 3;
+  void clear_start_time();
+  const std::string& start_time() const;
+  void set_start_time(const std::string& value);
+  void set_start_time(std::string&& value);
+  void set_start_time(const char* value);
+  void set_start_time(const char* value, size_t size);
+  std::string* mutable_start_time();
+  std::string* release_start_time();
+  void set_allocated_start_time(std::string* start_time);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_start_time();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_start_time(
+      std::string* start_time);
+  private:
+  const std::string& _internal_start_time() const;
+  void _internal_set_start_time(const std::string& value);
+  std::string* _internal_mutable_start_time();
+  public:
+
+  // string complete_time = 4;
+  void clear_complete_time();
+  const std::string& complete_time() const;
+  void set_complete_time(const std::string& value);
+  void set_complete_time(std::string&& value);
+  void set_complete_time(const char* value);
+  void set_complete_time(const char* value, size_t size);
+  std::string* mutable_complete_time();
+  std::string* release_complete_time();
+  void set_allocated_complete_time(std::string* complete_time);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_complete_time();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_complete_time(
+      std::string* complete_time);
+  private:
+  const std::string& _internal_complete_time() const;
+  void _internal_set_complete_time(const std::string& value);
+  std::string* _internal_mutable_complete_time();
+  public:
+
+  // string dll_name = 5;
+  void clear_dll_name();
+  const std::string& dll_name() const;
+  void set_dll_name(const std::string& value);
+  void set_dll_name(std::string&& value);
+  void set_dll_name(const char* value);
+  void set_dll_name(const char* value, size_t size);
+  std::string* mutable_dll_name();
+  std::string* release_dll_name();
+  void set_allocated_dll_name(std::string* dll_name);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_dll_name();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_dll_name(
+      std::string* dll_name);
+  private:
+  const std::string& _internal_dll_name() const;
+  void _internal_set_dll_name(const std::string& value);
+  std::string* _internal_mutable_dll_name();
+  public:
+
+  // string function_name = 6;
+  void clear_function_name();
+  const std::string& function_name() const;
+  void set_function_name(const std::string& value);
+  void set_function_name(std::string&& value);
+  void set_function_name(const char* value);
+  void set_function_name(const char* value, size_t size);
+  std::string* mutable_function_name();
+  std::string* release_function_name();
+  void set_allocated_function_name(std::string* function_name);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_function_name();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_function_name(
+      std::string* function_name);
+  private:
+  const std::string& _internal_function_name() const;
+  void _internal_set_function_name(const std::string& value);
+  std::string* _internal_mutable_function_name();
+  public:
+
+  // bool passFail = 1;
+  void clear_passfail();
+  bool passfail() const;
+  void set_passfail(bool value);
+  private:
+  bool _internal_passfail() const;
+  void _internal_set_passfail(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:returnData)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr exception_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr start_time_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr complete_time_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr dll_name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr function_name_;
+  bool passfail_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_FuncFlat_2eproto;
 };
@@ -522,9 +798,440 @@ inline void FlatFunc::unsafe_arena_set_allocated_dllpath(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:FlatFunc.dllPath)
 }
 
+// -------------------------------------------------------------------
+
+// returnData
+
+// bool passFail = 1;
+inline void returnData::clear_passfail() {
+  passfail_ = false;
+}
+inline bool returnData::_internal_passfail() const {
+  return passfail_;
+}
+inline bool returnData::passfail() const {
+  // @@protoc_insertion_point(field_get:returnData.passFail)
+  return _internal_passfail();
+}
+inline void returnData::_internal_set_passfail(bool value) {
+  
+  passfail_ = value;
+}
+inline void returnData::set_passfail(bool value) {
+  _internal_set_passfail(value);
+  // @@protoc_insertion_point(field_set:returnData.passFail)
+}
+
+// string exception = 2;
+inline void returnData::clear_exception() {
+  exception_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& returnData::exception() const {
+  // @@protoc_insertion_point(field_get:returnData.exception)
+  return _internal_exception();
+}
+inline void returnData::set_exception(const std::string& value) {
+  _internal_set_exception(value);
+  // @@protoc_insertion_point(field_set:returnData.exception)
+}
+inline std::string* returnData::mutable_exception() {
+  // @@protoc_insertion_point(field_mutable:returnData.exception)
+  return _internal_mutable_exception();
+}
+inline const std::string& returnData::_internal_exception() const {
+  return exception_.Get();
+}
+inline void returnData::_internal_set_exception(const std::string& value) {
+  
+  exception_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void returnData::set_exception(std::string&& value) {
+  
+  exception_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:returnData.exception)
+}
+inline void returnData::set_exception(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  exception_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:returnData.exception)
+}
+inline void returnData::set_exception(const char* value,
+    size_t size) {
+  
+  exception_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:returnData.exception)
+}
+inline std::string* returnData::_internal_mutable_exception() {
+  
+  return exception_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* returnData::release_exception() {
+  // @@protoc_insertion_point(field_release:returnData.exception)
+  return exception_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void returnData::set_allocated_exception(std::string* exception) {
+  if (exception != nullptr) {
+    
+  } else {
+    
+  }
+  exception_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), exception,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:returnData.exception)
+}
+inline std::string* returnData::unsafe_arena_release_exception() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:returnData.exception)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return exception_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void returnData::unsafe_arena_set_allocated_exception(
+    std::string* exception) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (exception != nullptr) {
+    
+  } else {
+    
+  }
+  exception_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      exception, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:returnData.exception)
+}
+
+// string start_time = 3;
+inline void returnData::clear_start_time() {
+  start_time_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& returnData::start_time() const {
+  // @@protoc_insertion_point(field_get:returnData.start_time)
+  return _internal_start_time();
+}
+inline void returnData::set_start_time(const std::string& value) {
+  _internal_set_start_time(value);
+  // @@protoc_insertion_point(field_set:returnData.start_time)
+}
+inline std::string* returnData::mutable_start_time() {
+  // @@protoc_insertion_point(field_mutable:returnData.start_time)
+  return _internal_mutable_start_time();
+}
+inline const std::string& returnData::_internal_start_time() const {
+  return start_time_.Get();
+}
+inline void returnData::_internal_set_start_time(const std::string& value) {
+  
+  start_time_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void returnData::set_start_time(std::string&& value) {
+  
+  start_time_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:returnData.start_time)
+}
+inline void returnData::set_start_time(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  start_time_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:returnData.start_time)
+}
+inline void returnData::set_start_time(const char* value,
+    size_t size) {
+  
+  start_time_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:returnData.start_time)
+}
+inline std::string* returnData::_internal_mutable_start_time() {
+  
+  return start_time_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* returnData::release_start_time() {
+  // @@protoc_insertion_point(field_release:returnData.start_time)
+  return start_time_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void returnData::set_allocated_start_time(std::string* start_time) {
+  if (start_time != nullptr) {
+    
+  } else {
+    
+  }
+  start_time_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), start_time,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:returnData.start_time)
+}
+inline std::string* returnData::unsafe_arena_release_start_time() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:returnData.start_time)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return start_time_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void returnData::unsafe_arena_set_allocated_start_time(
+    std::string* start_time) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (start_time != nullptr) {
+    
+  } else {
+    
+  }
+  start_time_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      start_time, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:returnData.start_time)
+}
+
+// string complete_time = 4;
+inline void returnData::clear_complete_time() {
+  complete_time_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& returnData::complete_time() const {
+  // @@protoc_insertion_point(field_get:returnData.complete_time)
+  return _internal_complete_time();
+}
+inline void returnData::set_complete_time(const std::string& value) {
+  _internal_set_complete_time(value);
+  // @@protoc_insertion_point(field_set:returnData.complete_time)
+}
+inline std::string* returnData::mutable_complete_time() {
+  // @@protoc_insertion_point(field_mutable:returnData.complete_time)
+  return _internal_mutable_complete_time();
+}
+inline const std::string& returnData::_internal_complete_time() const {
+  return complete_time_.Get();
+}
+inline void returnData::_internal_set_complete_time(const std::string& value) {
+  
+  complete_time_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void returnData::set_complete_time(std::string&& value) {
+  
+  complete_time_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:returnData.complete_time)
+}
+inline void returnData::set_complete_time(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  complete_time_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:returnData.complete_time)
+}
+inline void returnData::set_complete_time(const char* value,
+    size_t size) {
+  
+  complete_time_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:returnData.complete_time)
+}
+inline std::string* returnData::_internal_mutable_complete_time() {
+  
+  return complete_time_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* returnData::release_complete_time() {
+  // @@protoc_insertion_point(field_release:returnData.complete_time)
+  return complete_time_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void returnData::set_allocated_complete_time(std::string* complete_time) {
+  if (complete_time != nullptr) {
+    
+  } else {
+    
+  }
+  complete_time_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), complete_time,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:returnData.complete_time)
+}
+inline std::string* returnData::unsafe_arena_release_complete_time() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:returnData.complete_time)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return complete_time_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void returnData::unsafe_arena_set_allocated_complete_time(
+    std::string* complete_time) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (complete_time != nullptr) {
+    
+  } else {
+    
+  }
+  complete_time_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      complete_time, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:returnData.complete_time)
+}
+
+// string dll_name = 5;
+inline void returnData::clear_dll_name() {
+  dll_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& returnData::dll_name() const {
+  // @@protoc_insertion_point(field_get:returnData.dll_name)
+  return _internal_dll_name();
+}
+inline void returnData::set_dll_name(const std::string& value) {
+  _internal_set_dll_name(value);
+  // @@protoc_insertion_point(field_set:returnData.dll_name)
+}
+inline std::string* returnData::mutable_dll_name() {
+  // @@protoc_insertion_point(field_mutable:returnData.dll_name)
+  return _internal_mutable_dll_name();
+}
+inline const std::string& returnData::_internal_dll_name() const {
+  return dll_name_.Get();
+}
+inline void returnData::_internal_set_dll_name(const std::string& value) {
+  
+  dll_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void returnData::set_dll_name(std::string&& value) {
+  
+  dll_name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:returnData.dll_name)
+}
+inline void returnData::set_dll_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  dll_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:returnData.dll_name)
+}
+inline void returnData::set_dll_name(const char* value,
+    size_t size) {
+  
+  dll_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:returnData.dll_name)
+}
+inline std::string* returnData::_internal_mutable_dll_name() {
+  
+  return dll_name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* returnData::release_dll_name() {
+  // @@protoc_insertion_point(field_release:returnData.dll_name)
+  return dll_name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void returnData::set_allocated_dll_name(std::string* dll_name) {
+  if (dll_name != nullptr) {
+    
+  } else {
+    
+  }
+  dll_name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), dll_name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:returnData.dll_name)
+}
+inline std::string* returnData::unsafe_arena_release_dll_name() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:returnData.dll_name)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return dll_name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void returnData::unsafe_arena_set_allocated_dll_name(
+    std::string* dll_name) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (dll_name != nullptr) {
+    
+  } else {
+    
+  }
+  dll_name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      dll_name, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:returnData.dll_name)
+}
+
+// string function_name = 6;
+inline void returnData::clear_function_name() {
+  function_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& returnData::function_name() const {
+  // @@protoc_insertion_point(field_get:returnData.function_name)
+  return _internal_function_name();
+}
+inline void returnData::set_function_name(const std::string& value) {
+  _internal_set_function_name(value);
+  // @@protoc_insertion_point(field_set:returnData.function_name)
+}
+inline std::string* returnData::mutable_function_name() {
+  // @@protoc_insertion_point(field_mutable:returnData.function_name)
+  return _internal_mutable_function_name();
+}
+inline const std::string& returnData::_internal_function_name() const {
+  return function_name_.Get();
+}
+inline void returnData::_internal_set_function_name(const std::string& value) {
+  
+  function_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void returnData::set_function_name(std::string&& value) {
+  
+  function_name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:returnData.function_name)
+}
+inline void returnData::set_function_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  function_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:returnData.function_name)
+}
+inline void returnData::set_function_name(const char* value,
+    size_t size) {
+  
+  function_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:returnData.function_name)
+}
+inline std::string* returnData::_internal_mutable_function_name() {
+  
+  return function_name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* returnData::release_function_name() {
+  // @@protoc_insertion_point(field_release:returnData.function_name)
+  return function_name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void returnData::set_allocated_function_name(std::string* function_name) {
+  if (function_name != nullptr) {
+    
+  } else {
+    
+  }
+  function_name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), function_name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:returnData.function_name)
+}
+inline std::string* returnData::unsafe_arena_release_function_name() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:returnData.function_name)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return function_name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void returnData::unsafe_arena_set_allocated_function_name(
+    std::string* function_name) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (function_name != nullptr) {
+    
+  } else {
+    
+  }
+  function_name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      function_name, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:returnData.function_name)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

@@ -123,15 +123,17 @@ void TxClass::operator()(void)
     while (!si.connect("localhost", 8090))
     {
         Show::write("\n client waiting to connect");
+        std::cout << "Client Waiting to Connect..." << std::endl;
         ::Sleep(100);
     }
 
     while (true)
     {
+        std::cout << "Dequeueing " << test_result.function << std::endl;
         test_result = tx_queue->deQ();
 
         si.sendString(test_result.file);
-        si.sendString(test_result.function);
+        //si.sendString(test_result.function);
     }
 }
 

@@ -60,6 +60,7 @@ namespace guiApp
 
             logger = new Logger("Initializing Logger", ref this.Logger, ref this.logScrollViewer);
             logger.addLogMessage("Initializing GUI", ref this.Logger);
+            AsynchronousSocketListener.StartListening();
 
         }
 
@@ -314,6 +315,7 @@ namespace guiApp
                 builder.SerializeAndSendBuffer(ss);
             }
             ss.CleanSocket();
+
         }
 
         private void Items_ItemClick(object sender, ItemClickEventArgs e)

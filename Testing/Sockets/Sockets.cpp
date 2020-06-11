@@ -364,12 +364,16 @@ SocketConnecter::~SocketConnecter()
 
 bool SocketConnecter::connect(const std::string& ip, size_t port)
 {
-    size_t uport = htons((u_short)port);
-    std::string sPort = Conv<size_t>::toString(uport);
+
+    std::string portNum = Utilities::Converter<size_t>::toString(port);
+    std::cout << "Attempting to connect on port " << portNum << std::endl;
+
+   /* size_t uport = htons((u_short)port);
+    std::string sPort = Conv<size_t>::toString(uport);*/
 
     // Resolve the server address and port
     const char* pTemp = ip.c_str();
-    iResult = getaddrinfo(pTemp, sPort.c_str(), &hints, &result);  // was DEFAULT_PORT
+    iResult = getaddrinfo(pTemp, portNum.c_str(), &hints, &result);  // was DEFAULT_PORT
     if (iResult != 0) {
         Show::write("\n  -- getaddrinfo failed with error: " + Conv<int>::toString(iResult));
         return false;
