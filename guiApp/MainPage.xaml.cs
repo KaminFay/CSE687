@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -43,14 +43,14 @@ namespace guiApp
 
         //System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
 
-
         private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
         private ObservableCollection<dllInfo> fileNamesForListView = new ObservableCollection<dllInfo>();
         private ObservableCollection<dllFunction> functionForListView = new ObservableCollection<dllFunction>();
         private ObservableCollection<DLLObject> sendToTestHarness = new ObservableCollection<DLLObject>();
         private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
-        private SendingSocket ss = new SendingSocket("127.0.0.1", 8080);
+        private SendingSocket ss = new SendingSocket("127.0.0.1", 8090);
+        private AsynchronousSocketListener asl = new AsynchronousSocketListener();
         private Logger logger;
         private DispatcherTimer timer = new DispatcherTimer();
 
@@ -296,7 +296,7 @@ namespace guiApp
 
         }
 
-        private void Run_Test_Execution(object sender, RoutedEventArgs e)
+        private async void Run_Test_Execution(object sender, RoutedEventArgs e)
         {
             //Queue<DLLObject> harnessQueue = new Queue<DLLObject>();
 

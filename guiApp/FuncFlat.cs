@@ -75,7 +75,7 @@ public sealed partial class FlatFunc : pb::IMessage<FlatFunc> {
     return new FlatFunc(this);
   }
 
-  /// <summary>Field number for the "functionName" field.</summary>
+  /// <summary>Field number for the "FuncName" field.</summary>
   public const int FunctionNameFieldNumber = 1;
   private string functionName_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -86,7 +86,7 @@ public sealed partial class FlatFunc : pb::IMessage<FlatFunc> {
     }
   }
 
-  /// <summary>Field number for the "dllName" field.</summary>
+  /// <summary>Field number for the "DllName" field.</summary>
   public const int DllNameFieldNumber = 2;
   private string dllName_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -97,7 +97,7 @@ public sealed partial class FlatFunc : pb::IMessage<FlatFunc> {
     }
   }
 
-  /// <summary>Field number for the "dllPath" field.</summary>
+  /// <summary>Field number for the "DllPath" field.</summary>
   public const int DllPathFieldNumber = 3;
   private string dllPath_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

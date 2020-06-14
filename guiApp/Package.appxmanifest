@@ -10,7 +10,7 @@
   <Identity
     Name="c936bd6b-e3c3-4dc6-a668-f90ac895d276"
     Publisher="CN=brand"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="c936bd6b-e3c3-4dc6-a668-f90ac895d276" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -27,6 +27,7 @@
   <Resources>
     <Resource Language="x-generate"/>
   </Resources>
+	
 
   <Applications>
     <Application Id="App"
@@ -60,5 +61,7 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <uap:Capability Name="removableStorage"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <Capability Name="internetClientServer"/>
   </Capabilities>
 </Package>

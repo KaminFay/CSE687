@@ -16,9 +16,9 @@ namespace guiApp
         {
             flatFunc = new FlatFunc
             {
-                FunctionName = func.functionName,
-                DllName = func.dllName,
-                DllPath = func.dllPath
+                FunctionName = func.FuncName,
+                DllName = func.DllName,
+                DllPath = func.DllPath
             };
         }
 
