@@ -4,8 +4,6 @@
 #include "httplib.h"
 #include <Windows.h>      // Windnows API
 
-#include "pch.h"
-#include "framework.h"
 #include "logger_def.h"
 #include "blockingQueue.h"
 #include "ThreadPool.h"

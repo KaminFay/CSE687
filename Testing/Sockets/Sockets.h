@@ -130,8 +130,6 @@
 #include <string>
 #include <atomic>
 
-#include "FuncFlat.pb.h"
-
 
 #include "../WindowsHelpers/WindowsHelpers.h"
 #include "../Utilities/Utilities.h"
@@ -200,7 +198,7 @@ namespace Sockets
 
     std::string getPathFromProto();
     std::string getFuncFromProto();
-	FlatFunc recvFlatFunc(char buffer[]);
+	//FlatFunc recvFlatFunc(char buffer[]);
 
     bool validState() { return socket_ != INVALID_SOCKET; }
 
