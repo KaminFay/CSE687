@@ -36,3 +36,7 @@ guiApp/obj/x86/
 guiApp/obj/
 
 guiApp/.vscode/launch.json
+
+guiApp/BundleArtifacts/
+
+ProtobufFiles/
