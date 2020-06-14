@@ -25,9 +25,9 @@ void HttpConnector::sendResults() {
 					std::cout << resultToSend << std::endl;
 					auto res = cli.Post("/cse687/sendResults", resultToSend, "application/json");
 				}
-				catch (const char* error_msg) {
+				catch (const std::exception& e){
 					std::cout << "There was an issue connecting to the server: " << std::endl;
-					std::cout << error_msg << std::endl;
+					std::cout << e.what() << std::endl;
 				}
 			}
 		}
@@ -58,9 +58,9 @@ void HttpConnector::getTestableFunctions()
 							return true;
 						});
 				}
-				catch (const char* error_msg) {
+				catch (const std::exception& e) {
 					std::cout << "There was an issue connecting to the server: " << std::endl;
-					std::cout << error_msg << std::endl;
+					std::cout << e.what() << std::endl;
 				}
 				std::vector<dll_info> functions = Parsers::JSONParser::jsonStringToFunctionObject(body);
 
