@@ -1,0 +1,2 @@
+C:\Users\Kamin\Documents\GitHub\CSE687\Testing\Top\x64\Debug\HttpConnector.pdb
+C:\Users\Kamin\Documents\GitHub\CSE687\Testing\HttpConnector\x64\Debug\HttpConnector.pdb
