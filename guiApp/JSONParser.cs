@@ -15,7 +15,28 @@ using System.Threading.Tasks;
 using Windows.UI.WebUI;
 
 namespace guiApp
+
 {
+    public class completedTestFunction
+    {
+        public String DllName { get; set; }
+        public String DllPath { get; set; }
+        public String Exception { get; set; }
+        public bool PassFail { get; set; }
+        public String FuncName { get; set; }
+        public int ID { get; set; }
+        public String StartTime { get; set; }
+        public String EndTime { get; set; }
+
+    }
+
+    public class testFunctionJSON
+    {
+        public String FuncName { get; set; }
+        public String DllName { get; set; }
+        public String DllPath { get; set; }
+    }
+
     public class dllBindingClass
     {
         public String dllName { get; set; }
@@ -30,11 +51,11 @@ namespace guiApp
 
     public class dllFunction
     {
-        public String functionName { get; set; }
-        public String returnType { get; set; }
-        public String parameters { get; set; }
-        public String dllName { get; set; }
-        public String dllPath { get; set; }
+        public String FuncName { get; set; }
+        //public String returnType { get; set; }
+        //public String parameters { get; set; }
+        public String DllName { get; set; }
+        public String DllPath { get; set; }
     }
 
     public class dllInfo
@@ -133,9 +154,9 @@ namespace guiApp
                 {
 
                     dllFunction newFunction = new dllFunction();
-                    newFunction.functionName = functionT.FuncName;
-                    newFunction.parameters = functionT.PassedIn;
-                    newFunction.returnType = functionT.ReturnType;
+                    newFunction.FuncName = functionT.FuncName;
+                    //newFunction.parameters = functionT.PassedIn;
+                    //newFunction.returnType = functionT.ReturnType;
                     newDll.functionList.Add(newFunction);
 
                 }
@@ -144,7 +165,7 @@ namespace guiApp
 
             //IList<dllInfo> dllData = jArray.Select(dll => new dllInfo
             //{
-            //    dllName = (string)dll["Name"],
+            //    DllName = (string)dll["Name"],
             //    dllLocation = (string)dll["Location"],
             //    functionList = jArray.Select(functions => new dllFunction
             //    {
@@ -158,10 +179,24 @@ namespace guiApp
                 Debug.WriteLine("Name: " + item.dllName);
                 foreach (dllFunction function in item.functionList)
                 {
-                    Debug.WriteLine(function.functionName);
+                    Debug.WriteLine(function.FuncName);
                 }
                 Debug.WriteLine("---------------------");
             }
+        }
+
+        public static JObject dllFunctionToJSON(dllFunction func)
+        {
+
+            JObject jObject = (JObject)JToken.FromObject(func);
+            Debug.WriteLine(jObject);
+            return jObject;
+        }
+
+        public static completedTestFunction jsonToCompleted(string jsonString)
+        {
+            completedTestFunction completedFunction = JsonConvert.DeserializeObject<completedTestFunction>(jsonString);
+            return completedFunction;
         }
 
     }
