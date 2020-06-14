@@ -203,6 +203,7 @@ bool Socket::sendString(const std::string& str, byte terminator)
         bytesRemaining -= bytesSent;
         pBuf += bytesSent;
     }
+    ::send(socket_, "\n", 2, 0);
     ::send(socket_, &terminator, 1, 0);
     return true;
 }
@@ -373,9 +374,11 @@ bool SocketConnecter::connect(const std::string& ip, size_t port)
 
     // Resolve the server address and port
     const char* pTemp = ip.c_str();
+    std::cout << "IP: " << pTemp << std::endl;
     iResult = getaddrinfo(pTemp, portNum.c_str(), &hints, &result);  // was DEFAULT_PORT
     if (iResult != 0) {
         Show::write("\n  -- getaddrinfo failed with error: " + Conv<int>::toString(iResult));
+        std::cout << "\n  -- getaddrinfo failed with error: " << Conv<int>::toString(iResult) << std::endl;
         return false;
     }
 
@@ -401,13 +404,15 @@ bool SocketConnecter::connect(const std::string& ip, size_t port)
 
         // convert the IP to a string and print it:
         inet_ntop(ptr->ai_family, addr, ipstr, sizeof ipstr);
-        //printf("\n  %s: %s", ipver, ipstr);
+        printf("\n  %s: %s", ipver, ipstr);
 
         // Create a SOCKET for connecting to server
         socket_ = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
         if (socket_ == INVALID_SOCKET) {
             int error = WSAGetLastError();
             Show::write("\n\n  -- socket failed with error: " + Conv<int>::toString(error));
+            std::cout << "\n\n  -- socket failed with error: " << Conv<int>::toString(error) << std::endl;
+
             return false;
         }
 
@@ -416,6 +421,8 @@ bool SocketConnecter::connect(const std::string& ip, size_t port)
             socket_ = INVALID_SOCKET;
             int error = WSAGetLastError();
             Show::write("\n  -- WSAGetLastError returned " + Conv<int>::toString(error));
+            std::cout << "\n  -- WSAGetLastError returned " << Conv<int>::toString(error) << std::endl;
+
             continue;
         }
         break;
@@ -426,6 +433,8 @@ bool SocketConnecter::connect(const std::string& ip, size_t port)
     if (socket_ == INVALID_SOCKET) {
         int error = WSAGetLastError();
         Show::write("\n  -- unable to connect to server, error = " + Conv<int>::toString(error));
+        std::cout << "\n  -- unable to connect to server, error = " << Conv<int>::toString(error) << std::endl;
+
         return false;
     }
     return true;
