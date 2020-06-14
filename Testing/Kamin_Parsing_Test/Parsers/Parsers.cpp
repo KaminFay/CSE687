@@ -4,6 +4,10 @@
 #include "pch.h"
 #include "framework.h"
 #include "Parsers.h"
+#include <ctime>
+#include <sstream>
+#include <locale>
+#include <codecvt>
 
 namespace Parsers {
 	
@@ -226,6 +230,38 @@ namespace Parsers {
 		else {
 			std::cout << "Failed to print as the json variable is NULL." << std::endl;
 		}
+	}
+
+	std::string JSONParser::resultObjectToJSONString(result_log result) {
+		nlohmann::json jsonObject;
+		jsonObject["ID"] = result.databaseID;
+		jsonObject["FuncName"] = result.function;
+		jsonObject["DllName"] = result.file;
+		jsonObject["DllPath"] = result.file;
+		jsonObject["Result"] = result.pass;
+		jsonObject["Exception"] = result.exception;
+		jsonObject["StartTime"] = result.start_time;
+		jsonObject["EndTime"] = result.completion_time;
+
+		std::cout << "Object being sent: " << std::endl;
+		std::cout << jsonObject.dump(4) << std::endl;
+
+		return jsonObject.dump();
+	}
+
+	std::vector<dll_info> JSONParser::jsonStringToFunctionObject(std::string jsonString) {
+		auto jsonObject = nlohmann::json::parse(jsonString);
+		std::vector<dll_info> passedInFunctions;
+
+		for (auto& jsonFunc : jsonObject) {
+			dll_info func;
+			func.databaseID = jsonFunc["ID"].get<int>();
+			func.dll_file = jsonFunc["DllPath"].get<std::string>();
+			func.dll_function = jsonFunc["FuncName"].get<std::string>();
+			passedInFunctions.push_back(func);
+		}
+
+		return passedInFunctions;
 	}
 
 	/**

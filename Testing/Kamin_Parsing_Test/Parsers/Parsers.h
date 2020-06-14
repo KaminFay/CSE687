@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <regex>
 #include "json.hpp"
+#include "logger_def.h"
+
 
 namespace Parsers {
 
@@ -24,6 +26,8 @@ namespace Parsers {
 		JSONParser();
 		JSONParser(std::string, std::string);
 		void testPrintingJSON();
+		static std::string resultObjectToJSONString(result_log result);
+		static std::vector<dll_info> jsonStringToFunctionObject(std::string);
 		void setJsonFileName(std::string);
 		void setJsonFileLocation(std::string);
 		std::string parseDllFunctions();

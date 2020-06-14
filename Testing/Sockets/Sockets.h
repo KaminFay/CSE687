@@ -130,6 +130,7 @@
 #include <string>
 #include <atomic>
 
+
 #include "../WindowsHelpers/WindowsHelpers.h"
 #include "../Utilities/Utilities.h"
 #include "../Logger/Logger.h"
@@ -141,6 +142,11 @@ namespace Sockets
 {
   /////////////////////////////////////////////////////////////////////////////
   // SocketSystem class - manages loading and unloading Winsock library
+
+    struct FromProtoBuf {
+        std::string path;
+        std::string function;
+    };
 
   class SocketSystem
   {
@@ -167,6 +173,7 @@ namespace Sockets
     Socket(const Socket& s) = delete;
     Socket& operator=(const Socket& s) = delete;
 
+
     Socket(IpVer ipver = IP4);
     Socket(::SOCKET);
     Socket(Socket&& s);
@@ -189,6 +196,10 @@ namespace Sockets
     bool shutDown();
     void close();
 
+    std::string getPathFromProto();
+    std::string getFuncFromProto();
+	//FlatFunc recvFlatFunc(char buffer[]);
+
     bool validState() { return socket_ != INVALID_SOCKET; }
 
   protected:
@@ -197,6 +208,8 @@ namespace Sockets
     struct addrinfo *result = NULL, *ptr = NULL, hints;
     int iResult;
     IpVer ipver_ = IP4;
+    FromProtoBuf protoBuf;
+
   };
 
   /////////////////////////////////////////////////////////////////////////////
@@ -255,22 +268,23 @@ namespace Sockets
   template<typename CallObj>
   bool SocketListener::start(CallObj& co)
   {
+    // listen on a dedicated thread so server's main thread won't block
     if (!bind())
     {
-      return false;
+        return false;
     }
 
     if (!listen())
     {
-      return false;
+        return false;
     }
-    // listen on a dedicated thread so server's main thread won't block
 
     std::thread ListenThread(
       [&]()
     {
       StaticLogger<1>::write("\n  -- server waiting for connection");
-
+      std::cout << "-- Server waiting for connection" << std::endl;
+/////// This chunk
       while (!acceptFailed_)
       {
         if (stop_.load())
@@ -278,11 +292,17 @@ namespace Sockets
 
         // Accept a client socket - blocking call
 
+        ///// FUck this piece of shit code, this is where it's hanging.
         Socket clientSocket = accept();    // uses move ctor
+        if (clientSocket == INVALID_SOCKET) {
+            /*printf("accept failed: %d\n", WSAGetLastError());*/
+        }
+
         if (!clientSocket.validState()) {
           continue;
         }
         StaticLogger<1>::write("\n  -- server accepted connection");
+/////// This chunk
 
         // start thread to handle client request
 
@@ -291,6 +311,7 @@ namespace Sockets
         clientThread.detach();  // detach - listener won't access thread again
       }
       StaticLogger<1>::write("\n  -- Listen thread stopping");
+      std::cout << "-- Listen Thread Stopping -- " << std::endl;
     }
     );
     ListenThread.detach();

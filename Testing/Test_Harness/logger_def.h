@@ -7,10 +7,11 @@
 class result_log
 {
 public:
+    int             databaseID;
     bool            pass;
     std::string     exception;
-    time_t          start_time;
-    time_t          completion_time;
+    std::string          start_time;
+    std::string          completion_time;
     std::string     file;
     std::string     function;
     int             thread_id;
@@ -22,12 +23,13 @@ public:
 
     void clear_log()
     {
+        databaseID = 0;
         pass = false;
         exception.clear();
         file.clear();
         function.clear();
-        start_time = 0;
-        completion_time = 0;
+        start_time.clear();
+        completion_time.clear();
         thread_id = -1;
     }
 
@@ -36,11 +38,13 @@ public:
 class dll_info
 {
 public:
+    int             databaseID;
     std::string     dll_file;
     std::string     dll_function;
 
     dll_info()
     {
+        databaseID = 0;
         dll_file.clear();
         dll_function.clear();
     }
@@ -49,6 +53,14 @@ public:
     {
         dll_file = file_name;
         dll_function = function_name;
+    }
+
+    std::string get_dll_name() {
+        return dll_file;
+    }
+
+    std::string get_function_name() {
+        return dll_function;
     }
 
 };

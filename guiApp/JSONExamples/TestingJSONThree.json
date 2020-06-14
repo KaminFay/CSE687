@@ -1,0 +1,37 @@
+{
+  "dlls": [
+    {
+      "Name": "auto_pass_delayed.dll",
+      "Location": "C:\\Users\\Kamin\\Documents\\Garbage\\Dll_Tester\\",
+      "Functions": [
+        {
+          "FuncName": "auto_pass_delayed",
+          "PassedIn": "const int x",
+          "ReturnType": "std::string"
+        }
+      ]
+    },
+    {
+      "Name": "dll_long_delay.dll",
+      "Location": "C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\dll_long_delay.dll",
+      "Functions": [
+        {
+          "FuncName": "Run_Test",
+          "PassedIn": "int y, int x",
+          "ReturnType": "int"
+        }
+      ]
+    },
+    {
+      "Name": "rng_exception_thrower.dll",
+      "Location": "C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\rng_exception_thrower.dll",
+      "Functions": [
+        {
+          "FuncName": "throw_exception",
+          "PassedIn": "int y, int x",
+          "ReturnType": "int"
+        }
+      ]
+    }
+  ]
+}

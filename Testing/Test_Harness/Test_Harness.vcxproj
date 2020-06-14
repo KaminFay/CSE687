@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\WindowsHelpers;..\Logger;..\Sockets;..\dll_control;..\BlockingQ;$(IncludePath)</IncludePath>
+    <IncludePath>..\HttpConnector;..\WindowsHelpers;..\Logger;..\Sockets;..\HttpClient;..\dll_control;..\BlockingQ;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -151,8 +151,8 @@
     <ClInclude Include="test_harness.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sockets\Sockets.vcxproj">
-      <Project>{ca3129b8-1bf4-44c9-b116-53ec72d0bccb}</Project>
+    <ProjectReference Include="..\HttpConnector\HttpConnector.vcxproj">
+      <Project>{6b1883b8-45a3-4a8f-849a-25f661be28c8}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

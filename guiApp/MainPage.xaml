@@ -8,6 +8,14 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <local:TextFormatter x:Key="JSONFileName" stringFormat="JSON Source: {0}.json"/>
+        <local:TextFormatter x:Key="DLLFileName" stringFormat="DLL: {0}"/>
+        <local:TextFormatter x:Key="FunctionDisplay" stringFormat="Func: {0}"/>
+        <local:TextFormatter x:Key="FunctionToSend" stringFormat="Function: {0}" />
+        <local:TextFormatter x:Key="DllToSend" stringFormat="DLL: {0}" />
+    </Page.Resources>
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -76,13 +84,17 @@
             </StackPanel>
 
             <Grid Grid.Row="1">
-                
+
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                
+
+                <Border BorderBrush="AntiqueWhite" BorderThickness="1,1,1,1"></Border>
+
+
                 <ListView Grid.Column="0" Loaded="ListView_Loaded" x:Name="Items" CanDragItems="False" CanReorderItems="False">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
@@ -90,54 +102,181 @@
                             <Setter Property="Margin" Value="0"/>
                         </Style>
                     </ListView.ItemContainerStyle>
-                    
+
+                    <ListView.HeaderTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="AntiqueWhite" BorderThickness="1,1,1,1">
+                                <TextBlock Text="DLL List:" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="20"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.HeaderTemplate>
+
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="10" ColumnSpacing="50">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="70" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock x:Name="RowContent" Text="{Binding}" VerticalAlignment="Center"/>
-                                <ToggleSwitch x:Name="Toggle" Grid.Column="1" Toggled="Toggle_Toggled"/>
+
+
+                                <Grid Grid.Column="0">
+                                    <ToggleSwitch x:Name="Toggle"  Toggled="dllToggled" IsOn="False" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Grid Grid.Column="2">
+                                    <TextBlock x:Name="RowContent" Text="{Binding Path=dllName, Converter={StaticResource DLLFileName}}" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <TextBlock x:Name="JSONNameBlock" Text="{Binding Path=jsonSourceName, Converter={StaticResource JSONFileName}}" VerticalAlignment="Center"/>
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                    
-                </ListView>
-
-                <ListView Grid.Column="1" Background="Aquamarine">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="10" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock x:Name="RowContent" Text="{Binding}" VerticalAlignment="Center"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    
 
                 </ListView>
-                <ListView Grid.Column="2" Background="Violet"/>
 
+                <Grid Grid.Column="1">
 
+                    <Border BorderBrush="AntiqueWhite" BorderThickness="1,1,1,1"></Border>
+                    <ListView Loaded="ListView_Loaded" x:Name="FunctionList" CanDragItems="False" CanReorderItems="False" IsItemClickEnabled="True" ItemClick="Items_ItemClick" Margin="0,0,0,53">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.HeaderTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="AntiqueWhite" BorderThickness="1,1,1,1">
+                                    <TextBlock Text="Function List:" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="20"/>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.HeaderTemplate>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10" ColumnSpacing="50">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="70" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <ToggleSwitch x:Name="Toggle"  Toggled="functionToggled" IsOn="False" VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <Grid Grid.Column="2">
+                                        <TextBlock x:Name="RowContent" Text="{Binding Path=FuncName}" VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <!--<Grid Grid.Row="1">
+                                        <TextBlock x:Name="JSONNameBlock" Text="{Binding Path=jsonSourceName, Converter={StaticResource JSONFileName}}" VerticalAlignment="Center"/>
+                                    </Grid>-->
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                    <RelativePanel HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+                        <Button Content="Cancel" 
+                                Style="{StaticResource AccentButtonStyle}" 
+                                MinWidth="300"
+                                Margin="10"
+                                RelativePanel.AlignBottomWithPanel="True"
+                                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                Click="Cancel_Button_Click"/>
+
+                    </RelativePanel>
+                </Grid>
+
+                <Grid Grid.Column="2">
+
+                    <Border BorderBrush="AntiqueWhite" BorderThickness="1,1,1,1"></Border>
+
+                    <ListView Loaded="ListView_Loaded" x:Name="TestableList" CanDragItems="False" CanReorderItems="False" IsItemClickEnabled="True" ItemClick="Items_ItemClick" Margin="0,0,0,51">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.HeaderTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="AntiqueWhite" BorderThickness="1,1,1,1">
+                                    <TextBlock Text="Queued Functions:" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="20"/>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.HeaderTemplate>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10" ColumnSpacing="50">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="70" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <TextBlock x:Name="RowContent" Text="{Binding Path=DllName, Converter={StaticResource DllToSend}}" VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <TextBlock x:Name="RowContent2" Text="{Binding Path=FuncName, Converter={StaticResource FunctionToSend}}" VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <!--<Grid Grid.Row="1">
+                                        <TextBlock x:Name="JSONNameBlock" Text="{Binding Path=jsonSourceName, Converter={StaticResource JSONFileName}}" VerticalAlignment="Center"/>
+                                    </Grid>-->
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                    <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button Content="Run" 
+                                Style="{StaticResource AccentButtonStyle}"
+                                MinWidth="300"
+                                Margin="10"
+                                RelativePanel.AlignBottomWithPanel="True"
+                                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                Click="Run_Test_Execution"/>
+
+                    </RelativePanel>
+
+                </Grid>
             </Grid>
-            
-            <RichEditBox
-                Grid.Row="2" 
-                Grid.Column="0" 
-                Background="Black" 
-                IsReadOnly="True" 
-                AllowFocusOnInteraction="False" 
-                IsFocusEngagementEnabled="False" 
-                IsFocusEngaged="False"/>
-            
+
+            <ScrollViewer x:Name="logScrollViewer" 
+                          VerticalScrollBarVisibility="Auto"
+                          VerticalScrollMode="Enabled"
+                          VerticalAnchorRatio="1"
+                          Grid.Row="2" 
+                          Grid.Column="0">
+                <TextBlock Grid.Row="2" Grid.Column="0" x:Name="Logger" Text="Testing PlaceHolder text "/>
+            </ScrollViewer>
+
+
             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            
+            <!--<TextBox 
+                Grid.Row="2" 
+                Grid.Column="0"
+                x:Name="Logger"
+                HorizontalAlignment="Center" 
+                Text="TextBox" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Center" Height="320" Width="1500"/>-->
+
         </Grid>
     </Grid>
 </Page>
