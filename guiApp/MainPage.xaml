@@ -175,7 +175,7 @@
                                         <ToggleSwitch x:Name="Toggle"  Toggled="functionToggled" IsOn="False" VerticalAlignment="Center"/>
                                     </Grid>
                                     <Grid Grid.Column="2">
-                                        <TextBlock x:Name="RowContent" Text="{Binding Path=functionName}" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="RowContent" Text="{Binding Path=FuncName}" VerticalAlignment="Center"/>
                                     </Grid>
                                     <!--<Grid Grid.Row="1">
                                         <TextBlock x:Name="JSONNameBlock" Text="{Binding Path=jsonSourceName, Converter={StaticResource JSONFileName}}" VerticalAlignment="Center"/>
@@ -230,10 +230,10 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Grid Grid.Column="0">
-                                        <TextBlock x:Name="RowContent" Text="{Binding Path=dllName, Converter={StaticResource DllToSend}}" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="RowContent" Text="{Binding Path=DllName, Converter={StaticResource DllToSend}}" VerticalAlignment="Center"/>
                                     </Grid>
                                     <Grid Grid.Row="2">
-                                        <TextBlock x:Name="RowContent2" Text="{Binding Path=functionName, Converter={StaticResource FunctionToSend}}" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="RowContent2" Text="{Binding Path=FuncName, Converter={StaticResource FunctionToSend}}" VerticalAlignment="Center"/>
                                     </Grid>
                                     <!--<Grid Grid.Row="1">
                                         <TextBlock x:Name="JSONNameBlock" Text="{Binding Path=jsonSourceName, Converter={StaticResource JSONFileName}}" VerticalAlignment="Center"/>

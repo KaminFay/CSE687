@@ -1,4 +1,6 @@
-using System;
+﻿using System;
+using Newtonsoft.Json.Linq;
+
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -60,8 +62,6 @@ namespace guiApp
 
             logger = new Logger("Initializing Logger", ref this.Logger, ref this.logScrollViewer);
             logger.addLogMessage("Initializing GUI", ref this.Logger);
-            AsynchronousSocketListener.StartListening();
-
         }
 
         private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
@@ -240,8 +240,8 @@ namespace guiApp
                     //String pathLocation = returnTask.Result;
                     foreach (dllFunction function in sampleDll.functionList)
                     {
-                        function.dllName = fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllName;
-                        function.dllPath = fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllLocation;
+                        function.DllName = fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllName;
+                        function.DllPath = fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllLocation;
                         functionForListView.Add(function);
                         this.FunctionList.ItemsSource = functionForListView;
                     }
@@ -306,16 +306,21 @@ namespace guiApp
             //}
 
             //Debug.WriteLine("The current size of the queue is: " + harnessQueue.Count);
-            ss.EstablishConnection();
+            //ss.EstablishConnection();
             foreach(dllFunction func in functionsToHarness)
             {
                 Debug.WriteLine("Sending Another");
-                BufferBuilder builder = new BufferBuilder(func);
-                logger.addFunctionSendMessage(func);
-                builder.SerializeAndSendBuffer(ss);
+                //BufferBuilder builder = new BufferBuilder(func);
+                //logger.addFunctionSendMessage(func);
+                //builder.SerializeAndSendBuffer(ss);
+                JObject jObject = JSONParser.dllFunctionToJSON(func);
+                var ID = await API_Interface.postTestFunctionAsync(jObject);
+                logger.postedTestFunctionLog(jObject, ID);
+                Debug.WriteLine("Items in functionIDsSent: " + API_Interface.functionsIDsSent.Count());
             }
-            ss.CleanSocket();
+            //ss.CleanSocket();
 
+            API_Interface.getResultsAsync(logger);
         }
 
         private void Items_ItemClick(object sender, ItemClickEventArgs e)
@@ -325,7 +330,6 @@ namespace guiApp
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
-
             fileList.Clear();
             fileNamesForListView.Clear();
             functionForListView.Clear();
