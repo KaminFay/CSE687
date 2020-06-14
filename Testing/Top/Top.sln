@@ -39,8 +39,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cpp11-BlockingQueue", "..\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Parsers", "..\Kamin_Parsing_Test\Parsers\Parsers.vcxproj", "{AE6EBFCF-F4C4-40C9-97E5-4312FAD5588D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HttpClient", "..\HttpClient\HttpClient.vcxproj", "{C00F242E-E1D2-4252-BDD9-15941EEC4159}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HttpConnector", "..\HttpConnector\HttpConnector.vcxproj", "{6B1883B8-45A3-4A8F-849A-25F661BE28C8}"
 EndProject
 Global
@@ -182,13 +180,6 @@ Global
 		{AE6EBFCF-F4C4-40C9-97E5-4312FAD5588D}.Release|x64.Build.0 = Release|x64
 		{AE6EBFCF-F4C4-40C9-97E5-4312FAD5588D}.Release|x86.ActiveCfg = Release|Win32
 		{AE6EBFCF-F4C4-40C9-97E5-4312FAD5588D}.Release|x86.Build.0 = Release|Win32
-		{C00F242E-E1D2-4252-BDD9-15941EEC4159}.Debug|x64.ActiveCfg = Debug|x64
-		{C00F242E-E1D2-4252-BDD9-15941EEC4159}.Debug|x86.ActiveCfg = Debug|Win32
-		{C00F242E-E1D2-4252-BDD9-15941EEC4159}.Debug|x86.Build.0 = Debug|Win32
-		{C00F242E-E1D2-4252-BDD9-15941EEC4159}.Release|x64.ActiveCfg = Release|x64
-		{C00F242E-E1D2-4252-BDD9-15941EEC4159}.Release|x64.Build.0 = Release|x64
-		{C00F242E-E1D2-4252-BDD9-15941EEC4159}.Release|x86.ActiveCfg = Release|Win32
-		{C00F242E-E1D2-4252-BDD9-15941EEC4159}.Release|x86.Build.0 = Release|Win32
 		{6B1883B8-45A3-4A8F-849A-25F661BE28C8}.Debug|x64.ActiveCfg = Debug|x64
 		{6B1883B8-45A3-4A8F-849A-25F661BE28C8}.Debug|x64.Build.0 = Debug|x64
 		{6B1883B8-45A3-4A8F-849A-25F661BE28C8}.Debug|x86.ActiveCfg = Debug|Win32
