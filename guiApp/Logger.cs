@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,8 +48,32 @@ namespace guiApp
         {
             addSeparators();
             loggingDisplay = loggingDisplay + "Sending Function: \n";
-            loggingDisplay = loggingDisplay + "Dll Name: " + dllFunc.dllName + "\n";
-            loggingDisplay = loggingDisplay + "Function Name: " + dllFunc.functionName;
+            loggingDisplay = loggingDisplay + "Dll Name: " + dllFunc.DllName + "\n";
+            loggingDisplay = loggingDisplay + "Function Name: " + dllFunc.FuncName;
+            addSeparators();
+            reloadSV();
+        }
+
+        public void postedTestFunctionLog(JObject jsonObject, int ID)
+        {
+            addSeparators();
+            loggingDisplay = loggingDisplay + "Sent JSON to API: \n";
+            loggingDisplay = loggingDisplay + jsonObject.ToString() + "\n";
+            loggingDisplay = loggingDisplay + "ID of entry = " + ID;
+            addSeparators();
+            reloadSV();
+        }
+
+        public void testCompleteLog(completedTestFunction complete)
+        {
+            addSeparators();
+            loggingDisplay = loggingDisplay + "Completed Test: \n";
+            loggingDisplay = loggingDisplay + "Path: " + complete.DllPath + "\n";
+            loggingDisplay = loggingDisplay + "Function: " + complete.FuncName + "\n";
+            loggingDisplay = loggingDisplay + "Pass/Fail: " + complete.PassFail + "\n";
+            loggingDisplay = loggingDisplay + "Exception: " + complete.Exception + "\n";
+            loggingDisplay = loggingDisplay + "Start Time: " + complete.StartTime + "\n";
+            loggingDisplay = loggingDisplay + "End Time: " + complete.EndTime;
             addSeparators();
             reloadSV();
         }
