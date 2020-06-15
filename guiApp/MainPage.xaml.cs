@@ -24,7 +24,6 @@ namespace guiApp
         private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
         private ObservableCollection<dllInfo> fileNamesForListView = new ObservableCollection<dllInfo>();
         private ObservableCollection<dllFunction> functionForListView = new ObservableCollection<dllFunction>();
-        private ObservableCollection<DLLObject> sendToTestHarness = new ObservableCollection<DLLObject>();
         private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
         private GuiLogger logger;
@@ -34,7 +33,7 @@ namespace guiApp
             this.InitializeComponent();
 
             logger = new GuiLogger("Initializing Logger", ref this.Logger, ref this.logScrollViewer);
-            logger.addLogMessage("Initializing GUI", ref this.Logger);
+            logger.AddLogMessage("Initializing GUI", ref this.Logger);
         }
 
         private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
@@ -71,7 +70,7 @@ namespace guiApp
 
         private async void OpenFilePicker_Click(object sender, RoutedEventArgs routedEventArgs)
         {
-            fileSelector(Extension.JSON);
+            FileSelector(Extension.JSON);
 
         }
 
@@ -79,7 +78,7 @@ namespace guiApp
         {
         }
 
-        private async void fileSelector(Extension extension)
+        private async void FileSelector(Extension extension)
         {
             FileOpenPicker openPicker = new FileOpenPicker
             {
@@ -120,13 +119,13 @@ namespace guiApp
                 {
 
                     Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(storageFile);
-                    logger.addOpenFileMessage(storageFile.DisplayName + ".json", storageFile.Path, ref this.Logger);
-                    addDLLsToGUI(storageFile);
+                    logger.AddOpenFileMessage(storageFile.DisplayName + ".json", storageFile.Path, ref this.Logger);
+                    AddDLLsToGUI(storageFile);
                 }
             }
         }
 
-        private async Task<dllBindingClass> bindDLL()
+        private async Task<dllBindingClass> BindDLL()
         {
             FileOpenPicker openPicker = new FileOpenPicker
             {
@@ -140,13 +139,13 @@ namespace guiApp
             {
                 Debug.WriteLine("Testing the printing of the DLL Path");
                 Debug.WriteLine(sFile.Path);
-                logger.addOpenFileMessage(sFile.DisplayName + ".dll", sFile.Path, ref this.Logger);
+                logger.AddOpenFileMessage(sFile.DisplayName + ".dll", sFile.Path, ref this.Logger);
                 return new dllBindingClass(sFile.Path, sFile.DisplayName + ".dll");
             }
             return null;
         }
 
-        public async void addDLLsToGUI(StorageFile storageFile)
+        public async void AddDLLsToGUI(StorageFile storageFile)
         {
             List<dllInfo> allDLLData = await jsonParser.readInJSON(storageFile);                // Read in the JSON and return a list of the DLL's that are contained (asynchronously)
 
@@ -172,7 +171,7 @@ namespace guiApp
             }
         }
 
-        private async void dllToggled(object sender, RoutedEventArgs e)
+        private async void DllToggled(object sender, RoutedEventArgs e)
         {
             int indexOfCurrentDLLToggled;
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
@@ -181,7 +180,7 @@ namespace guiApp
 
             if (toggleSwitch.IsOn)
             {
-                dllBindingClass dllBinder = await bindDLL();
+                dllBindingClass dllBinder = await BindDLL();
 
                 if(dllBinder != null)
                 {
@@ -215,7 +214,7 @@ namespace guiApp
             }
         }
 
-        private async void functionToggled(object sender, RoutedEventArgs e)
+        private void FunctionToggled(object sender, RoutedEventArgs e)
         {
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             dllFunction sampleFunction = (dllFunction)((Grid)toggleSwitch.Parent).DataContext;
@@ -232,23 +231,17 @@ namespace guiApp
             }
         }
 
-
-        private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private async void Run_Test_Execution(object sender, RoutedEventArgs e)
         {
             foreach(dllFunction func in functionsToHarness)
             {
                 Debug.WriteLine("Sending Another");
                 JObject jObject = JSONParser.dllFunctionToJSON(func);
-                var ID = await API_Interface.postTestFunctionAsync(jObject);
-                logger.postedTestFunctionLog(jObject, ID);
+                var ID = await API_Interface.PostTestFunctionAsync(jObject);
+                logger.PostedTestFunctionLog(jObject, ID);
                 Debug.WriteLine("Items in functionIDsSent: " + API_Interface.functionsIDsSent.Count());
             }
-            API_Interface.getResultsAsync(logger);
+            API_Interface.GetResultsAsync(logger);
         }
 
         private void Items_ItemClick(object sender, ItemClickEventArgs e)
@@ -261,7 +254,6 @@ namespace guiApp
             fileList.Clear();
             fileNamesForListView.Clear();
             functionForListView.Clear();
-            sendToTestHarness.Clear();
             functionsToHarness.Clear();
             this.TestableList.ItemsSource = null;
             this.FunctionList.ItemsSource = null;
@@ -270,14 +262,14 @@ namespace guiApp
 
         private void Level_Three_Button_Checked(object sender, RoutedEventArgs e)
         {
-            GuiLogger.setLogLevel(3);
+            GuiLogger.SetLogLevel(3);
             this.Level_One_Button.IsChecked = false;
             this.Level_Two_Button.IsChecked = false;
         }
 
         private void Level_Two_Button_Checked(object sender, RoutedEventArgs e)
         {
-            GuiLogger.setLogLevel(2);
+            GuiLogger.SetLogLevel(2);
             this.Level_One_Button.IsChecked = false;
             this.Level_Three_Button.IsChecked = false;
 
@@ -285,7 +277,7 @@ namespace guiApp
 
         private void Level_One_Button_Checked(object sender, RoutedEventArgs e)
         {
-            GuiLogger.setLogLevel(1);
+            GuiLogger.SetLogLevel(1);
             this.Level_Three_Button.IsChecked = false;
             this.Level_Two_Button.IsChecked = false;
         }

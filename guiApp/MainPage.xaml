@@ -126,7 +126,7 @@
 
 
                                 <Grid Grid.Column="0">
-                                    <ToggleSwitch x:Name="Toggle"  Toggled="dllToggled" IsOn="False" VerticalAlignment="Center"/>
+                                    <ToggleSwitch x:Name="Toggle"  Toggled="DllToggled" IsOn="False" VerticalAlignment="Center"/>
                                 </Grid>
                                 <Grid Grid.Column="2">
                                     <TextBlock x:Name="RowContent" Text="{Binding Path=dllName, Converter={StaticResource DLLFileName}}" VerticalAlignment="Center"/>
@@ -172,7 +172,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Grid Grid.Column="0">
-                                        <ToggleSwitch x:Name="Toggle"  Toggled="functionToggled" IsOn="False" VerticalAlignment="Center"/>
+                                        <ToggleSwitch x:Name="Toggle"  Toggled="FunctionToggled" IsOn="False" VerticalAlignment="Center"/>
                                     </Grid>
                                     <Grid Grid.Column="2">
                                         <TextBlock x:Name="RowContent" Text="{Binding Path=FuncName}" VerticalAlignment="Center"/>

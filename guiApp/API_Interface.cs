@@ -1,24 +1,42 @@
-﻿using Newtonsoft.Json.Linq;
+﻿/*
+ * API_Interface.cs - Group of static functions that allow interaction with the
+ * http API that acts as a middle man between the C# GUI and c++ test harness
+ * 
+ * Language:    C#, VS 2019
+ * Platform:    Windows 10 (UWP)
+ * Application: CSE687 Project
+ * Author:      Kamin Fay       -- kfay02@syr.edu
+ *              Brandon Hancock -- behancoc@syr.edu
+ *              Austin Cassidy  -- aucassid@syr.edu
+ *              Ralph Walker    -- rwalkeri@syr.edu
+ */
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Web.Http;
-using System.Collections.ObjectModel;
 
 
 namespace guiApp
 {
-    class API_Interface
+    internal class API_Interface
     {
-        public static ObservableCollection<Int32> functionsIDsSent = new ObservableCollection<int>();
-        public static async void getHompage()
+        public static ObservableCollection<int> functionsIDsSent = new ObservableCollection<int>();
+
+        /*
+         * ----< Function > GetHomepage
+         * ----< Description > 
+         * Sample function built to test hitting the API endpoints
+         * ----< Description >
+         * @Param None
+         * @Return None
+         */
+        public static async void GetHompage()
         {
             Windows.Web.Http.HttpClient httpClient = new Windows.Web.Http.HttpClient();
 
-            var headers = httpClient.DefaultRequestHeaders;
+            Windows.Web.Http.Headers.HttpRequestHeaderCollection headers = httpClient.DefaultRequestHeaders;
 
             string header = "ie";
             if (!headers.UserAgent.TryParseAdd(header))
@@ -51,7 +69,15 @@ namespace guiApp
             }
         }
 
-        public static async Task<int> postTestFunctionAsync(JObject jsonObject)
+        /*
+         * ----< Function > PostTestFunctionAsync
+         * ----< Description > 
+         * Taking in a JSON object, the object is then sent to the API Endpoint /cse687/sendFunctions
+         * ----< Description >
+         * @Param JObject jsonObject -- Contains json data that describes a testable function
+         * @Return Task<int> -- Contains the row ID of the newly inserted test function.
+         */
+        public static async Task<int> PostTestFunctionAsync(JObject jsonObject)
         {
             try
             {
@@ -61,10 +87,10 @@ namespace guiApp
                 HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(uri, content);
 
                 httpResponseMessage.EnsureSuccessStatusCode();
-                var httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
+                string httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
                 Debug.WriteLine("What we got back: " + httpResponseBody);
-                functionsIDsSent.Add(Int32.Parse(httpResponseBody));
-                return Int32.Parse(httpResponseBody);
+                functionsIDsSent.Add(int.Parse(httpResponseBody));
+                return int.Parse(httpResponseBody);
             }
             catch (Exception e)
             {
@@ -73,13 +99,25 @@ namespace guiApp
             }
         }
 
-        public static async void getResultsAsync(GuiLogger logger)
+        /*
+         * ----< Function > GetResultsAsync
+         * ----< Description > 
+         * For all test function ID's that have been sent this function will asynchronously 
+         * reach out to the endpoint /cse687/results ; sending an ID ; and receiving back a 
+         * JSON object containing the test results for that function.
+         * ----< Description >
+         * @Param GuiLogger logger -- Logger to write the data to in the GUI
+         * @Return void
+         */
+        public static async void GetResultsAsync(GuiLogger logger)
         {
-            foreach(Int32 ID in functionsIDsSent)
+            foreach (int ID in functionsIDsSent)
             {
 
-                JObject jsonOfIDs = new JObject();
-                jsonOfIDs.Add("ID", ID);
+                JObject jsonOfIDs = new JObject
+                {
+                    { "ID", ID }
+                };
                 HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
                 try
                 {
@@ -91,12 +129,12 @@ namespace guiApp
                         httpResponseMessage = await httpClient.PostAsync(uri, content);
                         if (httpResponseMessage.IsSuccessStatusCode)
                         {
-                            var httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
+                            string httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
                             if (httpResponseBody != "nil")
                             {
                                 completedTestFunction complete = JSONParser.jsonToCompleted(httpResponseBody);
                                 Debug.WriteLine(httpResponseBody);
-                                logger.testCompleteLog(complete);
+                                logger.TestCompleteLog(complete);
                                 break;
                             }
                         }
