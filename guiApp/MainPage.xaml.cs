@@ -51,7 +51,6 @@ namespace guiApp
         private ObservableCollection<DLLObject> sendToTestHarness = new ObservableCollection<DLLObject>();
         private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
-        private SendingSocket ss = new SendingSocket("127.0.0.1", 8090);
         private GuiLogger logger;
         private DispatcherTimer timer = new DispatcherTimer();
 
