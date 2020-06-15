@@ -1,6 +1,12 @@
 # CSE687 Test Harness
 ### Created for CSE687 at Syracuse University
 
+!!!!! Note: Currently this experiences a bug with Visual Studio compilation where HttpConnector (part of c++ harness) will throw this compilation error and will sometimes need a few tries to build:
+
+```
+Error	C1090	PDB API call failed, error code '3': 
+```
+
 # Description
 - The goal of this project was to create a backend C++ based test harness for testing functions within DLL's
 - This was completed with a C# GUI using Microsofts UWP framework, a C++ backend application for completing the tests, and a golang API with a postgres backing for the data communication between the two.
