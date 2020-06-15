@@ -10,8 +10,8 @@ public:
     int             databaseID;
     bool            pass;
     std::string     exception;
-    std::string          start_time;
-    std::string          completion_time;
+    std::string     start_time;
+    std::string     completion_time;
     std::string     file;
     std::string     function;
     int             thread_id;
@@ -30,7 +30,6 @@ public:
         function.clear();
         start_time.clear();
         completion_time.clear();
-        thread_id = -1;
     }
 
 };
