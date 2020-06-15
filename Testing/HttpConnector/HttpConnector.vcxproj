@@ -83,7 +83,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\Testing\Kamin_Parsing_Test\Parsers;..\Test_Harness;..\WindowsHelpers;..\Logger;..\Sockets;..\dll_control;..\BlockingQ;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>..\Testing\Kamin_Parsing_Test\Parsers;..\Test_Harness;..\dll_control;..\BlockingQ;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
