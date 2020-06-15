@@ -1,10 +1,18 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
+﻿/*
+ * GuiLogger.cs - Logger class, binds to the textbox at the bottom of the GUI
+ * functions within this class will allow writing too and scrolling of the logger box
+ * 
+ * Language:    C#, VS 2019
+ * Platform:    Windows 10 (UWP)
+ * Application: CSE687 Project
+ * Author:      Kamin Fay       -- kfay02@syr.edu
+ *              Brandon Hancock -- behancoc@syr.edu
+ *              Austin Cassidy  -- aucassid@syr.edu
+ *              Ralph Walker    -- rwalkeri@syr.edu
+ */
+
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace guiApp
@@ -12,77 +20,77 @@ namespace guiApp
     public class GuiLogger
     {
         private static int currentLevel;
-        private String loggingDisplay;
-        private TextBlock loggerText;
-        private ScrollViewer sv;
+        private string loggingDisplay;
+        private readonly TextBlock loggerText;
+        private readonly ScrollViewer sv;
 
         public GuiLogger()
         {
             loggingDisplay = "";
         }
 
-        public GuiLogger(String log, ref Windows.UI.Xaml.Controls.TextBlock logger, ref ScrollViewer sv)
+        public GuiLogger(string log, ref Windows.UI.Xaml.Controls.TextBlock logger, ref ScrollViewer sv)
         {
-            this.loggerText = logger;
+            loggerText = logger;
             this.sv = sv;
-            this.loggingDisplay = log;
-            this.loggerText.Text = loggingDisplay;
+            loggingDisplay = log;
+            loggerText.Text = loggingDisplay;
         }
 
-        public static void setLogLevel(int level)
+        public static void SetLogLevel(int level)
         {
             currentLevel = level;
         }
 
-        public void addLogMessage(String log, ref Windows.UI.Xaml.Controls.TextBlock logger)
+        public void AddLogMessage(string log, ref Windows.UI.Xaml.Controls.TextBlock logger)
         {
             loggingDisplay = loggingDisplay + "\n" + log;
             loggerText.Text = loggingDisplay;
-            reloadSV();
+            ReloadSV();
         }
 
-        public void addOpenFileMessage(String log, string path, ref Windows.UI.Xaml.Controls.TextBlock logger)
+        public void AddOpenFileMessage(string log, string path, ref Windows.UI.Xaml.Controls.TextBlock logger)
         {
-            addSeparators();
+            AddSeparators();
             loggingDisplay = loggingDisplay + "Opening File: " + log;
             loggingDisplay = loggingDisplay + "\nFile Path: " + path;
             loggerText.Text = loggingDisplay;
-            addSeparators();
-            reloadSV();
+            AddSeparators();
+            ReloadSV();
         }
 
-        public void addFunctionSendMessage(dllFunction dllFunc)
+        public void AddFunctionSendMessage(dllFunction dllFunc)
         {
-            addSeparators();
+            AddSeparators();
             loggingDisplay = loggingDisplay + "Sending Function: \n";
             loggingDisplay = loggingDisplay + "Dll Name: " + dllFunc.DllName + "\n";
             loggingDisplay = loggingDisplay + "Function Name: " + dllFunc.FuncName;
-            addSeparators();
-            reloadSV();
+            AddSeparators();
+            ReloadSV();
         }
 
-        public void postedTestFunctionLog(JObject jsonObject, int ID)
+        public void PostedTestFunctionLog(JObject jsonObject, int ID)
         {
-            addSeparators();
+            AddSeparators();
             loggingDisplay = loggingDisplay + "Sent JSON to API: \n";
             loggingDisplay = loggingDisplay + jsonObject.ToString() + "\n";
             loggingDisplay = loggingDisplay + "ID of entry = " + ID;
-            addSeparators();
-            reloadSV();
+            AddSeparators();
+            ReloadSV();
         }
 
-        public void testCompleteLog(completedTestFunction complete)
+        public void TestCompleteLog(completedTestFunction complete)
         {
             switch (currentLevel)
             {
                 case 1:
-                    testCompleteLogLevelOne(complete);
+                    TestCompleteLogLevelOne(complete);
                     break;
                 case 2:
-                    testCompleteLogLevelTwo(complete);
+                    TestCompleteLogLevelTwo(complete);
                     break;
                 case 3:
-                    testCompleteLogLevelThree(complete);
+                    TestCompleteLogLevelThree(complete);
                     break;
                 default:
                     Debug.WriteLine("Not A valid log Level.");
@@ -90,32 +98,32 @@ namespace guiApp
             }
         }
 
-        private void testCompleteLogLevelOne(completedTestFunction complete)
+        private void TestCompleteLogLevelOne(completedTestFunction complete)
         {
-            addSeparators();
+            AddSeparators();
             loggingDisplay = loggingDisplay + "Completed Test: \n";
             loggingDisplay = loggingDisplay + "Path: " + complete.DllPath + "\n";
             loggingDisplay = loggingDisplay + "Function: " + complete.FuncName + "\n";
             loggingDisplay = loggingDisplay + "Pass: " + complete.Result;
-            addSeparators();
-            reloadSV();
+            AddSeparators();
+            ReloadSV();
         }
 
-        private void testCompleteLogLevelTwo(completedTestFunction complete)
+        private void TestCompleteLogLevelTwo(completedTestFunction complete)
         {
-            addSeparators();
+            AddSeparators();
             loggingDisplay = loggingDisplay + "Completed Test: \n";
             loggingDisplay = loggingDisplay + "Path: " + complete.DllPath + "\n";
             loggingDisplay = loggingDisplay + "Function: " + complete.FuncName + "\n";
             loggingDisplay = loggingDisplay + "Pass: " + complete.Result + "\n";
             loggingDisplay = loggingDisplay + "Exception: " + complete.Exception;
-            addSeparators();
-            reloadSV();
+            AddSeparators();
+            ReloadSV();
         }
 
-        private void testCompleteLogLevelThree(completedTestFunction complete)
+        private void TestCompleteLogLevelThree(completedTestFunction complete)
         {
-            addSeparators();
+            AddSeparators();
             loggingDisplay = loggingDisplay + "Completed Test: \n";
             loggingDisplay = loggingDisplay + "Path: " + complete.DllPath + "\n";
             loggingDisplay = loggingDisplay + "Function: " + complete.FuncName + "\n";
@@ -123,18 +131,18 @@ namespace guiApp
             loggingDisplay = loggingDisplay + "Exception: " + complete.Exception + "\n";
             loggingDisplay = loggingDisplay + "Start Time: " + complete.StartTime + "\n";
             loggingDisplay = loggingDisplay + "End Time: " + complete.EndTime;
-            addSeparators();
-            reloadSV();
+            AddSeparators();
+            ReloadSV();
         }
 
-        public void addSeparators()
+        public void AddSeparators()
         {
             loggingDisplay += "\n--------------------------------------------------------------------------------\n";
             loggerText.Text = loggingDisplay;
         }
 
         // Which Each new addition we need to reload the scrollview and change it's view to the bottom.
-        public void reloadSV()
+        public void ReloadSV()
         {
             sv.UpdateLayout();
             sv.ChangeView(null, double.MaxValue, null);
