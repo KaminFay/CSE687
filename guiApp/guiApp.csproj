@@ -17,7 +17,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>C:\Users\Kamin\Documents\AppPackages\</AppxPackageDir>
@@ -25,6 +25,10 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <PackageCertificateThumbprint>
+    </PackageCertificateThumbprint>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <PackageCertificateKeyFile>guiApp_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -127,6 +131,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalDataTypes.cs" />
     <Compile Include="HelperClasses\AsyncRequest.cs" />
     <Compile Include="HelperClasses\StateObject.cs" />
     <Compile Include="HelperClasses\SocketManager.cs" />
@@ -144,11 +149,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="JSONExamples\auto_pass_delayed.dll" />
-    <Content Include="JSONExamples\dll _short_delay.dll" />
-    <Content Include="JSONExamples\dll_instant_fail.dll" />
-    <Content Include="JSONExamples\dll_instant_pass.dll" />
-    <Content Include="JSONExamples\dll_long_delay.dll" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -182,6 +183,7 @@
     <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="guiApp_TemporaryKey.pfx" />
     <None Include="JSONExamples\Testing.json" />
     <None Include="JSONExamples\TestingJSONFour.json" />
     <None Include="JSONExamples\TestingJSONThree.json" />

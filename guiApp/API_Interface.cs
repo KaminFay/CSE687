@@ -25,14 +25,14 @@ namespace guiApp
         public static ObservableCollection<int> functionsIDsSent = new ObservableCollection<int>();
 
         /*
-         * ----< Function > GetHomepage
+         * ----< Function > TruncateTestFunctions
          * ----< Description > 
-         * Sample function built to test hitting the API endpoints
+         * This function will truncate any items in the test function table of the api database
          * ----< Description >
          * @Param None
          * @Return None
          */
-        public static async void GetHompage()
+        public static async void TruncateTestFunctions()
         {
             Windows.Web.Http.HttpClient httpClient = new Windows.Web.Http.HttpClient();
 

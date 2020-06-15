@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*
+ * JSONParser.cs - JSON Parser is a class that allows for parsing of JSON files
+ * or JSON strings that are provided via http API calls.
+ * 
+ * Language:    C#, VS 2019
+ * Platform:    Windows 10 (UWP)
+ * Application: CSE687 Project
+ * Author:      Kamin Fay       -- kfay02@syr.edu
+ *              Brandon Hancock -- behancoc@syr.edu
+ *              Austin Cassidy  -- aucassid@syr.edu
+ *              Ralph Walker    -- rwalkeri@syr.edu
+ */
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,67 +22,6 @@ using System.Threading.Tasks;
 namespace guiApp
 
 {
-    public class completedTestFunction
-    {
-        public String DllName { get; set; }
-        public String DllPath { get; set; }
-        public String Exception { get; set; }
-        public bool Result { get; set; }
-        public String FuncName { get; set; }
-        public int ID { get; set; }
-        public String StartTime { get; set; }
-        public String EndTime { get; set; }
-
-    }
-
-    public class testFunctionJSON
-    {
-        public String FuncName { get; set; }
-        public String DllName { get; set; }
-        public String DllPath { get; set; }
-    }
-
-    public class dllBindingClass
-    {
-        public String dllName { get; set; }
-        public String dllFullPath { get; set; }
-
-        public dllBindingClass(String path, String name)
-        {
-            dllName = name;
-            dllFullPath = path;
-        }
-    }
-
-    public class dllFunction
-    {
-        public String FuncName { get; set; }
-        public String DllName { get; set; }
-        public String DllPath { get; set; }
-    }
-
-    public class dllInfo
-    {
-        public String dllName { get; set; }
-        public String dllLocation { get; set; }
-        public String jsonSourceName { get; set; }
-        public List<dllFunction> functionList { get; set; }
-
-        public dllInfo()
-        {
-            dllName = "";
-            dllLocation = "";
-            jsonSourceName = "";
-            functionList = new List<dllFunction>();
-        }
-    }
-
-    public class DLLViewModel
-    {
-        private dllInfo defaultDLL = new dllInfo();
-        public dllInfo DefaultDLL { get { return this.defaultDLL; } }
-    }
-
     class JSONParser
     {
         private String fileName { get; set; }
@@ -107,6 +58,15 @@ namespace guiApp
             this.filePath = path;
         }
 
+        /*
+         * ----< Function > readInJSON
+         * ----< Description > 
+         * Given a JSON file this function will read in the JSON data and call parseJSON
+         * to pull out the required information.
+         * ----< Description >
+         * @Param StorageFile storageFile -- File object that contains the path / name of the JSON file
+         * @Return allDLLData -- A list of all dll's within the JSON file and their corresponding functions.
+         */
         public async Task<List<dllInfo>> readInJSON(StorageFile storageFile)
         {
             fileName = storageFile.DisplayName;
@@ -120,11 +80,27 @@ namespace guiApp
             return allDLLData;
         }
 
+        /*
+         * ----< Function > getDLLObject
+         * ----< Description > 
+         * Get already parsed data of all dll's
+         * ----< Description >
+         * @Return allDLLData -- A list of all dll's within the JSON file and their corresponding functions.
+         */
         public List<dllInfo> getDLLObject()
         {
             return allDLLData;
         }
 
+        /*
+         * ----< Function > parseJSON
+         * ----< Description > 
+         * Given a JSON file this function will read in the JSON data and parse the data
+         * to pull out all relevent information about the dll's and functions within and store
+         * the data in a list within the class.
+         * ----< Description >
+         * @Param StorageFile storageFile -- File object that contains the path / name of the JSON file
+         */
         public void parseJSON(StorageFile storageFile)
         {
             Debug.WriteLine(jsonData.ToString());
@@ -164,6 +140,14 @@ namespace guiApp
             }
         }
 
+        /*
+         * ----< Function > dllFunctionToJSON
+         * ----< Description > 
+         * Static function that will convert from a dllFunction object to a JSON object
+         * ----< Description >
+         * @Param dllFunction func -- Object containing function data
+         * @Return JOBject -- JSON object containig all of the info from the dllFunction object.
+         */
         public static JObject dllFunctionToJSON(dllFunction func)
         {
 
@@ -172,6 +156,14 @@ namespace guiApp
             return jObject;
         }
 
+        /*
+         * ----< Function > jsonToCompleted
+         * ----< Description > 
+         * Static function that will convert a JSON string to a completedTestFunction object
+         * ----< Description >
+         * @Param string jsonString -- string containing JSON data.
+         * @return completedTestFunction -- C# object containing the data of a completed test.
+         */
         public static completedTestFunction jsonToCompleted(string jsonString)
         {
             completedTestFunction completedFunction = JsonConvert.DeserializeObject<completedTestFunction>(jsonString);

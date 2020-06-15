@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*
+ * MainPage.xaml.cs - Many Entry point for the C# GUI
+ * Includes all of the GUI control code as well
+ * 
+ * Language:    C#, VS 2019
+ * Platform:    Windows 10 (UWP)
+ * Application: CSE687 Project
+ * Author:      Kamin Fay       -- kfay02@syr.edu
+ *              Brandon Hancock -- behancoc@syr.edu
+ *              Austin Cassidy  -- aucassid@syr.edu
+ *              Ralph Walker    -- rwalkeri@syr.edu
+ */
+using System;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Text;
@@ -16,11 +28,23 @@ namespace guiApp
 
     public sealed partial class MainPage : Page
     {
+        /*
+         * ----< Description > 
+         * Extension is a simple enumerated data type to allow us to switch 
+         * between DLL / JSON in the file picker; DLL = 0, JSON = 1
+         * This is included for readability.
+         * ----< Description >
+         */
         public enum Extension {
             DLL,
             JSON
         };
 
+        /*
+        * ----< Description > 
+        * Group of all collections, and objects that are required for the GUI.
+        * ----< Description >
+        */
         private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
         private ObservableCollection<dllInfo> fileNamesForListView = new ObservableCollection<dllInfo>();
         private ObservableCollection<dllFunction> functionForListView = new ObservableCollection<dllFunction>();
@@ -28,12 +52,21 @@ namespace guiApp
         private JSONParser jsonParser = new JSONParser();
         private GuiLogger logger;
 
+        /*
+         * ----< Function > MainPage
+         * ----< Description > 
+         * Program entry point, initializes the GUI and logger.
+         * Also clears the API for usage during the current session.
+         * ----< Description >
+         * @Param None
+         * @Return None
+         */
         public MainPage()
         {
             this.InitializeComponent();
-
+            API_Interface.TruncateTestFunctions(); // Will be used to remove any sort of misplaced data on the API side
             logger = new GuiLogger("Initializing Logger", ref this.Logger, ref this.logScrollViewer);
-            logger.AddLogMessage("Initializing GUI", ref this.Logger);
+            logger.AddLogMessage("Initializing GUI");
         }
 
         private void OnElementClicked(Object sender, RoutedEventArgs routedEventArgs)
@@ -48,6 +81,7 @@ namespace guiApp
 
             DisplayCloseApplicationDialog();
         }
+
 
         private async void DisplayCloseApplicationDialog()
         {
@@ -68,6 +102,15 @@ namespace guiApp
             }
         }
 
+        /*
+         * ----< Function > OpenFilePicker_Click
+         * ----< Description > 
+         * When a new file is needed this will call the file selector function and let it know
+         * we need to open a JSON file.
+         * ----< Description >
+         * @Param None
+         * @Return None
+         */
         private async void OpenFilePicker_Click(object sender, RoutedEventArgs routedEventArgs)
         {
             FileSelector(Extension.JSON);
@@ -78,6 +121,14 @@ namespace guiApp
         {
         }
 
+        /*
+         * ----< Function > FileSelector
+         * ----< Description > 
+         * Open a file, depending on type passed in the file selector will be filtered.
+         * ----< Description >
+         * @Param Extension extension -- The extension type for the file we are looking for
+         * @Return None
+         */
         private async void FileSelector(Extension extension)
         {
             FileOpenPicker openPicker = new FileOpenPicker
@@ -96,12 +147,6 @@ namespace guiApp
 
                     foreach (StorageFile file in files)
                     {
-                        Debug.WriteLine("File name is: " + file.DisplayName);
-                        Debug.WriteLine("File display type: " + file.DisplayType);
-                        Debug.WriteLine("File type: " + file.FileType);
-                        Debug.WriteLine("File properties: " + file.Properties);
-                        Debug.WriteLine("File path: " + file.Path);
-
                         output.Append(file.DisplayName + "\n");
                         fileList.Add(file);
                     }
@@ -117,14 +162,21 @@ namespace guiApp
 
                 if(storageFile != null)
                 {
-
                     Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(storageFile);
-                    logger.AddOpenFileMessage(storageFile.DisplayName + ".json", storageFile.Path, ref this.Logger);
+                    logger.AddOpenFileMessage(storageFile.DisplayName + ".json", storageFile.Path);
                     AddDLLsToGUI(storageFile);
                 }
             }
         }
 
+        /*
+         * ----< Function > BindDLL
+         * ----< Description > 
+         * Once a dll is selected this function will bind the physical file and return
+         * a dllBindingClass containing the path / filename data.
+         * ----< Description >
+         * @Return dllBindingClass -- the data for binding
+         */
         private async Task<dllBindingClass> BindDLL()
         {
             FileOpenPicker openPicker = new FileOpenPicker
@@ -139,12 +191,19 @@ namespace guiApp
             {
                 Debug.WriteLine("Testing the printing of the DLL Path");
                 Debug.WriteLine(sFile.Path);
-                logger.AddOpenFileMessage(sFile.DisplayName + ".dll", sFile.Path, ref this.Logger);
+                logger.AddOpenFileMessage(sFile.DisplayName + ".dll", sFile.Path);
                 return new dllBindingClass(sFile.Path, sFile.DisplayName + ".dll");
             }
             return null;
         }
 
+        /*
+         * ----< Function > AddDLLsToGUI
+         * ----< Description > 
+         * Given a a JSON file this function will add the contents of that file to the GUI
+         * ----< Description >
+         * @Param StorageFile storageFile -- file pointer to the JSON containing DLL data.
+         */
         public async void AddDLLsToGUI(StorageFile storageFile)
         {
             List<dllInfo> allDLLData = await jsonParser.readInJSON(storageFile);                // Read in the JSON and return a list of the DLL's that are contained (asynchronously)
@@ -171,6 +230,13 @@ namespace guiApp
             }
         }
 
+        /*
+         * ----< Function > DllToggled
+         * ----< Description > 
+         * Once a DLL is toggled the application will call BindDLL(), open a file picker,
+         * select the file and bind the physical file to the logic here
+         * ----< Description >
+         */
         private async void DllToggled(object sender, RoutedEventArgs e)
         {
             int indexOfCurrentDLLToggled;
@@ -214,6 +280,13 @@ namespace guiApp
             }
         }
 
+        /*
+         * ----< Function > FunctionToggled
+         * ----< Description > 
+         * Once a function is toggled it will be added into a list of functions that
+         * are to be sent to the test harness backend.
+         * ----< Description >
+         */
         private void FunctionToggled(object sender, RoutedEventArgs e)
         {
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
@@ -231,6 +304,13 @@ namespace guiApp
             }
         }
 
+        /*
+         * ----< Function > Run_Test_Execution
+         * ----< Description > 
+         * Clicking Run will take the testable items selected, send them to the harness
+         * and wait for responses, both of which are handled asynchronously.
+         * ----< Description >
+         */
         private async void Run_Test_Execution(object sender, RoutedEventArgs e)
         {
             foreach(dllFunction func in functionsToHarness)
@@ -249,6 +329,12 @@ namespace guiApp
             Debug.WriteLine("Item is clicked");
         }
 
+        /*
+         * ----< Function > Cancel_Button_Click
+         * ----< Description > 
+         * Clear all of the data that has been loaded already along with the GUI.
+         * ----< Description >
+         */
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             fileList.Clear();
@@ -260,6 +346,12 @@ namespace guiApp
             this.Items.ItemsSource = null;
         }
 
+        /*
+         * ----< Function > Level_Three_Button_Checked
+         * ----< Description > 
+         * Set the logging level to 3, and reset the other two buttons.
+         * ----< Description >
+         */
         private void Level_Three_Button_Checked(object sender, RoutedEventArgs e)
         {
             GuiLogger.SetLogLevel(3);
@@ -267,6 +359,12 @@ namespace guiApp
             this.Level_Two_Button.IsChecked = false;
         }
 
+        /*
+         * ----< Function > Level_Two_Button_Checked
+         * ----< Description > 
+         * Set the logging level to 2, and reset the other two buttons.
+         * ----< Description >
+         */
         private void Level_Two_Button_Checked(object sender, RoutedEventArgs e)
         {
             GuiLogger.SetLogLevel(2);
@@ -275,6 +373,12 @@ namespace guiApp
 
         }
 
+        /*
+         * ----< Function > Level_One_Button_Checked
+         * ----< Description > 
+         * Set the logging level to 1, and reset the other two buttons.
+         * ----< Description >
+         */
         private void Level_One_Button_Checked(object sender, RoutedEventArgs e)
         {
             GuiLogger.SetLogLevel(1);

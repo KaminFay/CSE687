@@ -37,19 +37,44 @@ namespace guiApp
             loggerText.Text = loggingDisplay;
         }
 
+        /*
+         * ----< Function > SetLogLevel
+         * ----< Description > 
+         * Setter for the current log level for display in GUI
+         * ----< Description >
+         * @Param int level -- Current level
+         * @Return None
+         */
         public static void SetLogLevel(int level)
         {
             currentLevel = level;
         }
 
-        public void AddLogMessage(string log, ref Windows.UI.Xaml.Controls.TextBlock logger)
+        /*
+         * ----< Function > AddLogMessage
+         * ----< Description > 
+         * Add any string into the log
+         * ----< Description >
+         * @Param string log -- String to be added
+         * @Return None
+         */
+        public void AddLogMessage(string log)
         {
             loggingDisplay = loggingDisplay + "\n" + log;
             loggerText.Text = loggingDisplay;
             ReloadSV();
         }
 
-        public void AddOpenFileMessage(string log, string path, ref Windows.UI.Xaml.Controls.TextBlock logger)
+        /*
+         * ----< Function > AddOpenFileMessage
+         * ----< Description > 
+         * Will add a log displaying what file was opened
+         * ----< Description >
+         * @Param string log -- String to be added 
+         * @Param string path -- location of file being opened
+         * @Return None
+         */
+        public void AddOpenFileMessage(string log, string path)
         {
             AddSeparators();
             loggingDisplay = loggingDisplay + "Opening File: " + log;
@@ -59,6 +84,14 @@ namespace guiApp
             ReloadSV();
         }
 
+        /*
+         * ----< Function > AddFunctionSendMessage
+         * ----< Description > 
+         * Add a log message describing the function being sent
+         * ----< Description >
+         * @Param dllFunction dllFunc -- Function being sent
+         * @Return None
+         */
         public void AddFunctionSendMessage(dllFunction dllFunc)
         {
             AddSeparators();
@@ -69,6 +102,15 @@ namespace guiApp
             ReloadSV();
         }
 
+        /*
+         * ----< Function > PostedTestFunctionLog
+         * ----< Description > 
+         * Add a log message describing the function being sent to the API
+         * ----< Description >
+         * @Param JObject jsonObject -- JSON object that is being sent to the API
+         * @Param int ID -- ID that was returned for the IP indicating it's location in the database
+         * @Return None
+         */
         public void PostedTestFunctionLog(JObject jsonObject, int ID)
         {
             AddSeparators();
@@ -79,6 +121,14 @@ namespace guiApp
             ReloadSV();
         }
 
+        /*
+         * ----< Function > TestCompleteLog
+         * ----< Description > 
+         * Switch case for which logging level to use on the current completedTestFunction
+         * ----< Description >
+         * @Param completedTestFunction complete -- C# object that describes the completed test
+         * @Return None
+         */
         public void TestCompleteLog(completedTestFunction complete)
         {
             switch (currentLevel)
@@ -98,6 +148,14 @@ namespace guiApp
             }
         }
 
+        /*
+         * ----< Function > TestCompleteLogLevelOne
+         * ----< Description > 
+         * Display DLL path, function tested, and if it passed / failed.
+         * ----< Description >
+         * @Param completedTestFunction complete -- C# object that describes the completed test
+         * @Return None
+         */
         private void TestCompleteLogLevelOne(completedTestFunction complete)
         {
             AddSeparators();
@@ -109,6 +167,14 @@ namespace guiApp
             ReloadSV();
         }
 
+        /*
+         * ----< Function > TestCompleteLogLevelTwo
+         * ----< Description > 
+         * Display DLL path, function tested, if it passed/failed, and the exception.
+         * ----< Description >
+         * @Param completedTestFunction complete -- C# object that describes the completed test
+         * @Return None
+         */
         private void TestCompleteLogLevelTwo(completedTestFunction complete)
         {
             AddSeparators();
@@ -121,6 +187,14 @@ namespace guiApp
             ReloadSV();
         }
 
+        /*
+         * ----< Function > TestCompleteLogLevelThree
+         * ----< Description > 
+         * Display DLL path, function tested, if it passed/failed, exception, start time and end time of test.
+         * ----< Description >
+         * @Param completedTestFunction complete -- C# object that describes the completed test
+         * @Return None
+         */
         private void TestCompleteLogLevelThree(completedTestFunction complete)
         {
             AddSeparators();
@@ -135,13 +209,27 @@ namespace guiApp
             ReloadSV();
         }
 
+        /*
+         * ----< Function > AddSeparators
+         * ----< Description > 
+         * Simply adds --- separators between items in the logger.
+         * ----< Description >
+         * @Return None
+         */
         public void AddSeparators()
         {
             loggingDisplay += "\n--------------------------------------------------------------------------------\n";
             loggerText.Text = loggingDisplay;
         }
 
-        // Which Each new addition we need to reload the scrollview and change it's view to the bottom.
+        /*
+         * ----< Function > ReloadSV
+         * ----< Description > 
+         * Each time an item is added into the logger the layout needs to be reloaded
+         * which will allow for auto scroll to take over.
+         * ----< Description >
+         * @Return None
+         */
         public void ReloadSV()
         {
             sv.UpdateLayout();
