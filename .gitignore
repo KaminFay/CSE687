@@ -40,3 +40,5 @@ guiApp/.vscode/launch.json
 guiApp/BundleArtifacts/
 
 ProtobufFiles/
+
+guiApp/Package.StoreAssociation.xml
