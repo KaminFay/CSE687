@@ -8,6 +8,7 @@
 #include <sstream>
 #include <locale>
 #include <codecvt>
+#include "logger_def.h"
 
 namespace Parsers {
 	
@@ -232,6 +233,14 @@ namespace Parsers {
 		}
 	}
 
+	/*
+	 * ----< Function > resultObjectToJSONString
+	 * ----< Description >
+	 * Converts from a result_log object to a string to be sent to API
+	 * ----< Description >
+	 * @Param result_log result -- object containing results
+	 * @Return std::string -- JSON String for sending data to API
+	 */
 	std::string JSONParser::resultObjectToJSONString(result_log result) {
 		nlohmann::json jsonObject;
 		jsonObject["ID"] = result.databaseID;
@@ -249,6 +258,14 @@ namespace Parsers {
 		return jsonObject.dump();
 	}
 
+	/*
+	 * ----< Function > jsonStringToFunctionObject
+	 * ----< Description >
+	 * Converts from jsonString to a vector of functions that need to be tested.
+	 * ----< Description >
+	 * @Param std::string jsonString -- json string containing testing data from API
+	 * @Return std::vector<dll_info> -- vector of testable functions.
+	 */
 	std::vector<dll_info> JSONParser::jsonStringToFunctionObject(std::string jsonString) {
 		auto jsonObject = nlohmann::json::parse(jsonString);
 		std::vector<dll_info> passedInFunctions;
@@ -413,9 +430,9 @@ namespace Parsers {
 			std::string tempString = functionNames.at(i);
 			tempString = std::regex_replace(tempString, funcReplace, "");
 			std::cout << tempString << std::endl;
-			int spaceLoc = tempString.find_first_of(" ");
-			int leftPar = tempString.find_first_of("(");
-			int rightPar = tempString.find_first_of(")");
+			size_t spaceLoc = tempString.find_first_of(" ");
+			size_t leftPar = tempString.find_first_of("(");
+			size_t rightPar = tempString.find_first_of(")");
 			std::string returnType = tempString.substr(0, spaceLoc);
 			std::string functionName = tempString.substr(spaceLoc, leftPar - spaceLoc);
 			functionName = std::regex_replace(functionName, std::regex(" "), ""); // Trim off white space
