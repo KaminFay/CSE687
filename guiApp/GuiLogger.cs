@@ -20,19 +20,19 @@ namespace guiApp
     public class GuiLogger
     {
         private static int currentLevel;
-        private string loggingDisplay;
-        private readonly TextBlock loggerText;
-        private readonly ScrollViewer sv;
+        private static string loggingDisplay;
+        private static TextBlock loggerText;
+        private static ScrollViewer sv;
 
         public GuiLogger()
         {
             loggingDisplay = "";
         }
 
-        public GuiLogger(string log, ref Windows.UI.Xaml.Controls.TextBlock logger, ref ScrollViewer sv)
+        public GuiLogger(string log, ref Windows.UI.Xaml.Controls.TextBlock logger, ref ScrollViewer svP)
         {
             loggerText = logger;
-            this.sv = sv;
+            sv = svP;
             loggingDisplay = log;
             loggerText.Text = loggingDisplay;
         }
@@ -209,6 +209,15 @@ namespace guiApp
             ReloadSV();
         }
 
+        public static void logException(string message, string exception)
+        {
+            AddSeparators();
+            loggingDisplay = loggingDisplay + message + "\n";
+            loggingDisplay = loggingDisplay + "Exception: " + exception;
+            AddSeparators();
+            ReloadSV();
+        }
+
         /*
          * ----< Function > AddSeparators
          * ----< Description > 
@@ -216,7 +225,7 @@ namespace guiApp
          * ----< Description >
          * @Return None
          */
-        public void AddSeparators()
+        public static void AddSeparators()
         {
             loggingDisplay += "\n--------------------------------------------------------------------------------\n";
             loggerText.Text = loggingDisplay;
@@ -230,7 +239,7 @@ namespace guiApp
          * ----< Description >
          * @Return None
          */
-        public void ReloadSV()
+        public static void ReloadSV()
         {
             sv.UpdateLayout();
             sv.ChangeView(null, double.MaxValue, null);

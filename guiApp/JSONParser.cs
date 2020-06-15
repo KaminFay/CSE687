@@ -71,12 +71,18 @@ namespace guiApp
         {
             fileName = storageFile.DisplayName;
             filePath = storageFile.Path;
-            using (StreamReader file = new StreamReader(await storageFile.OpenStreamForReadAsync()))
-            using (JsonTextReader reader = new JsonTextReader(file))
+            try
             {
-                jsonData = (JObject)JToken.ReadFrom(reader);
+                using (StreamReader file = new StreamReader(await storageFile.OpenStreamForReadAsync()))
+                using (JsonTextReader reader = new JsonTextReader(file))
+                {
+                    jsonData = (JObject)JToken.ReadFrom(reader);
+                }
+                parseJSON(storageFile);
+            }catch (Exception ex)
+            {
+                GuiLogger.logException("The JSON Passed in is invalid syntax.", ex.Message);
             }
-            parseJSON(storageFile);
             return allDLLData;
         }
 
@@ -108,36 +114,53 @@ namespace guiApp
             JArray jArray = (JArray)jsonData["dlls"];
             dynamic dllData = jArray;
 
+
             Debug.WriteLine("Testing Dynamics");
-            foreach (dynamic item in dllData)
+            if(dllData != null)
             {
-                dllInfo newDll = new dllInfo();
-                newDll.dllName = item.Name.ToString();
-                newDll.dllLocation = item.Location.ToString();
-                newDll.jsonSourceName = storageFile.DisplayName;
-
-
-                foreach (dynamic functionT in item.Functions)
+                try
                 {
+                    foreach (dynamic item in dllData)
+                    {
+                        dllInfo newDll = new dllInfo();
+                        newDll.dllName = item.Name.ToString();
+                        newDll.dllLocation = item.Location.ToString();
+                        newDll.jsonSourceName = storageFile.DisplayName;
 
-                    dllFunction newFunction = new dllFunction();
-                    newFunction.FuncName = functionT.FuncName;
-                    newDll.functionList.Add(newFunction);
 
+                        foreach (dynamic functionT in item.Functions)
+                        {
+
+                            dllFunction newFunction = new dllFunction();
+                            newFunction.FuncName = functionT.FuncName;
+                            newDll.functionList.Add(newFunction);
+
+                        }
+                        allDLLData.Add(newDll);
+                    }
+
+                    Debug.WriteLine("Testing Listing Function");
+                    foreach (dllInfo item in allDLLData)
+                    {
+                        Debug.WriteLine("Name: " + item.dllName);
+                        foreach (dllFunction function in item.functionList)
+                        {
+                            Debug.WriteLine(function.FuncName);
+                        }
+                        Debug.WriteLine("---------------------");
+                    }
+                }catch(Exception ex)
+                {
+                    GuiLogger.logException("Invalid Source JSON", ex.Message);
+                    allDLLData.Clear();
+                    return;
                 }
-                allDLLData.Add(newDll);
+            }
+            else
+            {
+                GuiLogger.logException("Invalid Source JSON", "Please Correct");
             }
 
-            Debug.WriteLine("Testing Listing Function");
-            foreach (dllInfo item in allDLLData)
-            {
-                Debug.WriteLine("Name: " + item.dllName);
-                foreach (dllFunction function in item.functionList)
-                {
-                    Debug.WriteLine(function.FuncName);
-                }
-                Debug.WriteLine("---------------------");
-            }
         }
 
         /*

@@ -209,22 +209,25 @@ namespace guiApp
             List<dllInfo> allDLLData = await jsonParser.readInJSON(storageFile);                // Read in the JSON and return a list of the DLL's that are contained (asynchronously)
 
             fileList.Add(storageFile);
-            foreach (dllInfo dll in allDLLData)
+            if(allDLLData != null)
             {
-                //If the list is empty by default add the new dll to the list
-                if (fileNamesForListView.Count == 0)
+                foreach (dllInfo dll in allDLLData)
                 {
-                    fileNamesForListView.Add(dll);
-                    this.Items.ItemsSource = fileNamesForListView;
-                }
-                else
-                {
-                    //Check to see if the dll exists in the list, if it doesn't add it
-                    //This prevent's any duplicate DLL's that may be in separate JSON files that are loaded
-                    if (!fileNamesForListView.Any(d => d.dllName == dll.dllName))
+                    //If the list is empty by default add the new dll to the list
+                    if (fileNamesForListView.Count == 0)
                     {
                         fileNamesForListView.Add(dll);
                         this.Items.ItemsSource = fileNamesForListView;
+                    }
+                    else
+                    {
+                        //Check to see if the dll exists in the list, if it doesn't add it
+                        //This prevent's any duplicate DLL's that may be in separate JSON files that are loaded
+                        if (!fileNamesForListView.Any(d => d.dllName == dll.dllName))
+                        {
+                            fileNamesForListView.Add(dll);
+                            this.Items.ItemsSource = fileNamesForListView;
+                        }
                     }
                 }
             }
