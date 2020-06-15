@@ -19,6 +19,7 @@ FNPTR dll_control::load_dll(std::string dll_path, std::string dll_function)
     HINSTANCE hInst1 = LoadLibrary(wstr_lib_path_1);
     if (!hInst1)
     {
+        std::cout << "Attempted to load: " << dll_path << std::endl;
         throw "Could not load the dll library";
     }
 
@@ -26,6 +27,7 @@ FNPTR dll_control::load_dll(std::string dll_path, std::string dll_function)
     fp = (FNPTR)(GetProcAddress(hInst1, dll_function.c_str()));
     if (!fp)
     {
+        std::cout << "Attempted to load: " << dll_path << std::endl;
         throw "Could not locate the dll function";
     }
 
