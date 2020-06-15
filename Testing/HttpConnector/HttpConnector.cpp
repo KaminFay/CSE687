@@ -1,19 +1,45 @@
+/*
+ * HttpConnector.cpp - Class that is used to interface with the 
+ * golang API that is hosted at http://www.kaminfay.com
+ * Repo for API Source: https://github.com/KaminFay/CSE687_API
+ *
+ * Language:    C#, VS 2019
+ * Platform:    Windows 10 (UWP)
+ * Application: CSE687 Project
+ * Author:      Kamin Fay       -- kfay02@syr.edu
+ *              Brandon Hancock -- behancoc@syr.edu
+ *              Austin Cassidy  -- aucassid@syr.edu
+ *              Ralph Walker    -- rwalkeri@syr.edu
+ */
 #include "HttpConnector.h"
 
-HttpConnector::HttpConnector() {
-
-}
-
+/*
+ * ----< Function > HttpConnector
+ * ----< Description >
+ * Initialize the connector with the input / outputing blocking queues
+ * ----< Description >
+ * @Param BlockingQueue<dll_info>& input_queue -- Reference to the input queue where new tests are placed.
+ * @Param BlockingQueue<result_log>& output_queue -- Reference to the output queue where completed results are placed.
+ * @Return None
+ */
 HttpConnector::HttpConnector(BlockingQueue<dll_info>& input_queue, BlockingQueue<result_log>& output_queue)
 {
 	client_queue = &input_queue;
 	result_queue = &output_queue;
 }
 
+/*
+ * ----< Function > sendResults
+ * ----< Description >
+ * On it's own thread sendResults will wait for any results being placed into the outbound queue and send
+ * them to the API to be received in the GUI.
+ * ----< Description >
+ * @Param None
+ * @Return None
+ */
 void HttpConnector::sendResults() {
 	std::thread sendResultThread(
 		[&]() {
-			std::cout << "Sending Thread: " << std::this_thread::get_id() << std::endl;
 			while (true) {
 				Sleep(5);
 				// If there are results we'll wanna push them up
@@ -36,12 +62,21 @@ void HttpConnector::sendResults() {
 
 }
 
+/*
+ * ----< Function > getTestableFunctions
+ * ----< Description >
+ * On it's own thread getTestableFunctions continually reach out to see if the API has any
+ * new testable functions from the C# GUI. If there are this function will add them into the input
+ * queue.
+ * ----< Description >
+ * @Param None
+ * @Return None
+ */
 void HttpConnector::getTestableFunctions()
 {
 	std::thread getFunctionsThread(
 		[&]()
 		{
-			std::cout << "Recieving Thread: " << std::this_thread::get_id() << std::endl;
 			while (true) {
 				Sleep(5);
 				std::string body;

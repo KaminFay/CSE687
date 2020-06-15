@@ -16,9 +16,6 @@ public:
 	BlockingQueue<dll_info>* client_queue;
 	BlockingQueue<result_log>* result_queue;
 
-
-	HttpConnector();
-
 	HttpConnector(BlockingQueue<dll_info>& input_queue, BlockingQueue<result_log>& output_queue);
 
 	void sendResults();
