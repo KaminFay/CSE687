@@ -83,7 +83,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\WindowsHelpers;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Logger;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\Sockets;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\App1;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\dll_control;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing;C:\cygwin64\home\Austin\grad_school\github\CS687\CSE687\Testing\BlockingQ;$(IncludePath)</IncludePath>
+    <IncludePath>..\HttpConnector;..\WindowsHelpers;..\Logger;..\Sockets;..\HttpClient;..\dll_control;..\BlockingQ;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -133,6 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\HttpConnector;..\WindowsHelpers;..\Logger;..\Sockets;..\HttpClient;..\dll_control;..\BlockingQ</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
