@@ -1,18 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Newtonsoft.Json;
-using System.Text;
 using Windows.Storage;
-using Windows.Storage.Pickers;
 using Newtonsoft.Json.Linq;
-using System.Runtime.CompilerServices;
-using System.Numerics;
-using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.WebUI;
 
 namespace guiApp
 
@@ -52,8 +45,6 @@ namespace guiApp
     public class dllFunction
     {
         public String FuncName { get; set; }
-        //public String returnType { get; set; }
-        //public String parameters { get; set; }
         public String DllName { get; set; }
         public String DllPath { get; set; }
     }
@@ -155,23 +146,11 @@ namespace guiApp
 
                     dllFunction newFunction = new dllFunction();
                     newFunction.FuncName = functionT.FuncName;
-                    //newFunction.parameters = functionT.PassedIn;
-                    //newFunction.returnType = functionT.ReturnType;
                     newDll.functionList.Add(newFunction);
 
                 }
                 allDLLData.Add(newDll);
             }
-
-            //IList<dllInfo> dllData = jArray.Select(dll => new dllInfo
-            //{
-            //    DllName = (string)dll["Name"],
-            //    dllLocation = (string)dll["Location"],
-            //    functionList = jArray.Select(functions => new dllFunction
-            //    {
-
-            //    }).ToList()
-            //}).ToList();
 
             Debug.WriteLine("Testing Listing Function");
             foreach (dllInfo item in allDLLData)

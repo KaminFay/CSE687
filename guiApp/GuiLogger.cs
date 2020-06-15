@@ -13,7 +13,7 @@ namespace guiApp
     {
         private static int currentLevel;
         private String loggingDisplay;
-        private Windows.UI.Xaml.Controls.TextBlock loggerText;
+        private TextBlock loggerText;
         private ScrollViewer sv;
 
         public GuiLogger()

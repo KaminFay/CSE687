@@ -101,12 +101,6 @@ namespace guiApp
                             }
                         }
                     }
-
-                    //httpResponseMessage.EnsureSuccessStatusCode();
-                    //var httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
-                    //Debug.WriteLine("---------------Results-----------");
-                    //Debug.WriteLine(httpResponseBody);
-                    //functionsIDsSent.Remove(ID);
                 }
                 catch (Exception e)
                 {

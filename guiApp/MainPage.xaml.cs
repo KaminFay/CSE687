@@ -1,40 +1,18 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
-
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using guiApp.HelperClasses;
-
-
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace guiApp
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    /// 
-
 
     public sealed partial class MainPage : Page
     {
@@ -43,8 +21,6 @@ namespace guiApp
             JSON
         };
 
-        //System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
-
         private ObservableCollection<StorageFile> fileList = new ObservableCollection<StorageFile>();
         private ObservableCollection<dllInfo> fileNamesForListView = new ObservableCollection<dllInfo>();
         private ObservableCollection<dllFunction> functionForListView = new ObservableCollection<dllFunction>();
@@ -52,7 +28,6 @@ namespace guiApp
         private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
         private GuiLogger logger;
-        private DispatcherTimer timer = new DispatcherTimer();
 
         public MainPage()
         {
@@ -102,12 +77,6 @@ namespace guiApp
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
-            //var items = new ObservableCollection<DLLObject>();
-            //for(int i = 0; i < 9; i ++)
-            //{
-            //    items.Add(new DLLObject($"item {i}"));
-            //}
-            //this.Items.ItemsSource = items;
         }
 
         private async void fileSelector(Extension extension)
@@ -136,14 +105,10 @@ namespace guiApp
 
                         output.Append(file.DisplayName + "\n");
                         fileList.Add(file);
-
-                        //fileNamesForListView.Add(file.DisplayName + file.FileType);
                     }
-                    //this.Items.ItemsSource = fileNamesForListView;
                 }
                 else
                 {
-                    //OutputTextBlock.Text = "Operation cancelled.";
                 }
             }
             else if(extension == Extension.JSON)
@@ -209,8 +174,6 @@ namespace guiApp
 
         private async void dllToggled(object sender, RoutedEventArgs e)
         {
-            //fileSelector(Extension.DLL);
-
             int indexOfCurrentDLLToggled;
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             dllInfo sampleDll = (dllInfo)((Grid)toggleSwitch.Parent).DataContext;
@@ -235,7 +198,6 @@ namespace guiApp
                         Debug.WriteLine("After the move: ");
                         Debug.WriteLine(fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllLocation);
                     }
-                    //String pathLocation = returnTask.Result;
                     foreach (dllFunction function in sampleDll.functionList)
                     {
                         function.DllName = fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllName;
@@ -251,24 +213,6 @@ namespace guiApp
                 functionForListView.Clear();
                 this.FunctionList.ItemsSource = functionForListView;
             }
-
-
-            //var toggle = (ToggleSwitch) sender;
-            //var dataContext = ((Grid)toggle.Parent).DataContext;
-            //var dataItem =  (dllInfo) dataContext;
-            //dataItem.DLLObjectName = $"Toggled {toggle.IsOn}";
-
-            //if (toggle.IsOn)
-            //{
-            //    sendToTestHarness.Add(dataItem);
-            //}
-
-            //if (!toggle.IsOn)
-            //{
-            //    sendToTestHarness.Remove(dataItem);
-            //}
-
-            //Debug.WriteLine("The current size of the list is: " + sendToTestHarness.Count);
         }
 
         private async void functionToggled(object sender, RoutedEventArgs e)
@@ -296,28 +240,14 @@ namespace guiApp
 
         private async void Run_Test_Execution(object sender, RoutedEventArgs e)
         {
-            //Queue<DLLObject> harnessQueue = new Queue<DLLObject>();
-
-            //foreach (DLLObject dLLObject in sendToTestHarness)
-            //{
-            //    harnessQueue.Enqueue(dLLObject);
-            //}
-
-            //Debug.WriteLine("The current size of the queue is: " + harnessQueue.Count);
-            //ss.EstablishConnection();
             foreach(dllFunction func in functionsToHarness)
             {
                 Debug.WriteLine("Sending Another");
-                //BufferBuilder builder = new BufferBuilder(func);
-                //logger.addFunctionSendMessage(func);
-                //builder.SerializeAndSendBuffer(ss);
                 JObject jObject = JSONParser.dllFunctionToJSON(func);
                 var ID = await API_Interface.postTestFunctionAsync(jObject);
                 logger.postedTestFunctionLog(jObject, ID);
                 Debug.WriteLine("Items in functionIDsSent: " + API_Interface.functionsIDsSent.Count());
             }
-            //ss.CleanSocket();
-
             API_Interface.getResultsAsync(logger);
         }
 
