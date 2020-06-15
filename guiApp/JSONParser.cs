@@ -22,7 +22,7 @@ namespace guiApp
         public String DllName { get; set; }
         public String DllPath { get; set; }
         public String Exception { get; set; }
-        public bool PassFail { get; set; }
+        public bool Result { get; set; }
         public String FuncName { get; set; }
         public int ID { get; set; }
         public String StartTime { get; set; }
