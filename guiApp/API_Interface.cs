@@ -73,7 +73,7 @@ namespace guiApp
             }
         }
 
-        public static async void getResultsAsync(Logger logger)
+        public static async void getResultsAsync(GuiLogger logger)
         {
             foreach(Int32 ID in functionsIDsSent)
             {

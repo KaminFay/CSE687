@@ -52,15 +52,14 @@ namespace guiApp
         private ObservableCollection<dllFunction> functionsToHarness = new ObservableCollection<dllFunction>();
         private JSONParser jsonParser = new JSONParser();
         private SendingSocket ss = new SendingSocket("127.0.0.1", 8090);
-        private AsynchronousSocketListener asl = new AsynchronousSocketListener();
-        private Logger logger;
+        private GuiLogger logger;
         private DispatcherTimer timer = new DispatcherTimer();
 
         public MainPage()
         {
             this.InitializeComponent();
 
-            logger = new Logger("Initializing Logger", ref this.Logger, ref this.logScrollViewer);
+            logger = new GuiLogger("Initializing Logger", ref this.Logger, ref this.logScrollViewer);
             logger.addLogMessage("Initializing GUI", ref this.Logger);
         }
 
@@ -338,6 +337,28 @@ namespace guiApp
             this.TestableList.ItemsSource = null;
             this.FunctionList.ItemsSource = null;
             this.Items.ItemsSource = null;
+        }
+
+        private void Level_Three_Button_Checked(object sender, RoutedEventArgs e)
+        {
+            GuiLogger.setLogLevel(3);
+            this.Level_One_Button.IsChecked = false;
+            this.Level_Two_Button.IsChecked = false;
+        }
+
+        private void Level_Two_Button_Checked(object sender, RoutedEventArgs e)
+        {
+            GuiLogger.setLogLevel(2);
+            this.Level_One_Button.IsChecked = false;
+            this.Level_Three_Button.IsChecked = false;
+
+        }
+
+        private void Level_One_Button_Checked(object sender, RoutedEventArgs e)
+        {
+            GuiLogger.setLogLevel(1);
+            this.Level_Three_Button.IsChecked = false;
+            this.Level_Two_Button.IsChecked = false;
         }
     }
 }

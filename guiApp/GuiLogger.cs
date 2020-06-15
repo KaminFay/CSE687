@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,23 +9,29 @@ using Windows.UI.Xaml.Controls;
 
 namespace guiApp
 {
-    public class Logger
+    public class GuiLogger
     {
+        private static int currentLevel;
         private String loggingDisplay;
         private Windows.UI.Xaml.Controls.TextBlock loggerText;
         private ScrollViewer sv;
 
-        public Logger()
+        public GuiLogger()
         {
             loggingDisplay = "";
         }
 
-        public Logger(String log, ref Windows.UI.Xaml.Controls.TextBlock logger, ref ScrollViewer sv)
+        public GuiLogger(String log, ref Windows.UI.Xaml.Controls.TextBlock logger, ref ScrollViewer sv)
         {
             this.loggerText = logger;
             this.sv = sv;
             this.loggingDisplay = log;
             this.loggerText.Text = loggingDisplay;
+        }
+
+        public static void setLogLevel(int level)
+        {
+            currentLevel = level;
         }
 
         public void addLogMessage(String log, ref Windows.UI.Xaml.Controls.TextBlock logger)
@@ -66,11 +73,53 @@ namespace guiApp
 
         public void testCompleteLog(completedTestFunction complete)
         {
+            switch (currentLevel)
+            {
+                case 1:
+                    testCompleteLogLevelOne(complete);
+                    break;
+                case 2:
+                    testCompleteLogLevelTwo(complete);
+                    break;
+                case 3:
+                    testCompleteLogLevelThree(complete);
+                    break;
+                default:
+                    Debug.WriteLine("Not A valid log Level.");
+                    break;
+            }
+        }
+
+        private void testCompleteLogLevelOne(completedTestFunction complete)
+        {
             addSeparators();
             loggingDisplay = loggingDisplay + "Completed Test: \n";
             loggingDisplay = loggingDisplay + "Path: " + complete.DllPath + "\n";
             loggingDisplay = loggingDisplay + "Function: " + complete.FuncName + "\n";
-            loggingDisplay = loggingDisplay + "Pass/Fail: " + complete.PassFail + "\n";
+            loggingDisplay = loggingDisplay + "Pass: " + complete.Result;
+            addSeparators();
+            reloadSV();
+        }
+
+        private void testCompleteLogLevelTwo(completedTestFunction complete)
+        {
+            addSeparators();
+            loggingDisplay = loggingDisplay + "Completed Test: \n";
+            loggingDisplay = loggingDisplay + "Path: " + complete.DllPath + "\n";
+            loggingDisplay = loggingDisplay + "Function: " + complete.FuncName + "\n";
+            loggingDisplay = loggingDisplay + "Pass: " + complete.Result + "\n";
+            loggingDisplay = loggingDisplay + "Exception: " + complete.Exception;
+            addSeparators();
+            reloadSV();
+        }
+
+        private void testCompleteLogLevelThree(completedTestFunction complete)
+        {
+            addSeparators();
+            loggingDisplay = loggingDisplay + "Completed Test: \n";
+            loggingDisplay = loggingDisplay + "Path: " + complete.DllPath + "\n";
+            loggingDisplay = loggingDisplay + "Function: " + complete.FuncName + "\n";
+            loggingDisplay = loggingDisplay + "Pass: " + complete.Result + "\n";
             loggingDisplay = loggingDisplay + "Exception: " + complete.Exception + "\n";
             loggingDisplay = loggingDisplay + "Start Time: " + complete.StartTime + "\n";
             loggingDisplay = loggingDisplay + "End Time: " + complete.EndTime;

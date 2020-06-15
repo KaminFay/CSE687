@@ -243,8 +243,37 @@
                         </ListView.ItemTemplate>
 
                     </ListView>
+
+
+
                     <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <RadioButton Content="Level 1"
+                                     MinWidth="80"
+                                     Name="Level_One_Button"
+                                     RelativePanel.LeftOf="Level_Two_Button"
+                                     RelativePanel.Above="Run_Button"
+                                     IsChecked="False"
+                                     Checked="Level_One_Button_Checked"
+                                     />
+                        <RadioButton Content="Level 2"
+                                     Name="Level_Two_Button"
+                                     MinWidth="80"
+                                     RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                     RelativePanel.Above="Run_Button"
+                                     IsChecked="False"
+                                     Checked="Level_Two_Button_Checked" Width="61">
+                        </RadioButton>
+                        <RadioButton Content="Level 3"
+                                     MinWidth="80"
+                                     Name="Level_Three_Button"
+                                     RelativePanel.RightOf="Level_Two_Button"
+                                     RelativePanel.Above="Run_Button"
+                                     IsChecked="True"
+                                     Checked="Level_Three_Button_Checked" Width="61">
+
+                        </RadioButton>
                         <Button Content="Run" 
+                                Name="Run_Button"
                                 Style="{StaticResource AccentButtonStyle}"
                                 MinWidth="300"
                                 Margin="10"
