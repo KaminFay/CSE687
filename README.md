@@ -49,6 +49,12 @@ PS <\TestHarness_Gui_1.0.18.0.Test> .\Install.ps1
 
 # Usage Instructions:
 
+- Sample DLL's and JSON files can be found [here](https://github.com/KaminFay/CSE687/tree/master/Dll_Source/dll_files):
+
+```
+CSE687/DLL_Source/dll_files
+```
+
 - Once the GUI and Backend are running a JSON file will need to be opened to layout the DLL's that are to be tested and their corresponding functions
   - This is done by selecting File->Open and selecting a .JSON file
   - Opening a JSON fill will present the user with a list of possible DLL's that were provided within that file
