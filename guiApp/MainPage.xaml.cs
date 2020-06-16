@@ -266,6 +266,12 @@ namespace guiApp
                         Debug.WriteLine("After the move: ");
                         Debug.WriteLine(fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllLocation);
                     }
+                    else
+                    {
+                        toggleSwitch.IsOn = false;
+                        GuiLogger.logException("DLL name in GUI does not match selected DLL file.", "Please Try Again");
+                        return;
+                    }
                     foreach (dllFunction function in sampleDll.functionList)
                     {
                         function.DllName = fileNamesForListView.ElementAt<dllInfo>(indexOfCurrentDLLToggled).dllName;
@@ -278,7 +284,10 @@ namespace guiApp
             }
             else
             {
-                functionForListView.Clear();
+                foreach (dllFunction function in sampleDll.functionList)
+                {
+                    functionForListView.Remove(function);
+                }
                 this.FunctionList.ItemsSource = functionForListView;
             }
         }
