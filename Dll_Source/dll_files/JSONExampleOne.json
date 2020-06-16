@@ -1,0 +1,25 @@
+{"dlls" : [
+    {
+        "Name":"dll_long_delay.dll",
+        "Location":"C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\dll_long_delay.dll",
+        "Functions": [
+                {
+                  "FuncName":"Run_Test",
+                  "PassedIn": "",
+                  "ReturnType": ""
+                }
+              ]
+    },
+    {
+      "Name":"rng_exception_thrower.dll",
+      "Location":"C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\rng_exception_thrower.dll",
+      "Functions": [
+              {
+                "FuncName":"throw_exception",
+                "PassedIn": "",
+                "ReturnType": ""
+              }
+            ]
+  }
+]
+}

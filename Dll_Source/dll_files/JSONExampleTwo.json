@@ -1,0 +1,14 @@
+{"dlls" : [
+    {
+        "Name":"dll_instant_pass.dll",
+        "Location":"C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\dll_instant_pass.dll",
+        "Functions": [
+                {
+                  "FuncName":"Instant_Pass",
+                  "PassedIn": "",
+                  "ReturnType": ""
+                }
+              ]
+    }
+]
+}

@@ -1,0 +1,58 @@
+{"dlls" : [
+  {
+      "Name":"dll_long_delay.dll",
+      "Location":"C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\dll_long_delay.dll",
+      "Functions": [
+              {
+                "FuncName":"Run_Test",
+                "PassedIn": "",
+                "ReturnType": ""
+              }
+            ]
+  },
+  {
+    "Name":"rng_exception_thrower.dll",
+    "Location":"C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\rng_exception_thrower.dll",
+    "Functions": [
+            {
+              "FuncName":"throw_exception",
+              "PassedIn": "",
+              "ReturnType": ""
+            }
+          ]
+  },
+  {
+    "Name":"dll_instant_pass.dll",
+    "Location":"C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\dll_instant_pass.dll",
+    "Functions": [
+            {
+              "FuncName":"Instant_Pass",
+              "PassedIn": "",
+              "ReturnType": ""
+            }
+          ]
+  },
+  {
+    "Name":"dll_instant_fail.dll",
+    "Location":"C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\dll_instant_fail.dll",
+    "Functions": [
+            {
+              "FuncName":"Instant_Fail",
+              "PassedIn": "",
+              "ReturnType": ""
+            }
+          ]
+  },
+  {
+    "Name":"dll_short_delay.dll",
+    "Location":"C:\\Users\\Kamin\\Documents\\GitHub\\CSE687\\Testing\\dll_files\\dll_short_delay.dll",
+    "Functions": [
+            {
+              "FuncName":"Run_Test",
+              "PassedIn": "",
+              "ReturnType": ""
+            }
+          ]
+  }
+]
+}
