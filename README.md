@@ -14,7 +14,23 @@ Error	C1090	PDB API call failed, error code '3':
   
 # Instalation Instructions:
 
+- Download and extract the 1.0.0 release found here: [1.0.0](https://github.com/KaminFay/CSE687/releases/tag/1.0.0)
+- Open windows powershell in admin mode and navigate into TestHarness_Gui_1.0.18.0_Test
+- Run the Install.ps1 script:
 
+```
+PS <\TestHarness_Gui_1.0.18.0.Test> .\Install.ps1
+```
+
+- Follow the prompts to accept the certificate and install the GUI
+
+  ## Running after Install
+  
+  - The GUI will be found in the start menu and the backend will be found in the release folder here:
+  
+  ```
+  \CSE687_Test_Harness_1.0.0\Test_Harness_Backend
+  ```
 
 # Testing Without Installing:
 
