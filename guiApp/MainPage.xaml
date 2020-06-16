@@ -198,7 +198,7 @@
 
                     <Border BorderBrush="AntiqueWhite" BorderThickness="1,1,1,1"></Border>
 
-                    <ListView Loaded="ListView_Loaded" x:Name="TestableList" CanDragItems="False" CanReorderItems="False" IsItemClickEnabled="True" ItemClick="Items_ItemClick" Margin="0,0,0,51">
+                    <ListView Loaded="ListView_Loaded" x:Name="TestableList" CanDragItems="False" CanReorderItems="False" IsItemClickEnabled="True" ItemClick="Items_ItemClick" Margin="0,0,0,96">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Padding" Value="0"/>
