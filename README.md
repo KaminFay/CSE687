@@ -19,6 +19,7 @@ Error	C1090	PDB API call failed, error code '3':
 - Run the Install.ps1 script:
 
 ```
+PS C:\Users\Kamin> Set-ExecutionPolicy RemoteSigned
 PS <\TestHarness_Gui_1.0.18.0.Test> .\Install.ps1
 ```
 
